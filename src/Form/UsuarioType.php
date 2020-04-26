@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class UsuarioType extends AbstractType
 {
@@ -20,13 +22,13 @@ class UsuarioType extends AbstractType
             ->add('apellidos', TextType::class)
             ->add('telefono', TextType::class)
             ->add('email', EmailType::class)
-            ->add('fecha_alta', TextType::class)
+            ->add('fecha_alta', DateType::class)
             ->add('password', PasswordType::class)
-            ->add('rol', ChoiceType::class, [
+            ->add('roles', ChoiceType::class, [
                 'choices'  => [
-                    'Admin' => 1,
-                    'SuperUsuario' => 2,
-                    'Usuario' => 3,
+                    'Administrador' => 'ROLE_Admin',
+                    'SuperUsuario' => 'ROLE_SUPER',
+                    'Usuario' => 'ROLE_USER',
                 ],
             ]);
     }

@@ -3,15 +3,18 @@
 {% block title %}Hello RegisterController!{% endblock %}
 
 {% block body %}
-{{ form_start(form) }}
-    {{ form_row(form.nombre) }}
-    {{ form_row(form.apellidos) }}
-    {{ form_row(form.telefono) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.fecha_alta) }}
-    {{ form_row(form.password) }}
-    {{ form_row(form.rol) }}
-
-    <button type="submit">Registrate</button>
-{{ form_end(form) }}
+    <br>
+    <div class="container">
+    {{ form_start(form) }}
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.apellidos) }}
+        {{ form_row(form.telefono) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.fecha_alta) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.roles) }}
+        <br>
+        <button type="submit">Registrarse</button>
+    {{ form_end(form) }}
+    </div>
 {% endblock %}
