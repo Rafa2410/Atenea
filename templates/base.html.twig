@@ -15,16 +15,18 @@
         <nav>
             <div class="nav-wrapper">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="#" class="brand-logo right">{{ app.user.nombre }}</a>
+                    <a href="#" class="right">Bienvenido {{ app.user.nombre }} {{ app.user.apellidos }}</a>
                 {% else %}
-                    <a href="#" class="brand-logo right"></a>
+                    <a href="#" class="right"></a>
                 {% endif %}
-            <a href="#" class="brand-logo right">Logo</a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="/Atenea/public/index.php/home">Home</a></li>
                     <li><a href="/Atenea/public/index.php/register">Registrar</a></li>
-                    <li><a href="/Atenea/public/index.php/login">Login</a></li>
-                    <li><a href="/Atenea/public/index.php/logout">Logout</a></li>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="/Atenea/public/index.php/logout">Logout</a></li>
+                    {% else %}
+                        <li><a href="/Atenea/public/index.php/login">Login</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
