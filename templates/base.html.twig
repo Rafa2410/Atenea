@@ -11,6 +11,23 @@
             select{
                 display: block;
             }
+            .footer-perso{
+                width: 100%;
+                bottom: 0px;
+                position: absolute;
+                background-color: #ee6e73;
+                color: white;
+                height: 50px;
+                text-align: center;
+                line-height: 50px;
+            }
+            .container{
+                padding: 20px;
+                box-shadow: 0px 10px 10px -6px black;
+                line-height: 50px;
+                width: 750px;
+                margin-top: 30px;
+            }
         </style>
         <nav>
             <div class="nav-wrapper">
@@ -35,9 +52,9 @@
         {% block body %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         {% endblock %}
-        
-        
-        
+
+
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
