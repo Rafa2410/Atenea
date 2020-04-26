@@ -22,14 +22,11 @@ class UsuarioType extends AbstractType
             ->add('apellidos', TextType::class)
             ->add('telefono', TextType::class)
             ->add('email', EmailType::class)
-            ->add('fecha_alta', DateType::class)
+            ->add('fecha_alta', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
             ->add('password', PasswordType::class)
             ->add('roles', ChoiceType::class, [
-                'choices'  => [
-                    'Administrador' => 'ROLE_Admin',
-                    'SuperUsuario' => 'ROLE_SUPER',
-                    'Usuario' => 'ROLE_USER',
-                ],
+                'choices'  => ['Administrador' => 'ROLE_ADMIN','SuperUsuario' => 'ROLE_SUPER','Usuario' => 'ROLE_USER'],
+                'multiple' => true,
             ]);
     }
 
