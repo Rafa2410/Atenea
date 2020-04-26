@@ -3,12 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        {% endblock %}
+        <nav>
+            <div class="nav-wrapper">
+            <a href="#" class="brand-logo right">Logo</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="/Atenea/public/index.php/home">Home</a></li>
+                    <li><a href="/Atenea/public/index.php/register">Registrar</a></li>
+                    <li><a href="/Atenea/public/index.php/login">Login</a></li>
+                    <li><a href="/Atenea/public/index.php/logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
     </head>
     <body>
+        {% block body %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        {% block body %}{% endblock %}
+        {% endblock %}
+        
+        
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>
