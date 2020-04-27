@@ -17,6 +17,10 @@ class RegisterController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+      if(!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_SUPER')){
+        throw $this->createAccessDeniedException('Permisos insuficientes');
+      }
+
         // 1) build the form
         $user = new Usuario();
         $form = $this->createForm(UsuarioType::class, $user);

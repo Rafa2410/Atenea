@@ -53,7 +53,9 @@
                 {% endif %}
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="/Atenea/public/index.php/home">Home</a></li>
+                    {% if is_granted('ROLE_SUPER') %}
                     <li><a href="/Atenea/public/index.php/register">Registrar</a></li>
+                    {% endif %}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li><a href="/Atenea/public/index.php/logout">Logout</a></li>
                     {% else %}
