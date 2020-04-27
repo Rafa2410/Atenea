@@ -9,14 +9,15 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    <h3 class="h3 mb-3 font-weight-normal center">Inicia Sesión</h3>
+
     {% if app.user %}
         <br>
         <div class="mb-3">
             Estas logueado como: {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h3 class="h3 mb-3 font-weight-normal">Inicia Sesión</h3>
+    
     <label for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
     <br>
@@ -38,9 +39,16 @@
         </div>
     #}
     <br>
-    <button class="btn btn-lg btn-primary" type="submit">
-        Inicia Sesión
-    </button>
+    <div class="buttons-form">
+        <button class="btn btn-lg btn-primary" type="submit">
+            Inicia Sesión
+        </button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary">
+            Pedir ayuda
+        </button>
+    </div>
 </form>
+
 </div>
 {% endblock %}

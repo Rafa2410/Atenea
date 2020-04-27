@@ -5,7 +5,7 @@
 {% block body %}
     <br>
     <div class="container">
-        <h3 class="h3 mb-3 font-weight-normal">Registrarse</h3>
+        <h3 class="h3 mb-3 font-weight-normal center">Registrarse</h3>
     {{ form_start(form) }}
         {{ form_row(form.nombre) }}
         {{ form_row(form.apellidos) }}
@@ -14,9 +14,9 @@
         {{ form_row(form.fecha_alta) }}
         {{ form_row(form.password) }}
         {{ form_row(form.roles) }}
-        <br>
-        <button class="btn btn-lg btn-primary" type="submit">Registrarse</button>
-
+        <div class="buttons-form">
+            <button class="btn btn-lg btn-primary" type="submit">Registrarse</button>
+        </div>
     {{ form_end(form) }}
 
     </div>
