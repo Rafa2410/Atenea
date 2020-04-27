@@ -6,10 +6,10 @@
     <div class="container center">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if app.user.roles[0] == 'ROLE_ADMIN' %}
-                <button class="btn btn-lg btn-primary" type="submit">Gestión Administrativa</button>
+                <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/administration">Gestión Administrativa</a></button>
                 <div style="height:10px;"></div>
             {% else %}
-                <button class="btn btn-lg btn-primary">Gestión Técnica</button>
+                <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/register">Gestión Técnica</a></button>
             {% endif %}
         {% endif %}
     </div>

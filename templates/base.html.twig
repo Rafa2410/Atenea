@@ -43,11 +43,17 @@
             select{
                 height: 75px;
             }
+            .volver{
+                background-color: #26A708;
+            }
+            .volver:hover{
+                background-color: #26A75D;
+            }
         </style>
         <nav>
             <div class="nav-wrapper">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="#" class="right">Bienvenido {{ app.user.nombre }} {{ app.user.apellidos }}</a>
+                    <a href="#" class="right" style="margin-right: 10px;">Bienvenido {{ app.user.nombre }} {{ app.user.apellidos }}</a>
                 {% else %}
                     <a href="#" class="right"></a>
                 {% endif %}

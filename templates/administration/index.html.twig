@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdministrationController!{% endblock %}
+
+{% block body %}
+    <div class="container center">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                <button class="btn btn-lg btn-primary"><a style="color:white;" href="">Gestionar Datos de Corporación</a></button>
+                <div style="height:10px;"></div>
+                <button class="btn btn-lg btn-primary"><a style="color:white;" href="">Gestionar Datos de Contrato</a></button>
+            {% else %}
+                <h1>Error</h1>
+            {% endif %}
+        {% endif %}
+        <br><br>
+        <button class="btn btn-lg btn-primary volver"><a style="color:white;" href="/Atenea/public/index.php/home">Volver</a></button>
+    </div>
+{% endblock %}
