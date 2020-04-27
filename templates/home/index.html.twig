@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Menu Principal{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/alberto/Atenea/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/alberto/Atenea/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container center">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                <button class="btn btn-lg btn-primary" type="submit">Gestión Administrativa</button>
+                <div style="height:10px;"></div>
+            {% else %}
+                <button class="btn btn-lg btn-primary">Gestión Técnica</button>
+            {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}
