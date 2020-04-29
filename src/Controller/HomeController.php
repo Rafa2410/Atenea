@@ -14,7 +14,11 @@ class HomeController extends AbstractController
     {
         if(!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_SUPER') && !$this->isGranted('ROLE_USER')){
           throw $this->createAccessDeniedException('Inicia sesión');
-        }           
+        }
+
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('lista_unidad');
+        }
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',

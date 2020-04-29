@@ -1,0 +1,26 @@
+<nav>
+<div class="nav-wrapper">
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="#" class="brand-logo right" style="margin-right: 10px;">Atenea</a>
+    {% else %}
+        <a href="#" class="right"></a>
+    {% endif %}
+    <ul id="nav-mobile" class="left hide-on-med-and-down">                                        
+        {% if is_granted('ROLE_USER') and is_granted('ROLE_USER') %}
+            <li><a href="/Atenea/public/index.php/home">Inicio</a></li>                                
+        {% endif %}
+        {% if is_granted('ROLE_SUPER') %}
+            <li><a href="/Atenea/public/index.php/register">Registrar</a></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="/Atenea/public/index.php/unidad">Unidades</a></li>
+            <li><a href="/Atenea/public/index.php/contrato">Contratos</a></li>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li><a href="/Atenea/public/index.php/logout">Salir</a></li>
+        {% else %}
+            <li><a href="/Atenea/public/index.php/login">Login</a></li>
+        {% endif %}
+    </ul>
+</div>
+</nav>

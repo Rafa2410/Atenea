@@ -27,8 +27,11 @@ class UnidadType extends AbstractType
                     'class' => 'materialize-textarea'
                 ]
             ])
-            ->add('tipo', ChoiceType::class, [
+            ->add('tipo', ChoiceType::class, [                
                 'choices' => ['Corporación' => 1, 'Empresa' => 2, 'Emplazamiento' => 3],
+                'attr' => [
+                    'class' => 'browser-default'
+                ],                
             ])
             ->add('guardar', SubmitType::class, [
                 'attr' => [

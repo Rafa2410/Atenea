@@ -2,15 +2,13 @@
 
 {% block title %}Menu Principal{% endblock %}
 
-{% block body %}
-    <div class="container center">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if app.user.roles[0] == 'ROLE_ADMIN' %}
-                <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/administration">Gestión Administrativa</a></button>
-                <div style="height:10px;"></div>
-            {% else %}
-                <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/technical">Gestión Técnica</a></button>
-            {% endif %}
+{% block body %}    
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+            {{ include('unidad/mostrar.html.twig') }}
+            <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/administration">Gestión Administrativa</a></button>            
+        {% else %}
+            <button class="btn btn-lg btn-primary"><a style="color:white;" href="/Atenea/public/index.php/technical">Gestión Técnica</a></button>
         {% endif %}
-    </div>
+    {% endif %}    
 {% endblock %}

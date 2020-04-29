@@ -1,16 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UnidadController!{% endblock %}
+{% block title %}Unidades de gestion{% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
+    <a href="/Atenea/public/index.php/unidad/crear" class="btn light-blue lighten-1">Añadir unidad</a>
+    {% if unidades %}
+        <table id="unidades">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for unidad in unidades %}
+                {% if unidad.tipo == 1 %}
+                <tr>
+                    <td>{{ unidad.nombre }}</td>
+                    <td>{{ unidad.descripcion }}</td>                    
+                    <td>
+                        <a href="/Atenea/public/index.php/unidad/{{ unidad.id }}" class="btn">Mostrar</a>
+                        <a href="#" class="btn red darken-1" data-id="{{ unidad.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay unidades de gestión para mostrar</p>
+    {% endif %}
+{% endblock %}
 
-<div class="example-wrapper">
-    {{ form_start(form) }}
-      {{ form(form) }}
-    {{ form_end(form) }}
-</div>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ '../js/unidad.js' }}"></script>
 {% endblock %}
