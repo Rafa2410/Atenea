@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Contrato;
-use App\Entity\Corporacion;
+use App\Entity\UnidadDeGestion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,11 +26,11 @@ class ContratoType extends AbstractType
                     'class' => 'materialize-textarea'
                 ]
             ])
-            ->add('corporacion', EntityType::class, [
-                'class' => Corporacion::class,
+            ->add('unidad_id', EntityType::class, [
+                'class' => UnidadDeGestion::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.nombre', 'ASC');
+                        ->orderBy('u.id', 'DESC');
                 },
                 'choice_label' => 'nombre',
             ])

@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Corporacion;
-use App\Form\CorporacionType;
+use App\Entity\UnidadDeGestion;
+use App\Form\UnidadType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class CorporacionController extends AbstractController
+class UnidadController extends AbstractController
 {
     /**
-     * @Route("/corporacion", name="corporacion")
+     * @Route("/unidad", name="unidad")
      */
     public function index(Request $request)
     {
-        $corporacion = new Corporacion();
-        $form = $this->createForm(CorporacionType::class, $corporacion);
-
+        $unidad = new UnidadDeGestion();
+        $form = $this->createForm(UnidadType::class, $unidad);
+        
         //handle request
         $form->handleRequest($request);
 
@@ -25,13 +25,13 @@ class CorporacionController extends AbstractController
             //Guardar en la bbdd
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($corporacion);
+            $em->persist($unidad);
             $em->flush();
 
             return $this->redirectToRoute('administration');
         }
 
-        return $this->render('corporacion/index.html.twig', [
+        return $this->render('unidad/index.html.twig', [
             'form' => $form->createView()
         ]);
     }

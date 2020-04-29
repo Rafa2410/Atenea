@@ -2,15 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\Corporacion;
+use App\Entity\UnidadDeGestion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class CorporacionType extends AbstractType
+class UnidadType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,6 +27,9 @@ class CorporacionType extends AbstractType
                     'class' => 'materialize-textarea'
                 ]
             ])
+            ->add('tipo', ChoiceType::class, [
+                'choices' => ['Corporación' => 1, 'Empresa' => 2, 'Emplazamiento' => 3],
+            ])
             ->add('guardar', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn waves-effect waves-light'
@@ -37,7 +41,7 @@ class CorporacionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Corporacion::class,
+            'data_class' => UnidadDeGestion::class,
         ]);
     }
 }

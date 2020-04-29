@@ -9,7 +9,7 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <h3 class="h3 mb-3 font-weight-normal center">Inicia Sesión</h3>
+    <h3 class="h3 mb-3 font-weight-normal center">Atenea</h3>
 
     {% if app.user %}
         <br>
@@ -18,10 +18,10 @@
         </div>
     {% endif %}
     
-    <label for="inputEmail">Email</label>
+    <label for="inputEmail">Correo electrónico</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
     <br>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">Contraseña</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"

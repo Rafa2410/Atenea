@@ -32,10 +32,10 @@ class Contrato
     private $descripcion;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Corporacion", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\UnidadDeGestion", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $corporacion;
+    private $unidad_id;
 
     public function getId(): ?int
     {
@@ -78,14 +78,14 @@ class Contrato
         return $this;
     }
 
-    public function getCorporacion(): ?Corporacion
+    public function getUnidadId(): ?UnidadDeGestion
     {
-        return $this->corporacion;
+        return $this->unidad_id;
     }
 
-    public function setCorporacion(Corporacion $corporacion): self
+    public function setUnidadId(UnidadDeGestion $unidad_id): self
     {
-        $this->corporacion = $corporacion;
+        $this->unidad_id = $unidad_id;
 
         return $this;
     }
