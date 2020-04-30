@@ -24,7 +24,17 @@
       <div id="emplazamientos" class="col s12">Tab 2 Content</div>
       <div id="superusuarios" class="col s12">Tab 3 Content</div>
       <div id="contrato" class="col s12">
-        
+        {% if contrato %}
+          <p><b>Descripción : </b> {{ contrato[0].descripcion }}</p>
+          <p><b>Fecha alta : </b>{{ contrato[0].fechaalta|date("d/m/Y") }}</p>
+          <p><b>Fecha baja : </b>{{ contrato[0].fechabaja|date("d/m/Y") }}</p>
+          <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn">Editar contrato</a>
+        {% else %}
+          <div class="center-align">
+            <h4>No exite ningún contrato todavía</h4> 
+            <a href="{{ path('nuevo_contrato') }}" class="btn">Crear contrato</a>
+          </div>
+        {% endif %}
       </div>
     <div class="divider mt-15 mb-15"></div>
     <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>    

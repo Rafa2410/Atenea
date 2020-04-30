@@ -61,8 +61,8 @@ class UnidadController extends AbstractController
             ->findBy(array('unidad_id' => $id));
 
         return $this->render('unidad/mostrar.html.twig', [
-        'unidad' => $unidad,
-        'contrato' => $contrato
+            'unidad' => $unidad,
+            'contrato' => $contrato
         ]);
     }
 
