@@ -7,7 +7,7 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
             {% if app.user.roles[0] == 'ROLE_USER' %}
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar cuestiones externas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="/Atenea/public/index.php/cuestion/externa">Gestionar cuestiones externas</a></button>
                 <div style="height:10px;"></div>
                 <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar cuestiones internas</a></button>
                 <div style="height:10px;"></div>

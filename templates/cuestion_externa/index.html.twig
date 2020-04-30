@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cuestiones Externas{% endblock %}
+
+{% block body %}
+                <label>Tipos de Cuestiones</label>
+                <select style="display:block;" id="tipos" name="tipos">
+                        {% for cuestion in tipo_cuestiones %}
+                                {%  if cuestion.interno == 0 %}
+                                        <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                                {% endif %}
+                        {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-lg btn-primary">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-primary">Editar</button><br>
+                <label>Subtipos de Cuestiones</label>
+                <select style="display:block;" id="subtipos" name="subtipos">
+                {% for cuestion in subtipo_cuestiones %}
+                        {%  if cuestion.interno == 0 %}
+                                <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                        {% endif %}
+                {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-lg btn-primary">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-primary">Editar</button><br>
+                <label>Cuestiones</label>
+                <select style="display:block;" id="cuestiones" name="cuestiones">
+                        {% for cuestion in cuestiones %}
+                                {%  if cuestion.interno == 0 %}
+                                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                                {% endif %}
+                        {% endfor %}
+                </select>.
+                <script>
+                        var c = document.getElementById("cuestiones");
+                        c.onchange = function() {
+                            var url = c[c.selectedIndex];
+                            console.log(url);
+                        }
+                </script>
+                <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;" href="{{ path('cuestion_externa_new') }}">Nuevo</a></button>
+                <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;" href="{{ path('cuestion_externa_edit',{'id': cuestiones[3].id }) }}">Editar</a></button>
+{% endblock %}
