@@ -9,19 +9,37 @@
     .mt-15 { margin-top: 15px !important; }
     .mb-15 { margin-bottom: 15px !important; }
 </style>
-    <h1>{{ unidad.nombre }}</h1>
-    <p>{{ unidad.descripcion }}</p>
+    {% set empresaBadget = 0 %}
+    {% set emplazamientoBadget = 0 %}
+    {% set contratoBadget = 0 %}
+    {% set superBadget = superusuarios|length %}
+    {% if empresas %}
+      {% for empresa in empresas %}
+        {% if empresa.tipo == 2 %}
+          {% set empresaBadget = empresaBadget + 1 %}      
+        {% elseif empresa.tipo == 3 %}    
+          {% set emplazamientoBadget =+ 1 %}
+        {% endif %}
+      {% endfor %}    
+    {% endif %}
+    {% if contrato %}
+      {% set contratoBadget = 1 %}
+    {% endif %}    
+    <blockquote>
+      <h2>{{ unidad.nombre }}</h2>
+      <small>{{ unidad.descripcion }}</small>
+    </blockquote>
     <div class="divider"></div>
     <div class="row">      
         <ul class="tabs">
-          <li class="tab col s3"><a href="#empresas">Empresas</a></li>
-          <li class="tab col s3"><a href="#emplazamientos">Emplazamientos</a></li>
-          <li class="tab col s3"><a href="#superusuarios">SuperUsuarios</a></li>
-          <li class="tab col s3"><a href="#contrato">Contrato</a></li>
+          <li class="tab col s3"><a href="#empresas">Empresas <span class="new badge red lighten-1" data-badge-caption="">{{ empresaBadget }}</span></a></li>
+          <li class="tab col s3"><a href="#emplazamientos">Emplazamientos <span class="new badge red lighten-1" data-badge-caption="">{{ emplazamientoBadget }}</span></a></li>
+          <li class="tab col s3"><a href="#superusuarios">SuperUsuarios <span class="new badge red lighten-1" data-badge-caption="">{{ superBadget }}</span></a></li>
+          <li class="tab col s3"><a href="#contrato">Contrato <span class="new badge red lighten-1" data-badge-caption="">{{ contratoBadget }}</span></a></li>
         </ul>
       </div>
       <div id="empresas" class="col s12">
-        {% if empresas %}
+        {% if empresas %}          
           <table id="empresas">
             <thead>
                 <tr>
@@ -78,7 +96,16 @@
             <p>No hay emplazamientos asignados a esta corporación</p>
         {% endif %}
       </div>
-      <div id="superusuarios" class="col s12">Tab 3 Content</div>
+      <div id="superusuarios" class="col s12">
+        {% if superusuarios %}
+
+        {% else %}
+        <div class="center-align">
+          <h4 style="color:#d32f2f;">No exite ningún superusuario todavía</h4> 
+          <a href="{{ path('nuevo_contrato') }}" class="btn">Añadir superusuario</a>
+        </div>
+        {% endif %}
+      </div>
       <div id="contrato" class="col s12">
         {% if contrato %}
           <p><b>Descripción : </b> {{ contrato[0].descripcion }}</p>
@@ -87,7 +114,7 @@
           <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn">Editar contrato</a>
         {% else %}
           <div class="center-align">
-            <h4>No exite ningún contrato todavía</h4> 
+            <h4 style="color:#d32f2f;">No exite ningún contrato todavía</h4> 
             <a href="{{ path('nuevo_contrato') }}" class="btn">Crear contrato</a>
           </div>
         {% endif %}

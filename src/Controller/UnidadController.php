@@ -64,10 +64,13 @@ class UnidadController extends AbstractController
             ->getRepository(UnidadDeGestion::class)
             ->findBy(array('unidadDeGestion' => $id));
 
+        $superusuarios = [];
+
         return $this->render('unidad/mostrar.html.twig', [
             'unidad' => $unidad,
             'contrato' => $contrato,
-            'empresas' => $empresas
+            'empresas' => $empresas,
+            'superusuarios' => $superusuarios
         ]);
     }
 
