@@ -7,7 +7,7 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-    <a href="/Atenea/public/index.php/unidad/crear" class="btn light-blue lighten-1">Añadir unidad</a>
+    <a href="{{ path('nueva_unidad') }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
     {% if unidades %}
         <table id="unidades">
             <thead>
@@ -24,8 +24,9 @@
                     <td>{{ unidad.nombre }}</td>
                     <td>{{ unidad.descripcion }}</td>                    
                     <td>
-                        <a href="/Atenea/public/index.php/unidad/{{ unidad.id }}" class="btn">Mostrar</a>
-                        <a href="#" class="btn red darken-1" data-id="{{ unidad.id }}">Eliminar</a>
+                        <a href="{{ path('mostrar_unidad', {'id': unidad.id}) }}" class="btn-floating light-blue lighten-1"><i class="material-icons">visibility</i></a>
+                        <a href="{{ path('unidad_edit', {'id': unidad.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        <a href="{{ path('unidad_delete', {'id': unidad.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
                 {% endif %}

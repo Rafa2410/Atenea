@@ -59,7 +59,7 @@ class UnidadController extends AbstractController
     }
 
     /**
-     * @Route("/unidad/eliminar/{id}")
+     * @Route("/unidad/eliminar/{id}", name="unidad_delete")
      * @Method({"DELETE"})
      */
     public function eliminarUnidad(Request $request, $id) {        
@@ -73,5 +73,31 @@ class UnidadController extends AbstractController
         $response->send();*/
 
         return $this->redirectToRoute('lista_unidad');
+    }
+
+    /**
+     * @Route("/unidad/editar/{id}", name="unidad_edit")
+     */
+    public function editar($id, Request $request) {
+        $unidad = $this->getDoctrine()->getRepository(UnidadDeGestion::class)->find($id);
+
+        $form = $this->createForm(UnidadType::class, $unidad);
+        
+        //handle request
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //Guardar en la bbdd
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($unidad);
+            $em->flush();
+
+            return $this->redirectToRoute('lista_unidad');
+        }
+
+        return $this->render('unidad/create-index.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

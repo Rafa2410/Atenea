@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $('.tabs').tabs();
 });
-
+/*
 const unidades = $('#unidades');
 
 if (unidades) {
@@ -24,3 +24,4 @@ if (unidades) {
     }
   });
 }
+*/

@@ -7,7 +7,7 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-    <a href="/Atenea/public/index.php/contrato/crear" class="btn light-blue lighten-1">Añadir contrato</a>
+    <a href="{{ path('nuevo_contrato') }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
     {% if contratos %}
         <table id="contratos">
             <thead>
@@ -26,8 +26,8 @@
                     <td>{{ contrato.fechabaja|date("d/m/Y") }}</td>
                     <td>{{ contrato.descripcion }}</td>
                     <td>
-                        <a href="{{ path('contrato_edit', {'id': contrato.id}) }}" class="btn">Editar</a>
-                        <a href="{{ path('contrato_delete', {'id': contrato.id}) }}" class="btn red darken-1">Eliminar</a>
+                        <a href="{{ path('contrato_edit', {'id': contrato.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        <a href="{{ path('contrato_delete', {'id': contrato.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>                
                 {% endfor %}                

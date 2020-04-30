@@ -7,19 +7,19 @@
     {% endif %}
     <ul id="nav-mobile" class="left hide-on-med-and-down">                                        
         {% if is_granted('ROLE_USER') and is_granted('ROLE_USER') %}
-            <li><a href="/Atenea/public/index.php/home">Inicio</a></li>                                
+            <li><a href="{{ path('home') }}">Inicio</a></li>                                
         {% endif %}
         {% if is_granted('ROLE_SUPER') %}
-            <li><a href="/Atenea/public/index.php/register">Registrar</a></li>
+            <li><a href="{{ path('register') }}">Registrar</a></li>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="/Atenea/public/index.php/unidad">Unidades</a></li>
-            <li><a href="/Atenea/public/index.php/contrato">Contratos</a></li>
+            <li><a href="{{ path('lista_unidad') }}">Unidades</a></li>
+            <li><a href="{{ path('contrato_list') }}">Contratos</a></li>
         {% endif %}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <li><a href="/Atenea/public/index.php/logout">Salir</a></li>
+            <li><a href="{{ path('app_logout') }}">Salir</a></li>
         {% else %}
-            <li><a href="/Atenea/public/index.php/login">Login</a></li>
+            <li><a href="{{ path('app_login') }}">Login</a></li>
         {% endif %}
     </ul>
 </div>
