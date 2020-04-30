@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class UnidadType extends AbstractType
 {
@@ -32,6 +34,17 @@ class UnidadType extends AbstractType
                 'attr' => [
                     'class' => 'browser-default'
                 ],                
+            ])
+            ->add('unidadDeGestion', EntityType::class, [                
+                'class' => UnidadDeGestion::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'DESC');
+                },
+                'choice_label' => 'nombre',
+                'attr' => [
+                    'class' => 'browser-default'
+                ],
             ])
             ->add('guardar', SubmitType::class, [
                 'attr' => [

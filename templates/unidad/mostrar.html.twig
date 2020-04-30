@@ -20,8 +20,64 @@
           <li class="tab col s3"><a href="#contrato">Contrato</a></li>
         </ul>
       </div>
-      <div id="empresas" class="col s12">Tab 1 Content</div>
-      <div id="emplazamientos" class="col s12">Tab 2 Content</div>
+      <div id="empresas" class="col s12">
+        {% if empresas %}
+          <table id="empresas">
+            <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+          {% for empresa in empresas %}
+            {% if empresa.tipo == 2 %}
+              <tr>
+                  <td>{{ empresa.nombre }}</td>
+                  <td>{{ empresa.descripcion }}</td>
+                  <td>                      
+                      <a href="{{ path('unidad_edit', {'id': empresa.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                      <a href="{{ path('unidad_delete', {'id': empresa.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                  </td>
+              </tr>  
+            {% endif %}
+          {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No hay empresas asignadas a esta corporación</p>
+        {% endif %}
+      </div>
+      <div id="emplazamientos" class="col s12">
+        {% if empresas %}
+          <table id="emplazamiento">
+            <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+          {% for emplazamiento in empresas %}
+            {% if emplazamiento.tipo == 3 %}
+              <tr>
+                  <td>{{ emplazamiento.nombre }}</td>
+                  <td>{{ emplazamiento.descripcion }}</td>
+                  <td>                      
+                      <a href="{{ path('unidad_edit', {'id': emplazamiento.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                      <a href="{{ path('unidad_delete', {'id': emplazamiento.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                  </td>
+              </tr>  
+            {% endif %}
+          {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+            <p>No hay emplazamientos asignados a esta corporación</p>
+        {% endif %}
+      </div>
       <div id="superusuarios" class="col s12">Tab 3 Content</div>
       <div id="contrato" class="col s12">
         {% if contrato %}

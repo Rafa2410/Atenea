@@ -60,9 +60,14 @@ class UnidadController extends AbstractController
             ->getRepository(Contrato::class)
             ->findBy(array('unidad_id' => $id));
 
+        $empresas = $this->getDoctrine()
+            ->getRepository(UnidadDeGestion::class)
+            ->findBy(array('unidadDeGestion' => $id));
+
         return $this->render('unidad/mostrar.html.twig', [
             'unidad' => $unidad,
-            'contrato' => $contrato
+            'contrato' => $contrato,
+            'empresas' => $empresas
         ]);
     }
 
