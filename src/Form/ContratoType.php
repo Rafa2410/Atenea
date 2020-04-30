@@ -33,12 +33,15 @@ class ContratoType extends AbstractType
                         ->orderBy('u.id', 'DESC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => [
+                    'class' => 'browser-default'
+                ],
             ])
             ->add('guardar', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn waves-effect waves-light'
                 ]
-            ])
+            ])            
         ;
     }
 

@@ -24,7 +24,7 @@ class UnidadController extends AbstractController
 
     /**
      * @Route("/unidad/crear", name="nueva_unidad")
-     * Method({"POST"})
+     * @Method({"POST"})
      */
     public function crearUnidad(Request $request) {
         $unidad = new UnidadDeGestion();

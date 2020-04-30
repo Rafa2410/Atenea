@@ -1,17 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContratoController!{% endblock %}
+{% block title %}Contratos{% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
-<div class="example-wrapper">
-    {{ form_start(form) }}
-        {{ form(form) }}
-    {{ form_end(form) }}
-</div>
+    <a href="/Atenea/public/index.php/contrato/crear" class="btn light-blue lighten-1">Añadir contrato</a>
+    {% if contratos %}
+        <table id="contratos">
+            <thead>
+                <tr>
+                    <th>Corporacion</th>
+                    <th>Fecha de alta</th>
+                    <th>Fecha de baja</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrato in contratos %}                           
+                <tr>
+                    <td>{{ contrato.unidadid.nombre }}</td>
+                    <td>{{ contrato.fechaalta|date("d/m/Y") }}</td>
+                    <td>{{ contrato.fechabaja|date("d/m/Y") }}</td>
+                    <td>{{ contrato.descripcion }}</td>
+                    <td>
+                        <a href="{{ path('contrato_edit', {'id': contrato.id}) }}" class="btn">Editar</a>
+                        <a href="{{ path('contrato_delete', {'id': contrato.id}) }}" class="btn red darken-1">Eliminar</a>
+                    </td>
+                </tr>                
+                {% endfor %}                
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay contratos para mostrar</p>
+    {% endif %}
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="{{ '../js/contrato.js' }}"></script>
+{% endblock %}

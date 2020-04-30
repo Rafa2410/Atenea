@@ -43,7 +43,7 @@ class Contrato
     }
 
     public function getFechaAlta(): ?\DateTimeInterface
-    {
+    {                
         return $this->fecha_alta;
     }
 
