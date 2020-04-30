@@ -1,5 +1,5 @@
 function editarCuestion() {    
-    var id = $('#cuestiones option:selected')[0].id;
-
+    var id = $('#cuestiones option:selected').val();
+    
     window.location.href = `/Atenea/public/index.php/cuestion/externa/edit/${id}`;
 }

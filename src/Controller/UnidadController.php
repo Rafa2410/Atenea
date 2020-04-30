@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\UnidadDeGestion;
+use App\Entity\Contrato;
 use App\Form\UnidadType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,10 +53,17 @@ class UnidadController extends AbstractController
      * @Route("/unidad/{id}", name="mostrar_unidad")
      */
     public function mostrar($id) {
-        $unidad = $this->getDoctrine()->getRepository(UnidadDeGestion::class)->find($id);
+        $unidad = $this->getDoctrine()
+            ->getRepository(UnidadDeGestion::class)->find($id);
 
-        return $this->render('unidad/mostrar.html.twig', array
-        ('unidad' => $unidad));
+        $contrato = $this->getDoctrine()
+            ->getRepository(Contrato::class)
+            ->findBy(array('unidad_id' => $id));
+
+        return $this->render('unidad/mostrar.html.twig', [
+        'unidad' => $unidad,
+        'contrato' => $contrato
+        ]);
     }
 
     /**

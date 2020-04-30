@@ -27,19 +27,12 @@
                 <select style="display:block;" id="cuestiones" name="cuestiones">
                         {% for cuestion in cuestiones %}
                                 {%  if cuestion.interno == 0 %}
-                                    <option id="{{ cuestion.id }}" value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
                                 {% endif %}
                         {% endfor %}
-                </select>.
-                <!--<script>
-                        var c = document.getElementById("cuestiones");
-                        c.onchange = function() {
-                            var url = c[c.selectedIndex];
-                            console.log(url);
-                        }
-                </script>-->
+                </select>                
                 <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;" href="{{ path('cuestion_externa_new') }}">Nuevo</a></button>
-                <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;" onClick="editarCuestion()">Editar</a></button>                
+                <button type="submit" class="btn btn-lg btn-primary" onClick="editarCuestion()"><a style="color:white;">Editar</a></button>                
 {% endblock %}
 {% block javascripts %}          
         <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
