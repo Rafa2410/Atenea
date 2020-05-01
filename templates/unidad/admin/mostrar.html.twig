@@ -16,7 +16,7 @@
     {% if empresas %}
       {% for empresa in empresas %}
         {% if empresa.tipo == 2 %}
-          {% set empresaBadget = empresaBadget + 1 %}      
+          {% set empresaBadget = empresaBadget + 1 %}
         {% elseif empresa.tipo == 3 %}    
           {% set emplazamientoBadget =+ 1 %}
         {% endif %}

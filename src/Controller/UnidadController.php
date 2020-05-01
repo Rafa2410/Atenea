@@ -17,11 +17,15 @@ class UnidadController extends AbstractController
      * @Route("/unidad", name="lista_unidad")
      */
     public function index()
-    {        
-        $unidades= $this->getDoctrine()->getRepository(UnidadDeGestion::class)->findAll();
+    {                
+        if($this->isGranted('ROLE_ADMIN')) {
+            $unidades= $this->getDoctrine()->getRepository(UnidadDeGestion::class)->findAll();
 
-        return $this->render('unidad/index.html.twig', array
-        ('unidades' => $unidades));
+            return $this->render('unidad/admin/index.html.twig', array
+                ('unidades' => $unidades));
+        } else if ($this->isGranted('ROLE_SUPER')) {            
+            return $this->indexSuperUser();            
+        }                
     }
 
     /**
@@ -45,7 +49,7 @@ class UnidadController extends AbstractController
             return $this->redirectToRoute('lista_unidad');
         }
 
-        return $this->render('unidad/create-index.html.twig', [
+        return $this->render('unidad/admin/create-index.html.twig', [
             'form' => $form->createView()            
         ]);
     }
@@ -57,24 +61,35 @@ class UnidadController extends AbstractController
         $unidad = $this->getDoctrine()
             ->getRepository(UnidadDeGestion::class)->find($id);
 
-        $contrato = $this->getDoctrine()
-            ->getRepository(Contrato::class)
-            ->findBy(array('unidad_id' => $id));
+        if($this->isGranted('ROLE_ADMIN')) {
+            $contrato = $this->getDoctrine()
+                ->getRepository(Contrato::class)
+                ->findBy(array('unidad_id' => $id));
 
-        $empresas = $this->getDoctrine()
-            ->getRepository(UnidadDeGestion::class)
-            ->findBy(array('unidadDeGestion' => $id));
+            $empresas = $this->getDoctrine()
+                ->getRepository(UnidadDeGestion::class)
+                ->findBy(array('unidadDeGestion' => $id));
 
-        $superusuarios = $this->getDoctrine()
-            ->getRepository(UsuarioUnidadPermiso::class)
-            ->findBy(array('unidad' => $id));
+            $superusuarios = $this->getDoctrine()
+                ->getRepository(UsuarioUnidadPermiso::class)
+                ->findBy(array('unidad' => $id));
 
-        return $this->render('unidad/mostrar.html.twig', [
-            'unidad' => $unidad,
-            'contrato' => $contrato,
-            'empresas' => $empresas,
-            'superusuarios' => $superusuarios
-        ]);
+            return $this->render('unidad/admin/mostrar.html.twig', [
+                'unidad' => $unidad,
+                'contrato' => $contrato,
+                'empresas' => $empresas,
+                'superusuarios' => $superusuarios
+            ]);
+        } else if ($this->isGranted('ROLE_SUPER')) {            
+            $usuarios = $this->getDoctrine()
+                ->getRepository(UsuarioUnidadPermiso::class)
+                ->findBy(array('unidad' => $id));
+
+            return $this->render('unidad/super/mostrar.html.twig', [
+                'unidad' => $unidad,
+                'usuarios' => $usuarios
+            ]);
+        }
     }
 
     /**
@@ -115,8 +130,30 @@ class UnidadController extends AbstractController
             return $this->redirectToRoute('lista_unidad');
         }
 
-        return $this->render('unidad/create-index.html.twig', [
+        return $this->render('unidad/admin/create-index.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    public function indexSuperUser() {
+        $user = $this->getUser()->getId();        
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        //Empresas de la corporacion
+        $unidad = $this->getDoctrine()
+            ->getRepository(UnidadDeGestion::class)
+            ->findBy(array('id' => $UUP[0]->getUnidad()->getId()));
+
+        $empresas = $this->getDoctrine()
+            ->getRepository(UnidadDeGestion::class)
+            ->findBy(array('unidadDeGestion' => $UUP[0]->getUnidad()->getId()));
+
+        //Devolvemos la corporacion con sus empresas
+        return $this->render('unidad/super/index.html.twig', array
+            ('unidad' => $unidad,
+             'empresas' => $empresas
+            ));
     }
 }

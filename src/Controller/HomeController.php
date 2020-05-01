@@ -16,7 +16,7 @@ class HomeController extends AbstractController
           throw $this->createAccessDeniedException('Inicia sesión');
         }
 
-        if($this->isGranted('ROLE_ADMIN')) {
+        if($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPER')) {
             return $this->redirectToRoute('lista_unidad');
         }
 

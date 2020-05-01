@@ -36,12 +36,18 @@ class RegisterController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);            
 
-            if($this->isGranted('ROLE_ADMIN')) {              
+            if($this->isGranted('ROLE_ADMIN')) {
               $user->setRoles(['ROLE_SUPER']);
 
               $permiso = $this->getDoctrine()
               ->getRepository(Permisos::class)
               ->findBy(array('tipo' => 'l'));
+            } else if ($this->isGranted('ROLE_SUPER')) {
+              $user->setRoles(['ROLE_USER']);
+
+              $permiso = $this->getDoctrine()
+              ->getRepository(Permisos::class)
+              ->findBy(array('tipo' => 'le'));
             }
             
             $unidad = $this->getDoctrine()
