@@ -3,28 +3,26 @@
 {% block title %}Menu de Gestión Técnica{% endblock %}
 
 {% block body %}
-    <div class="container center">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-
+            <div class="center">
             {% if app.user.roles[0] == 'ROLE_USER' %}
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="/Atenea/public/index.php/cuestion/externa">Gestionar cuestiones externas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion_externa',{'interna': 0}) }}">Gestionar cuestiones externas</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar cuestiones internas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion_externa',{'interna': 1}) }}">Gestionar cuestiones internas</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar partes interesadas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar partes interesadas</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar aspectos favorables y desfavorables externos</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar aspectos favorables y desfavorables externos</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar aspectos favorables y desfavorables internos</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar aspectos favorables y desfavorables internos</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">DAFO</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>DAFO</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="">Gestionar potenciales factores críticos de éxito</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar potenciales factores críticos de éxito</a></button>
             {% else %}
                 <h1>Error</h1>
             {% endif %}
         {% endif %}
         <br><br>
-        <button class="btn btn-lg btn-primary volver"><a style="color:white;" href="/Atenea/public/index.php/home">Volver</a></button>
-    </div>
+        <button class="btn btn-lg btn-primary volver"><a style="color:white;" href="/Atenea/public/index.php/home">Volver</a></button></div>
 {% endblock %}

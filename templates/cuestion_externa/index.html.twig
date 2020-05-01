@@ -1,39 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cuestiones Externas{% endblock %}
+{% block title %}
+    {% if cue_interna == 0 %}
+        Cuestiones Externas
+    {% else %}
+        Cuestiones Internas
+    {% endif %}
+{% endblock %}
 
 {% block body %}
-                <label>Tipos de Cuestiones</label>
-                <select style="display:block;" id="tipos" name="tipos">
-                        {% for cuestion in tipo_cuestiones %}
-                                {%  if cuestion.interno == 0 %}
-                                        <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                                {% endif %}
-                        {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-lg btn-primary">Nuevo</button>
-                <button type="submit" class="btn btn-lg btn-primary">Editar</button><br>
-                <label>Subtipos de Cuestiones</label>
-                <select style="display:block;" id="subtipos" name="subtipos">
-                {% for cuestion in subtipo_cuestiones %}
-                        {%  if cuestion.interno == 0 %}
-                                <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                        {% endif %}
-                {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-lg btn-primary">Nuevo</button>
-                <button type="submit" class="btn btn-lg btn-primary">Editar</button><br>
-                <label>Cuestiones</label>
-                <select style="display:block;" id="cuestiones" name="cuestiones">
-                        {% for cuestion in cuestiones %}
-                                {%  if cuestion.interno == 0 %}
-                                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                                {% endif %}
-                        {% endfor %}
-                </select>                
-                <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;" href="{{ path('cuestion_externa_new') }}">Nuevo</a></button>
-                <button type="submit" class="btn btn-lg btn-primary" onClick="editarCuestion()"><a style="color:white;">Editar</a></button>                
+    <h3>
+        {% if cue_interna == 0 %}
+            Cuestiones Externas
+        {% else %}
+            Cuestiones Internas
+        {% endif %}</h3>
+    <label>
+        {% if cue_interna == 0 %}
+            Tipos de Cuestiones Externas
+        {% else %}
+            Tipos de Cuestiones Internas
+        {% endif %}
+    </label>
+    {% if tipo_cuestiones|length > 0 %}
+        <select style="display:block;" id="tipos" name="tipos">
+            {% for cuestion in tipo_cuestiones %}
+                {% if cuestion.interno == cue_interna %}
+                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    {% else %}
+        <span>No hay ningun tipo de cuestion</span>
+    {% endif %}
+    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                            href="{{ path('cuestion_externa_tipo_new',{'interno': cue_interna}) }}">Nuevo</a>
+    </button>
+    <button type="submit" class="btn btn-lg btn-primary" onClick="editartipoCuestion()"><a
+                style="color:white;">Editar</a></button><br>
+    <label>
+        {% if cue_interna == 0 %}
+            Subtipos de Cuestiones Externas
+        {% else %}
+            SubTipos de Cuestiones Internas
+        {% endif %}
+    </label>
+    {% if subtipo_cuestiones|length > 0 %}
+        <select style="display:block;" id="subtipos" name="subtipos">
+            {% for cuestion in subtipo_cuestiones %}
+                {% if cuestion.interno == cue_interna %}
+                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    {% else %}
+        <span>No hay ningun subtipo de cuestion</span>
+    {% endif %}
+    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                            href="{{ path('cuestion_externa_subtipo_new',{'interno': cue_interna}) }}">Nuevo</a>
+    </button>
+    <button type="submit" class="btn btn-lg btn-primary" onClick="editarSubtipoCuestion()"><a style="color:white;">Editar</a>
+    </button><br>
+    <label>
+        {% if cue_interna == 0 %}
+            Cuestiones Externas
+        {% else %}
+            Cuestiones Internas
+        {% endif %}
+    </label>
+    {% if cuestiones|length > 0 %}
+        <select style="display:block;" id="cuestiones" name="cuestiones">
+            {% for cuestion in cuestiones %}
+                {% if cuestion.interno == cue_interna %}
+                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    {% else %}
+        <span>No hay ninguna cuestion creada</span>
+    {% endif %}
+    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                            href="{{ path('cuestion_externa_new',{'interno': cue_interna}) }}">Nuevo</a>
+    </button>
+    <button type="submit" class="btn btn-lg btn-primary" onClick="editarCuestion()"><a style="color:white;">Editar</a>
+    </button>
 {% endblock %}
-{% block javascripts %}          
-        <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
 {% endblock %}

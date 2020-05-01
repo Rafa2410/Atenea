@@ -20,7 +20,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('lista_unidad');
         }
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('technical/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
