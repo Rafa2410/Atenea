@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -57,6 +59,16 @@ class Usuario implements UserInterface
      * @ORM\Column(type="date", nullable=true)
      */
     private $fecha_baja;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="usuario")
+     */
+    private $usuarioUnidadPermisos;
+
+    public function __construct()
+    {
+        $this->usuarioUnidadPermisos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -193,6 +205,37 @@ class Usuario implements UserInterface
     public function setFechaBaja(?\DateTimeInterface $fecha_baja): self
     {
         $this->fecha_baja = $fecha_baja;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UsuarioUnidadPermiso[]
+     */
+    public function getUsuarioUnidadPermisos(): Collection
+    {
+        return $this->usuarioUnidadPermisos;
+    }
+
+    public function addUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
+    {
+        if (!$this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+            $this->usuarioUnidadPermisos[] = $usuarioUnidadPermiso;
+            $usuarioUnidadPermiso->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
+    {
+        if ($this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+            $this->usuarioUnidadPermisos->removeElement($usuarioUnidadPermiso);
+            // set the owning side to null (unless already changed)
+            if ($usuarioUnidadPermiso->getUsuario() === $this) {
+                $usuarioUnidadPermiso->setUsuario(null);
+            }
+        }
 
         return $this;
     }

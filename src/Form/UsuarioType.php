@@ -24,10 +24,7 @@ class UsuarioType extends AbstractType
             ->add('email', EmailType::class)
             ->add('fecha_alta', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
             ->add('password', PasswordType::class)
-            ->add('roles', ChoiceType::class, [
-                'choices'  => ['Administrador' => 'ROLE_ADMIN','SuperUsuario' => 'ROLE_SUPER','Usuario' => 'ROLE_USER'],
-                'multiple' => true,
-            ]);
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

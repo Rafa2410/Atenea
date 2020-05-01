@@ -2,10 +2,8 @@
 
 {% block title %}Registrar Usuario{% endblock %}
 
-{% block body %}
-    <br>
-    <div class="container">
-        <h3 class="h3 mb-3 font-weight-normal center">Registrarse</h3>
+{% block body %}        
+        <h3 class="h3 mb-3 font-weight-normal center">Añadir usuario</h3>
     {{ form_start(form) }}
         {{ form_row(form.nombre) }}
         {{ form_row(form.apellidos) }}
@@ -13,11 +11,8 @@
         {{ form_row(form.email) }}
         {{ form_row(form.fecha_alta) }}
         {{ form_row(form.password) }}
-        {{ form_row(form.roles) }}
-        <div class="buttons-form">
-            <button class="btn btn-lg btn-primary" type="submit">Registrarse</button>
-        </div>
-    {{ form_end(form) }}
-
-    </div>
+        <br/>
+        <button class="btn waves-effect waves-light right" type="submit">Registrar</button>        
+        <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>        
+    {{ form_end(form) }}    
 {% endblock %}

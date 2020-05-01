@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\UnidadDeGestion;
 use App\Entity\Contrato;
+use App\Entity\UsuarioUnidadPermiso;
 use App\Form\UnidadType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,7 +46,7 @@ class UnidadController extends AbstractController
         }
 
         return $this->render('unidad/create-index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView()            
         ]);
     }
 
@@ -64,7 +65,9 @@ class UnidadController extends AbstractController
             ->getRepository(UnidadDeGestion::class)
             ->findBy(array('unidadDeGestion' => $id));
 
-        $superusuarios = [];
+        $superusuarios = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('unidad' => $id));
 
         return $this->render('unidad/mostrar.html.twig', [
             'unidad' => $unidad,

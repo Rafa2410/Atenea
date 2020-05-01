@@ -98,11 +98,40 @@
       </div>
       <div id="superusuarios" class="col s12">
         {% if superusuarios %}
-
+          {% if superusuarios|length < 3 %}
+            <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
+          {% else %}
+            <a href="{{ path('register', {'id': unidad.id}) }}" class="btn" disabled>Añadir superusuario</a>
+          {% endif %}
+          <table id="superusuarios">
+            <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Teléfono</th>
+                  <th>Correo electronico</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for superusuario in superusuarios %}
+            <tr>
+              <td>{{ superusuario.usuario.nombre }}</td>
+              <td>{{ superusuario.usuario.apellidos }}</td>
+              <td>{{ superusuario.usuario.telefono }}</td>
+              <td>{{ superusuario.usuario.email }}</td>              
+              <td>                      
+                <a href="{{ path('register_edit', {'id': superusuario.usuario.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                <a href="{{ path('register_delete', {'id': superusuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>                
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
         {% else %}
         <div class="center-align">
           <h4 style="color:#d32f2f;">No exite ningún superusuario todavía</h4> 
-          <a href="{{ path('nuevo_contrato') }}" class="btn">Añadir superusuario</a>
+          <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
         </div>
         {% endif %}
       </div>

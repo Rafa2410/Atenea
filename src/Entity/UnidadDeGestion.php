@@ -43,9 +43,15 @@ class UnidadDeGestion
      */
     private $corporacion_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="unidad")
+     */
+    private $usuarioUnidadPermisos;
+
     public function __construct()
     {
         $this->corporacion_id = new ArrayCollection();
+        $this->usuarioUnidadPermisos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,6 +132,37 @@ class UnidadDeGestion
             // set the owning side to null (unless already changed)
             if ($corporacionId->getUnidadDeGestion() === $this) {
                 $corporacionId->setUnidadDeGestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UsuarioUnidadPermiso[]
+     */
+    public function getUsuarioUnidadPermisos(): Collection
+    {
+        return $this->usuarioUnidadPermisos;
+    }
+
+    public function addUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
+    {
+        if (!$this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+            $this->usuarioUnidadPermisos[] = $usuarioUnidadPermiso;
+            $usuarioUnidadPermiso->setUnidad($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
+    {
+        if ($this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+            $this->usuarioUnidadPermisos->removeElement($usuarioUnidadPermiso);
+            // set the owning side to null (unless already changed)
+            if ($usuarioUnidadPermiso->getUnidad() === $this) {
+                $usuarioUnidadPermiso->setUnidad(null);
             }
         }
 
