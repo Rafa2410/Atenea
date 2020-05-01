@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ContratoType extends AbstractType
 {
@@ -30,17 +29,13 @@ class ContratoType extends AbstractType
                 'class' => UnidadDeGestion::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
+                        ->where('u.tipo = 1')
                         ->orderBy('u.id', 'DESC');
                 },
                 'choice_label' => 'nombre',
                 'attr' => [
                     'class' => 'browser-default'
                 ],
-            ])
-            ->add('guardar', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn waves-effect waves-light'
-                ]
             ])            
         ;
     }

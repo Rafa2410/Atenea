@@ -9,9 +9,19 @@
 </style>
 
 <div class="example-wrapper">
-    {{ form_start(form) }}
-      {{ form(form) }}
-    {{ form_end(form) }}
-    <a href="#" onClick="window.history.back();" class="btn">Volver</a>
+    {{ form_start(form) }}    
+      {{ form_row(form.nombre) }}
+      {{ form_row(form.descripcion) }}
+      {{ form_row(form.tipo) }}
+      <div class="escondido" id="corporacion">
+        {{ form_row(form.unidadDeGestion) }}        
+      </div>
+      <br/>
+      <button class="btn waves-effect waves-light right" type="submit">Añadir</button>        
+      <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
+    {{ form_end(form) }}        
 </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/unidad.js') }}"></script>    
 {% endblock %}

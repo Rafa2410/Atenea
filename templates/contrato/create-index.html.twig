@@ -10,9 +10,14 @@
 
 <div class="example-wrapper">
     {{ form_start(form) }}
-        {{ form(form) }}
-    {{ form_end(form) }}
-    <a href="#" onClick="window.history.back();" class="btn">Volver</a>
+        {{ form_row(form.descripcion) }}
+        {{ form_row(form.fecha_alta) }}
+        {{ form_row(form.fecha_baja) }}
+        {{ form_row(form.unidad_id) }}
+        <br/>
+        <button class="btn waves-effect waves-light right" type="submit">Añadir</button>        
+      <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
+    {{ form_end(form) }}    
 </div>
 {% endblock %}
 

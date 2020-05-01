@@ -38,3 +38,6 @@ select{
 .btn-500{
     width: 500px;
 }
+.escondido {
+    display: none;
+}
