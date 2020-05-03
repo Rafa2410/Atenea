@@ -3,6 +3,12 @@
 {% block title %}Unidades de gestion{% endblock %}
 
 {% block body %}
+{% block stylesheets %}  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="{{ asset('css/table.css') }}" rel="stylesheet" />
+{% endblock %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -23,50 +29,64 @@
     </blockquote>
     <div class="divider"></div>
     <div class="row">      
-        <ul class="tabs">
-          <li class="tab col s12"><a href="#usuarios">Usuarios <span class="new badge red lighten-1" data-badge-caption="">{{ userBadget }}</span></a></li>          
-        </ul>
-      </div>
-      <div id="usuarios" class="col s12">
-        {% if usuarios and userBadget != 0 %}          
-          <table id="usuarios">
-            <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellidos</th>
-                  <th>Teléfono</th>
-                  <th>Correo electrónico</th>
-                  <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-          {% for usuario in usuarios %}
-            {% if usuario.usuario.roles[0] != 'ROLE_SUPER' %}
-              <tr>
-                  <td>{{ usuario.usuario.nombre }}</td>
-                  <td>{{ usuario.usuario.apellidos }}</td>
-                  <td>{{ usuario.usuario.telefono }}</td>
-                  <td>{{ usuario.usuario.email }}</td>
-                  <td>                      
-                      <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                      <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
-                  </td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <div class="center-align">
-          <h4 style="color:#d32f2f;">No exite ningún usuario todavía</h4> 
-          <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir usuario</a>
+      <ul class="tabs">
+        <li class="tab col s12"><a href="#usuarios">Usuarios </a></li>          
+      </ul>
+    </div>      
+    <div id="usuarios" class="col s12">      
+      {% if usuarios and userBadget != 0 %}
+      <div class="row">
+      <div id="admin" class="col s12">
+        <div class="card material-table">
+        <div class="table-header">        
+        <div class="actions">
+          <a href="{{ path('register', {'id': unidad.id}) }}" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">person_add</i></a>
+          <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
         </div>
-        {% endif %}
-      </div>     
-    <div class="divider mt-15 mb-15"></div>
-    <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>    
+      </div>
+        <table id="datatable">
+          <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Correo electrónico</th>
+                <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody>
+        {% for usuario in usuarios %}
+          {% if usuario.usuario.roles[0] != 'ROLE_SUPER' %}
+            <tr>
+                <td>{{ usuario.usuario.nombre }}</td>
+                <td>{{ usuario.usuario.apellidos }}</td>
+                <td>{{ usuario.usuario.telefono }}</td>
+                <td>{{ usuario.usuario.email }}</td>
+                <td>                      
+                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                    <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        </div>
+      </div>
+      {% else %}
+        <div class="center-align">
+        <h4 style="color:#d32f2f;">No exite ningún usuario todavía</h4> 
+        <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir usuario</a>
+      </div>
+      {% endif %}
+    </div>     
+  <div class="divider mt-15 mb-15"></div>
+  <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>
 {% endblock %}
 
 {% block javascripts %}          
-    <script type="text/javascript" src="{{ '../../js/unidad.js' }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/unidad.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datatable.js') }}"></script>
 {% endblock %}
