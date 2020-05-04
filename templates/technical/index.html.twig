@@ -6,15 +6,15 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="center">
             {% if app.user.roles[0] == 'ROLE_USER' %}
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion_externa',{'interna': 0}) }}">Gestionar cuestiones externas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 0}) }}">Gestionar cuestiones externas</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion_externa',{'interna': 1}) }}">Gestionar cuestiones internas</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 1}) }}">Gestionar cuestiones internas</a></button>
                 <div style="height:10px;"></div>
                 <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar partes interesadas</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar aspectos favorables y desfavorables externos</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 0}) }}" >Gestionar aspectos favorables y desfavorables externos</a></button>
                 <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar aspectos favorables y desfavorables internos</a></button>
+                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 1}) }}" >Gestionar aspectos favorables y desfavorables internos</a></button>
                 <div style="height:10px;"></div>
                 <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>DAFO</a></button>
                 <div style="height:10px;"></div>

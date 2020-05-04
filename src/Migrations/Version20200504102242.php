@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200501144017 extends AbstractMigration
+final class Version20200504102242 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -27,9 +27,9 @@ final class Version20200501144017 extends AbstractMigration
         $this->addSql('ALTER TABLE usuario_unidad_permiso ADD CONSTRAINT FK_ACB3A7836CEFAD37 FOREIGN KEY (permiso_id) REFERENCES permisos (id)');
         $this->addSql('ALTER TABLE usuario_unidad_permiso ADD CONSTRAINT FK_ACB3A783DB38439E FOREIGN KEY (usuario_id) REFERENCES usuario (id)');
         $this->addSql('ALTER TABLE usuario_unidad_permiso ADD CONSTRAINT FK_ACB3A7839D01464C FOREIGN KEY (unidad_id) REFERENCES unidad_de_gestion (id)');
-        $this->addSql('ALTER TABLE contrato CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
-        $this->addSql('ALTER TABLE unidad_de_gestion CHANGE unidad_de_gestion_id unidad_de_gestion_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE usuario CHANGE roles roles JSON NOT NULL, CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
+        $this->addSql('ALTER TABLE unidad_de_gestion CHANGE unidad_de_gestion_id unidad_de_gestion_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE contrato CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void

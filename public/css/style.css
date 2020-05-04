@@ -38,6 +38,17 @@ select{
 .btn-500{
     width: 500px;
 }
+
 .escondido {
-    display: none;
+            display: none;
+}
+
+.height{
+    height: 200px !important;
+}
+
+.buttons-edit{
+    float: right;
+    margin-top: 10px;
+>>>>>>> Stashed changes
 }

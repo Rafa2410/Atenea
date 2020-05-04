@@ -30,6 +30,15 @@ class SubtipoCuestionType extends AbstractType
                         'class' => 'btn waves-effect waves-light',
                     ],
                 ]
+            )->add(
+                'cancel',
+                SubmitType::class,
+                [
+                    'label' => 'Cancelar',
+                    'attr'  => [
+                        'class' => 'btn waves-effect waves-light red',
+                    ],
+                ]
             );
     }
 

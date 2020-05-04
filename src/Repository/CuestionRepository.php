@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Aspecto;
 use App\Entity\Cuestion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,4 +48,26 @@ class CuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getAspectos($aspec)
+    {
+        $dql = 'SELECT c FROM App\Entity\Cuestion c';
+
+        /*$repository = $this->getDoctrine()->getRepository(Cuestion::Class);
+       $query = $repository->createQueryBuilder('c')
+           ->innerJoin('c.aspectos','a','WITH','a.id = :aspec')
+           ->setParameter('aspec',$aspec)
+           ->getQuery();
+        return $query->getResult();*/
+
+       return $this->createQueryBuilder('cue')
+           ->select('cue')
+           ->innerJoin('cue','c','WITH','')
+           ->innerJoin('')
+           ->innerJoin()
+           ->where('a.id = :aspec')
+           ->setParameter('aspec',$aspec)
+           ->getQuery()
+           ->getResult();
+    }
 }

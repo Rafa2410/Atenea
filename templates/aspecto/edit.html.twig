@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<h3>{{ title }}</h3>
+{{ form_start(form) }}
+        {{ form_row(form.descripcion) }}
+    <button type="submit" class="btn btn-lg btn-primary red" onClick="eliminarCuestionDeAspecto();"><a
+                style="color:white;">Eliminar Cuestion</a></button>
+    <button type="submit" class="btn btn-lg btn-primary green" onClick="eliminarCuestionDeAspecto();"><a
+                style="color:white;">Añadir Cuestion</a></button>
+        {{ form_row(form.cuestiones) }}
+
+        {{ form_row(form.save) }}
+<!--<table id="contratos">
+    <thead>
+    <tr>
+        <th>Cuestion</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for cuestion in cuestiones %}
+        <tr>
+            <td>{{ cuestion.descripcion }}</td>
+            <td>
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>-->
+    <button type="submit" class="btn btn-lg btn-primary red" onClick="javascript:history.back()"><a style="color:white;">Cancelar</a></button><br>
+
+    {{ form_end(form) }}
+
+
+    {% endblock %}
+
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+    {% endblock %}

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CuestionController extends AbstractController
 {
     /**
-     * @Route("/cuestion/externa/{interna}", name="cuestion_externa")
+     * @Route("/cuestion/{interna}", name="cuestion")
      */
     public function index($interna)
     {
@@ -27,7 +27,7 @@ class CuestionController extends AbstractController
 
 
         return $this->render(
-            'cuestion_externa/index.html.twig',
+            'cuestion/index.html.twig',
             [
                 'cuestiones'         => $cuestiones,
                 'subtipo_cuestiones' => $subtipo_cuestiones,
@@ -38,7 +38,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/externa/new/{interno}", name="cuestion_externa_new")
+     * @Route("/cuestion/new/{interno}", name="cuestion_new")
      */
     public function new($interno, Request $request)
     {
@@ -71,7 +71,7 @@ class CuestionController extends AbstractController
             $entityManager->persist($cuestion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cuestion_externa');
+            return $this->redirectToRoute('cuestion', ['interna' => $interno]);
 
         }
 
@@ -82,7 +82,7 @@ class CuestionController extends AbstractController
         }
 
         return $this->render(
-            'cuestion_externa/new.html.twig',
+            'cuestion/new.html.twig',
             [
                 'form'  => $form->createView(),
                 'title' => $titulo,
@@ -93,7 +93,7 @@ class CuestionController extends AbstractController
 
 
     /**
-     * @Route("/cuestion/externa/edit/{id}", name="cuestion_externa_edit")
+     * @Route("/cuestion/edit/{id}", name="cuestion_edit")
      */
     public function edit($id, Request $request)
     {
@@ -112,7 +112,11 @@ class CuestionController extends AbstractController
             $entityManager->persist($cuestion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cuestion_externa');
+            if ($cuestion->getInterno() == 0) {
+                return $this->redirectToRoute('cuestion', ['interna' => 0]);
+            } else {
+                return $this->redirectToRoute('cuestion', ['interna' => 1]);
+            }
         }
 
         if ($cuestion->getInterno()) {
@@ -122,7 +126,7 @@ class CuestionController extends AbstractController
         }
 
         return $this->render(
-            'cuestion_externa/edit.html.twig',
+            'cuestion/edit.html.twig',
             [
                 'form'  => $form->createView(),
                 'title' => $titulo,
@@ -132,7 +136,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/externa/subtipo/new/{interno}", name="cuestion_externa_subtipo_new")
+     * @Route("/cuestion/subtipo/new/{interno}", name="cuestion_subtipo_new")
      */
     public function newExternaSubtipo($interno, Request $request)
     {
@@ -163,7 +167,7 @@ class CuestionController extends AbstractController
             $entityManager->persist($subtipo_cuestion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cuestion_externa');
+            return $this->redirectToRoute('cuestion', ['interna' => $interno]);
 
         }
 
@@ -174,7 +178,7 @@ class CuestionController extends AbstractController
         }
 
         return $this->render(
-            'cuestion_externa/new-subtipo.html.twig',
+            'cuestion/new-subtipo.html.twig',
             [
                 'form'  => $form->createView(),
                 'title' => $titulo,
@@ -184,7 +188,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/externa/subtipo/edit/{id}", name="cuestion_externa_subtipo_edit")
+     * @Route("/cuestion/subtipo/edit/{id}", name="cuestion_subtipo_edit")
      */
     public function editExternaSubtipo($id, Request $request)
     {
@@ -203,7 +207,12 @@ class CuestionController extends AbstractController
             $entityManager->persist($subtipo_cuestion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cuestion_externa');
+            if ($subtipo_cuestion->getInterno() == 0) {
+                return $this->redirectToRoute('cuestion', ['interna' => 0]);
+            } else {
+                return $this->redirectToRoute('cuestion', ['interna' => 1]);
+            }
+
         }
 
         if ($subtipo_cuestion->getInterno()) {
@@ -213,7 +222,7 @@ class CuestionController extends AbstractController
         }
 
         return $this->render(
-            'cuestion_externa/edit-subtipo.html.twig',
+            'cuestion/edit-subtipo.html.twig',
             [
                 'form'  => $form->createView(),
                 'title' => $titulo,
@@ -223,7 +232,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/externa/tipo/new/{interno}", name="cuestion_externa_tipo_new")
+     * @Route("/cuestion/tipo/new/{interno}", name="cuestion_tipo_new")
      */
     public function newExternatipo($interno, Request $request)
     {
@@ -242,7 +251,7 @@ class CuestionController extends AbstractController
             $entityManager->persist($tipo_cuestion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cuestion_externa');
+            return $this->redirectToRoute('cuestion', ['interna' => $interno]);
 
         }
 
@@ -253,7 +262,7 @@ class CuestionController extends AbstractController
         }
 
         return $this->render(
-            'cuestion_externa/new-tipo.html.twig',
+            'cuestion/new-tipo.html.twig',
             [
                 'form'  => $form->createView(),
                 'title' => $titulo,
@@ -263,7 +272,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/externa/tipo/edit/{id}", name="cuestion_externa_tipo_edit")
+     * @Route("/cuestion/tipo/edit/{id}", name="cuestion_tipo_edit")
      */
     public function editExternatipo($id, Request $request)
     {
@@ -282,24 +291,25 @@ class CuestionController extends AbstractController
             $entityManager->persist($tipo_cuestion);
             $entityManager->flush();
 
-            /*$this->addFlash(
-                'notice',
-                'Subtipo editado!'
-            );*/
+            if ($tipo_cuestion->getInterno() == 0) {
+                return $this->redirectToRoute('cuestion', ['interna' => 0]);
+            } else {
+                return $this->redirectToRoute('cuestion', ['interna' => 1]);
+            }
 
-            return $this->redirectToRoute('cuestion_externa');
         }
 
-        if($tipo_cuestion->getInterno()){
+        if ($tipo_cuestion->getInterno()) {
             $titulo = "Editar Tipo Interna";
-        }else{
+        } else {
             $titulo = "Editar Tipo Externa";
         }
+
         return $this->render(
-            'cuestion_externa/edit-tipo.html.twig',
+            'cuestion/edit-tipo.html.twig',
             [
-                'form' => $form->createView(),
-                'title' => $titulo
+                'form'  => $form->createView(),
+                'title' => $titulo,
             ]
         );
 

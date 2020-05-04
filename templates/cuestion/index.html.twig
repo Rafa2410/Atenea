@@ -34,7 +34,7 @@
         <span>No hay ningun tipo de cuestion</span>
     {% endif %}
     <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_externa_tipo_new',{'interno': cue_interna}) }}">Nuevo</a>
+                                                            href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}">Nuevo</a>
     </button>
     <button type="submit" class="btn btn-lg btn-primary" onClick="editartipoCuestion()"><a
                 style="color:white;">Editar</a></button><br>
@@ -57,7 +57,7 @@
         <span>No hay ningun subtipo de cuestion</span>
     {% endif %}
     <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_externa_subtipo_new',{'interno': cue_interna}) }}">Nuevo</a>
+                                                            href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}">Nuevo</a>
     </button>
     <button type="submit" class="btn btn-lg btn-primary" onClick="editarSubtipoCuestion()"><a style="color:white;">Editar</a>
     </button><br>
@@ -80,7 +80,7 @@
         <span>No hay ninguna cuestion creada</span>
     {% endif %}
     <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_externa_new',{'interno': cue_interna}) }}">Nuevo</a>
+                                                            href="{{ path('cuestion_new',{'interno': cue_interna}) }}">Nuevo</a>
     </button>
     <button type="submit" class="btn btn-lg btn-primary" onClick="editarCuestion()"><a style="color:white;">Editar</a>
     </button>

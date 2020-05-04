@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if interna == 0 %}
+        Aspectos Internos
+    {% else %}
+        Aspectos Externos
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if interna == 0 %}
+        <h3>Aspectos Externos</h3>
+        <label>
+            Oportunidades
+        </label>
+        {% if aspectos|length > 0 %}
+            <select style="display:block;" id="aspecto" name="aspecto">
+                {% for aspecto in aspectos %}
+                    {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        {% else %}
+            <span>No hay ningun aspecto favorable</span>
+        {% endif %}
+        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                                href="{{ path('aspecto_new',{'aspec': 'opor'}) }}">Nuevo</a>
+        </button>
+        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('opor');"><a
+                    style="color:white;">Editar</a></button><br>
+
+        <label>
+            Amenazas
+        </label>
+        {% if aspectos|length > 0 %}
+            <select style="display:block;" id="aspecto" name="aspecto">
+                {% for aspecto in aspectos %}
+                    {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        {% else %}
+            <span>No hay ningun aspecto desfavorable</span>
+        {% endif %}
+        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                                href="{{ path('aspecto_new',{'aspec': 'amen'}) }}">Nuevo</a>
+        </button>
+        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('amen');"><a
+                    style="color:white;">Editar</a></button><br>
+    {% else %}
+        <h3>Aspectos Internos</h3>
+        <label>
+            Fortalezas
+        </label>
+        {% if aspectos|length > 0 %}
+            <select style="display:block;" id="aspecto" name="aspecto">
+                {% for aspecto in aspectos %}
+                    {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        {% else %}
+            <span>No hay ningun aspecto favorable</span>
+        {% endif %}
+        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                                href="{{ path('aspecto_new',{'aspec': 'fort'}) }}">Nuevo</a>
+        </button>
+        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('fort');"><a
+                    style="color:white;">Editar</a></button><br>
+
+        <label>
+            Debilidades
+        </label>
+        {% if aspectos|length > 0 %}
+            <select style="display:block;" id="aspecto" name="aspecto">
+                {% for aspecto in aspectos %}
+                    {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        {% else %}
+            <span>No hay ningun aspecto desfavorable</span>
+        {% endif %}
+        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
+                                                                href="{{ path('aspecto_new',{'aspec': 'debi'}) }}">Nuevo</a>
+        </button>
+        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('debi');"><a
+                    style="color:white;" >Editar</a></button><br>
+
+    {% endif %}
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+{% endblock %}
