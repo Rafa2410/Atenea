@@ -1,5 +1,4 @@
-(function(window, document, undefined) {
-
+(function(window, document, undefined) {    
     var factory = function($, DataTable) {
       "use strict";
   
@@ -196,8 +195,10 @@
           '<option value="-1">Todo</option>' +
           '</select></div>',
         "sZeroRecords": 'No se encontraron registros coincidentes',
-        "sEmptyTable": 'No hay registros por mostrar'
+        "sEmptyTable": 'No hay registros por mostrar',
+        "sInfoFiltered": " - filtrado de _MAX_ entradas",
+        "sInfoEmpty": 'Mostrando 0 a 0 de 0 entradas'
       },
       bAutoWidth: false
     });
-  });
+  });  
