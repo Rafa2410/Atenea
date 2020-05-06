@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    console.log("carga cuestion js");
-
+    $('select').formSelect();    
+    $('#aspecto_cuestiones').attr('style','display: none !important');
     /*$("#buttonOpor").on('click',function (e) {
         var id = $('#aspecto option:selected').val();
         window.location.href = `/Atenea/public/index.php/aspecto/edit/${id}/${aspec}`;

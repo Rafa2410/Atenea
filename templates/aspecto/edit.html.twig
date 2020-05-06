@@ -11,26 +11,8 @@
     <button type="submit" class="btn btn-lg btn-primary green" onClick="eliminarCuestionDeAspecto();"><a
                 style="color:white;">Añadir Cuestion</a></button>
         {{ form_row(form.cuestiones) }}
-
-        {{ form_row(form.save) }}
-<!--<table id="contratos">
-    <thead>
-    <tr>
-        <th>Cuestion</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for cuestion in cuestiones %}
-        <tr>
-            <td>{{ cuestion.descripcion }}</td>
-            <td>
-
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>-->
+        
+    <button class="btn waves-effect waves-light right" type="submit">Editar</button>
     <button type="submit" class="btn btn-lg btn-primary red" onClick="javascript:history.back()"><a style="color:white;">Cancelar</a></button><br>
 
     {{ form_end(form) }}

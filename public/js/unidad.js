@@ -1,5 +1,4 @@
-$(document).ready(function(){
-  $('.tabs').tabs();  
+$(document).ready(function(){  
   if($('#unidad_tipo').val() != 1) {
     $('#corporacion').removeClass('escondido');
   }

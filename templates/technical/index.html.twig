@@ -3,26 +3,34 @@
 {% block title %}Menu de Gestión Técnica{% endblock %}
 
 {% block body %}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="center">
-            {% if app.user.roles[0] == 'ROLE_USER' %}
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 0}) }}">Gestionar cuestiones externas</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 1}) }}">Gestionar cuestiones internas</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar partes interesadas</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 0}) }}" >Gestionar aspectos favorables y desfavorables externos</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 1}) }}" >Gestionar aspectos favorables y desfavorables internos</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>DAFO</a></button>
-                <div style="height:10px;"></div>
-                <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar potenciales factores críticos de éxito</a></button>
-            {% else %}
-                <h1>Error</h1>
-            {% endif %}
-        {% endif %}
-        <br><br>
-        <button class="btn btn-lg btn-primary volver"><a style="color:white;" href="/Atenea/public/index.php/home">Volver</a></button></div>
+    <div class="center">
+    {% if is_granted('ROLE_USER') %}
+        <!--<button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 0}) }}">Gestionar cuestiones externas</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('cuestion',{'interna': 1}) }}">Gestionar cuestiones internas</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar partes interesadas</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 0}) }}" >Gestionar aspectos favorables y desfavorables externos</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="{{ path('aspecto',{'interna': 1}) }}" >Gestionar aspectos favorables y desfavorables internos</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>DAFO</a></button>
+        <div style="height:10px;"></div>
+        <button class="btn btn-lg btn-primary btn-500"><a style="color:white;" href="" disabled>Gestionar potenciales factores críticos de éxito</a></button>-->
+        <div class="section">
+            <h1 class="header center red-text">{{ unidad[0].nombre }}</h1>
+        </div>
+        <div class="row center">
+            <h5 class="header col s12 light">Comience a analizar las debilidades, amenazas, fortalezas y oportunidades de su negocio</h5>
+        </div>
+        <div class="row center">
+            <a href="#" data-target="slide-out" class="btn-large waves-effect waves-light red darken-1 sidenav-trigger">Comenzar</a>
+        </div>
+    {% else %}
+        <h1>Error</h1>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}    
+    <script type="text/javascript" src="{{ asset('js/nav.js') }}"></script>
 {% endblock %}

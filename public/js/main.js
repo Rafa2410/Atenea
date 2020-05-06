@@ -1,3 +1,3 @@
 $(document).ready(function(){    
-    console.log("carga main js");
+    //console.log("carga main js");
 });

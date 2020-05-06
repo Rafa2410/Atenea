@@ -3,16 +3,18 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <h3>{{ title }}</h3>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+<h3>{{ title }}</h3>
+{{ form_start(form) }}
+    {{ form_row(form.descripcion) }}
+    {{ form_row(form.subtipo) }}
+    <br/>
+    <button class="btn waves-effect waves-light right" type="submit">Añadir</button>
     <button type="submit" class="btn btn-lg btn-primary red" onClick="javascript:history.back()"><a style="color:white;">Cancelar</a>
-    </button><br>
-    {{ form_end(form) }}
+{{ form_end(form) }}
 
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+{% for message in app.flashes('notice') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
 {% endblock %}

@@ -10,91 +10,137 @@
 
 {% block body %}
     {% if interna == 0 %}
+    <div class="card-panel center" style="margin-bottom:0;">    
         <h3>Aspectos Externos</h3>
-        <label>
-            Oportunidades
-        </label>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+        <ul class="tabs">          
+          <li class="tab col s6"><a href="#oportunidades">Oportunidades</a></li>
+          <li class="tab col s6"><a href="#amenazas">Amenazas</a></li>          
+        </ul>
+    </div>
+    <div class="section col s12" id="oportunidades">        
+        <a href="{{ path('aspecto_new',{'aspec': 'opor'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>        
         {% if aspectos|length > 0 %}
-            <select style="display:block;" id="aspecto" name="aspecto">
-                {% for aspecto in aspectos %}
-                    {% if aspecto.favorable == 1 and aspecto.interno == interna %}
-                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
+        <table>
+            <thead>
+                <tr>
+                <th>Oportunidad</th>
+                <th>Acción</th>
+                </tr>
+            </thead>            
+            <tbody>
+            {% for aspecto in aspectos %}
+                {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+                <tr>
+                    <td>{{ aspecto.descripcion }}</td>
+                    <td>
+                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
         {% else %}
             <span>No hay ningun aspecto favorable</span>
-        {% endif %}
-        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                                href="{{ path('aspecto_new',{'aspec': 'opor'}) }}">Nuevo</a>
-        </button>
-        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('opor');"><a
-                    style="color:white;">Editar</a></button><br>
-
-        <label>
-            Amenazas
-        </label>
+        {% endif %}        
+    </div>
+    <div class="section col s12" id="amenazas">
+        <a href="{{ path('aspecto_new',{'aspec': 'amen'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% if aspectos|length > 0 %}
-            <select style="display:block;" id="aspecto" name="aspecto">
+        <table>
+            <thead>
+                <tr>
+                <th>Amenaza</th>
+                <th>Acción</th>
+                </tr>
+            </thead>            
+            <tbody>                    
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
-                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    <tr>
+                        <td>{{ aspecto.descripcion }}</td>
+                        <td>
+                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        </td>
+                    </tr>
                     {% endif %}
                 {% endfor %}
-            </select>
+            </tbody>
+        </table>            
         {% else %}
             <span>No hay ningun aspecto desfavorable</span>
-        {% endif %}
-        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                                href="{{ path('aspecto_new',{'aspec': 'amen'}) }}">Nuevo</a>
-        </button>
-        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('amen');"><a
-                    style="color:white;">Editar</a></button><br>
+        {% endif %}        
+    </div>
     {% else %}
+    <div class="card-panel center" style="margin-bottom:0;">
         <h3>Aspectos Internos</h3>
-        <label>
-            Fortalezas
-        </label>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+        <ul class="tabs">          
+          <li class="tab col s6"><a href="#fortalezas">Fortalezas</a></li>
+          <li class="tab col s6"><a href="#debilidades">Debilidades</a></li>          
+        </ul>
+    </div>
+    <div class="section col s12" id="fortalezas">
+        <a href="{{ path('aspecto_new',{'aspec': 'fort'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% if aspectos|length > 0 %}
-            <select style="display:block;" id="aspecto" name="aspecto">
+        <table>
+            <thead>
+                <tr>
+                <th>Fortaleza</th>
+                <th>Acción</th>
+                </tr>
+            </thead>            
+            <tbody>
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 1 and aspecto.interno == interna %}
-                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    <tr>
+                        <td>{{ aspecto.descripcion }}</td>
+                        <td>
+                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        </td>
+                    </tr>
                     {% endif %}
                 {% endfor %}
-            </select>
+            </tbody>
+        </table>
         {% else %}
             <span>No hay ningun aspecto favorable</span>
         {% endif %}
-        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                                href="{{ path('aspecto_new',{'aspec': 'fort'}) }}">Nuevo</a>
-        </button>
-        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('fort');"><a
-                    style="color:white;">Editar</a></button><br>
-
-        <label>
-            Debilidades
-        </label>
+    </div>
+    <div class="section col s12" id="debilidades">
+        <a href="{{ path('aspecto_new',{'aspec': 'debi'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% if aspectos|length > 0 %}
-            <select style="display:block;" id="aspecto" name="aspecto">
+        <table>
+            <thead>
+                <tr>
+                <th>Debilidad</th>
+                <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>            
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
-                        <option value="{{ aspecto.id }}">{{ aspecto.descripcion }}</option>
+                    <tr>
+                        <td>{{ aspecto.descripcion }}</td>
+                        <td>
+                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        </td>
+                    </tr>
                     {% endif %}
                 {% endfor %}
-            </select>
+            </tbody>
+        </table>
         {% else %}
             <span>No hay ningun aspecto desfavorable</span>
-        {% endif %}
-        <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                                href="{{ path('aspecto_new',{'aspec': 'debi'}) }}">Nuevo</a>
-        </button>
-        <button type="submit" class="btn btn-lg btn-primary" onClick="editarAspecto('debi');"><a
-                    style="color:white;" >Editar</a></button><br>
-
+        {% endif %}        
     {% endif %}
 
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>    
 {% endblock %}

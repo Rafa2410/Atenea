@@ -1,23 +1,42 @@
 <nav>
 <div class="nav-wrapper">
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="#" class="brand-logo right" style="margin-right: 10px;">Atenea</a>
+        <a href="{{ path('home') }}" class="brand-logo right" style="margin-right: 10px;">Atenea</a>        
     {% else %}
         <a href="#" class="right"></a>
     {% endif %}
-    <ul id="nav-mobile" class="left hide-on-med-and-down">                                        
-        {% if is_granted('ROLE_USER') and is_granted('ROLE_USER') %}
-            <li><a href="{{ path('home') }}">Inicio</a></li>                                
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('lista_unidad') }}">Unidades</a></li>
-            <li><a href="{{ path('contrato_list') }}">Contratos</a></li>
-        {% endif %}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <li><a href="{{ path('app_logout') }}">Salir</a></li>
-        {% else %}
-            <li><a href="{{ path('app_login') }}">Login</a></li>
-        {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <ul id="nav-mobile" class="left">
+        <li><a href="#" data-target="slide-out" class="sidenav-trigger" style="display:block;margin:0;"><i class="material-icons">menu</i></a></li>                
     </ul>
+    {% endif %}
 </div>
 </nav>
+    <ul id="slide-out" class="sidenav">
+        {% if is_granted('ROLE_USER') %}
+            <li><a class="waves-effect" href="{{ path('home') }}"><i class="material-icons">dashboard</i>Inicio</a></li>    
+            <li><a class="subheader grey lighten-2">Gestionar cuestiones</a></li>            
+            <li><a class="waves-effect" href="{{ path('cuestion',{'interna': 1}) }}"><i class="material-icons">question_answer</i>Cuestiones internas</a></li>
+            <li><a class="waves-effect" href="{{ path('cuestion',{'interna': 0}) }}"><i class="material-icons">question_answer</i>Cuestiones externas</a></li>    
+            <li><a class="subheader grey lighten-2">Gestionar aspectos</a></li>            
+            <li><a class="waves-effect" href="{{ path('aspecto',{'interna': 1}) }}"><i class="material-icons">label</i>Aspectos internos</a></li>
+            <li><a class="waves-effect" href="{{ path('aspecto',{'interna': 0}) }}"><i class="material-icons">label</i>Aspectos externos</a></li>
+            <li><a class="subheader grey lighten-2">Partes interesadas</a></li>            
+            <li><a class="waves-effect" href="#!"><i class="material-icons">people</i>Partes interesadas</a></li>
+            <li><a class="subheader grey lighten-2">DAFO</a></li>            
+            <li><a class="waves-effect" href="#!"><i class="material-icons">grid_on</i>DAFO</a></li>
+            <li><a class="subheader grey lighten-2">Factores potenciales</a></li>            
+            <li><a class="waves-effect" href="#!"><i class="material-icons">info_outline</i>Factores potenciales</a></li>        
+        {% endif %}                        
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li><div class="divider"></div></li>
+            <li><a href="{{ path('app_logout') }}"><i class="material-icons">exit_to_app</i>Salir</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Login</a></li>
+        {% endif %}            
+    </ul>
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/nav.js') }}"></script>
+{% endblock %}

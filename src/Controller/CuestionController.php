@@ -44,7 +44,7 @@ class CuestionController extends AbstractController
     {
         $cuestion = new Cuestion();
 
-        $form = $this->createForm(CuestionType::class, $cuestion, ['label' => 'Crear']);
+        $form = $this->createForm(CuestionType::class, $cuestion);
 
         $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findBy(
             ['interno' => $interno]
@@ -100,7 +100,21 @@ class CuestionController extends AbstractController
 
         $cuestion = $this->getDoctrine()->getRepository(Cuestion::class)->find($id);
 
-        $form = $this->createForm(CuestionType::class, $cuestion, ['label' => 'Editar']);
+        $form = $this->createForm(CuestionType::class, $cuestion);
+
+        $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findBy(
+            ['interno' => $cuestion->getInterno()]
+        );
+
+        $form->add(
+            'subtipo',
+            EntityType::class,
+            array(
+                'class'        => SubtipoCuestion::Class,
+                'choices'      => $subtipo_cuestiones,
+                'choice_label' => 'descripcion',
+            )
+        );
 
         $form->handleRequest($request);
 
@@ -196,6 +210,18 @@ class CuestionController extends AbstractController
         $subtipo_cuestion = $this->getDoctrine()->getRepository(SubtipoCuestion::class)->find($id);
 
         $form = $this->createForm(SubtipoCuestionType::class, $subtipo_cuestion, ['label' => 'Editar']);
+
+        $tipo_cuestiones = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findBy(['interno' => $subtipo_cuestion->getInterno()]);
+
+        $form->add(
+            'tipo',
+            EntityType::class,
+            array(
+                'class'        => TipoCuestion::Class,
+                'choices'      => $tipo_cuestiones,
+                'choice_label' => 'descripcion',
+            )
+        );
 
         $form->handleRequest($request);
 

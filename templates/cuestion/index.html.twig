@@ -9,82 +9,117 @@
 {% endblock %}
 
 {% block body %}
+<style>
+table {
+  table-layout: fixed ;
+  width: 100% ;
+}
+td {
+  width: 25% ;
+} 
+</style>
+<div class="card-panel center" style="margin-bottom:0;">
     <h3>
         {% if cue_interna == 0 %}
             Cuestiones Externas
         {% else %}
             Cuestiones Internas
         {% endif %}</h3>
-    <label>
-        {% if cue_interna == 0 %}
-            Tipos de Cuestiones Externas
-        {% else %}
-            Tipos de Cuestiones Internas
-        {% endif %}
-    </label>
-    {% if tipo_cuestiones|length > 0 %}
-        <select style="display:block;" id="tipos" name="tipos">
+</div>
+    <div class="divider"></div>
+    <div class="row">
+        <ul class="tabs">
+          <li class="tab col s4"><a href="#tipos">Tipos</a></li>
+          <li class="tab col s4"><a href="#subtipos">Subtipos</a></li>
+          <li class="tab col s4"><a href="#cuestiones">Cuestiones</a></li>          
+        </ul>
+    </div>
+    <div class="section col s12" id="tipos">    
+    <a href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+    {% if tipo_cuestiones|length > 0 %}    
+    <table>
+        <thead>
+            <tr>
+            <th>Tipo</th>
+            <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for cuestion in tipo_cuestiones %}
-                {% if cuestion.interno == cue_interna %}
-                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                {% endif %}
+            {% if cuestion.interno == cue_interna %}
+                <tr>
+                    <td>{{ cuestion.descripcion }}</td>
+                    <td>
+                        <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                    </td>
+                </tr>
+            {% endif %}
             {% endfor %}
-        </select>
+        </tbody>
+    </table>
     {% else %}
         <span>No hay ningun tipo de cuestion</span>
-    {% endif %}
-    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}">Nuevo</a>
-    </button>
-    <button type="submit" class="btn btn-lg btn-primary" onClick="editartipoCuestion()"><a
-                style="color:white;">Editar</a></button><br>
-    <label>
-        {% if cue_interna == 0 %}
-            Subtipos de Cuestiones Externas
-        {% else %}
-            SubTipos de Cuestiones Internas
-        {% endif %}
-    </label>
-    {% if subtipo_cuestiones|length > 0 %}
-        <select style="display:block;" id="subtipos" name="subtipos">
-            {% for cuestion in subtipo_cuestiones %}
-                {% if cuestion.interno == cue_interna %}
-                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
+    {% endif %}    
+    </div>    
+    <div class="section col s12" id="subtipos">    
+    <a href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>        
+    {% if subtipo_cuestiones|length > 0 %}    
+    <table>
+        <thead>
+            <tr>
+            <th>Subtipo</th>
+            <th>Tipo</th>
+            <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cuestion in subtipo_cuestiones %}
+            {% if cuestion.interno == cue_interna %}
+            <tr>
+                <td>{{ cuestion.descripcion }}</td>
+                <td>{{ cuestion.tipo.descripcion }}</td>
+                <td>
+                    <a href="{{ path('cuestion_subtipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>    
     {% else %}
         <span>No hay ningun subtipo de cuestion</span>
     {% endif %}
-    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}">Nuevo</a>
-    </button>
-    <button type="submit" class="btn btn-lg btn-primary" onClick="editarSubtipoCuestion()"><a style="color:white;">Editar</a>
-    </button><br>
-    <label>
-        {% if cue_interna == 0 %}
-            Cuestiones Externas
-        {% else %}
-            Cuestiones Internas
-        {% endif %}
-    </label>
-    {% if cuestiones|length > 0 %}
-        <select style="display:block;" id="cuestiones" name="cuestiones">
-            {% for cuestion in cuestiones %}
-                {% if cuestion.interno == cue_interna %}
-                    <option value="{{ cuestion.id }}">{{ cuestion.descripcion }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
+    </div>    
+    <div class="section col s12" id="cuestiones">        
+    <a href="{{ path('cuestion_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>    
+    {% if cuestiones|length > 0 %}        
+    <table>
+        <thead>
+        <tr>
+            <th>Cuestión</th>
+            <th>Subtipo</th>
+            <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuestion in cuestiones %}
+            {% if cuestion.interno == cue_interna %}
+            <tr>
+                <td>{{ cuestion.descripcion }}</td>
+                <td>{{ cuestion.subtipo.descripcion }}</td>
+                <td>
+                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                </td>              
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
     {% else %}
         <span>No hay ninguna cuestion creada</span>
     {% endif %}
-    <button type="submit" class="btn btn-lg btn-primary"><a style="color:white;"
-                                                            href="{{ path('cuestion_new',{'interno': cue_interna}) }}">Nuevo</a>
-    </button>
-    <button type="submit" class="btn btn-lg btn-primary" onClick="editarCuestion()"><a style="color:white;">Editar</a>
-    </button>
+    </div>
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>    
 {% endblock %}

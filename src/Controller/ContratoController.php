@@ -40,7 +40,7 @@ class ContratoController extends AbstractController
             $em->persist($contrato);
             $em->flush();
 
-            return $this->redirectToRoute('contrato_list');
+            return $this->redirectToRoute('lista_unidad');
         }
 
         return $this->render('contrato/create-index.html.twig', [
@@ -60,7 +60,7 @@ class ContratoController extends AbstractController
         $entityManager->remove($contrato);
         $entityManager->flush();
 
-        return $this->redirectToRoute('contrato_list');
+        return $this->redirectToRoute('lista_unidad');
     }
 
     /**
@@ -82,7 +82,7 @@ class ContratoController extends AbstractController
             $em->persist($contrato);
             $em->flush();
 
-            return $this->redirectToRoute('contrato_list');
+            return $this->redirectToRoute('lista_unidad');
         }
 
         return $this->render('contrato/create-index.html.twig', [

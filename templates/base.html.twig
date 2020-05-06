@@ -13,7 +13,11 @@
     <body>
         {{ include('navbar.html.twig') }}
         <div style="height: 30px"></div>
+        {% if is_granted('ROLE_USER') == false %}
+        <div class="container-admin">
+        {% else %}
         <div class="container">
+        {% endif %}
             {% block body %}{% endblock %}
         </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
