@@ -43,6 +43,10 @@ class UnidadController extends AbstractController
             //Guardar en la bbdd
             $em = $this->getDoctrine()->getManager();
 
+            if ($unidad->getTipo() == 1) {
+                $unidad->setUnidadDeGestion(null);
+            }
+
             $em->persist($unidad);
             $em->flush();
 
