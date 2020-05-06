@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block body %}
+<style>
+table {
+  table-layout: fixed ;
+  width: 100% ;
+}
+td {
+  width: 25% ;
+} 
+</style>
     {% if interna == 0 %}
     <div class="card-panel center" style="margin-bottom:0;">    
         <h3>Aspectos Externos</h3>
@@ -37,6 +46,7 @@
                     <td>{{ aspecto.descripcion }}</td>
                     <td>
                         <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        <a href="{{ path('aspecto_delete', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
                 {% endif %}
@@ -64,6 +74,7 @@
                         <td>{{ aspecto.descripcion }}</td>
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                            <a href="{{ path('aspecto_delete', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                         </td>
                     </tr>
                     {% endif %}
@@ -102,6 +113,7 @@
                         <td>{{ aspecto.descripcion }}</td>
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                            <a href="{{ path('aspecto_delete', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                         </td>
                     </tr>
                     {% endif %}
@@ -129,6 +141,7 @@
                         <td>{{ aspecto.descripcion }}</td>
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                            <a href="{{ path('aspecto_delete', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                         </td>
                     </tr>
                     {% endif %}

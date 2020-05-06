@@ -150,6 +150,23 @@ class CuestionController extends AbstractController
     }
 
     /**
+     * @Route("/cuestion/delete/{id}", name="cuestion_delete")     
+     */
+    public function eliminarCuestion(Request $request, $id) {        
+        $cuestion = $this->getDoctrine()->getRepository(Cuestion::class)->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($cuestion);
+        $em->flush();        
+
+        if ($cuestion->getInterno() == 0) {
+            return $this->redirectToRoute('cuestion', ['interna' => 0]);
+        } else {
+            return $this->redirectToRoute('cuestion', ['interna' => 1]);
+        }
+    }
+
+    /**
      * @Route("/cuestion/subtipo/new/{interno}", name="cuestion_subtipo_new")
      */
     public function newExternaSubtipo($interno, Request $request)
@@ -258,6 +275,23 @@ class CuestionController extends AbstractController
     }
 
     /**
+     * @Route("/cuestion/subtipo/delete/{id}", name="cuestion_subtipo_delete")
+     */
+    public function eliminarSubtipo(Request $request, $id) {
+        $subtipo_cuestion = $this->getDoctrine()->getRepository(SubtipoCuestion::class)->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($subtipo_cuestion);
+        $em->flush();        
+
+        if ($subtipo_cuestion->getInterno() == 0) {
+            return $this->redirectToRoute('cuestion', ['interna' => 0]);
+        } else {
+            return $this->redirectToRoute('cuestion', ['interna' => 1]);
+        }
+    }
+
+    /**
      * @Route("/cuestion/tipo/new/{interno}", name="cuestion_tipo_new")
      */
     public function newExternatipo($interno, Request $request)
@@ -339,5 +373,23 @@ class CuestionController extends AbstractController
             ]
         );
 
+    }
+
+    /**
+     * @Route("/cuestion/tipo/delete/{id}", name="cuestion_tipo_delete")
+     */
+    public function deleteTipo($id, Request $request)
+    {
+        $tipo_cuestion = $this->getDoctrine()->getRepository(TipoCuestion::class)->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($tipo_cuestion);
+        $em->flush();        
+
+        if ($tipo_cuestion->getInterno() == 0) {
+            return $this->redirectToRoute('cuestion', ['interna' => 0]);
+        } else {
+            return $this->redirectToRoute('cuestion', ['interna' => 1]);
+        }
     }
 }

@@ -179,4 +179,23 @@ class AspectoController extends AbstractController
         );
 
     }
+
+    /**
+     * @Route("/aspecto/delete/{id}/{aspec}", name="aspecto_delete")
+     */
+    public function delete(Request $request, $id, $aspec) {
+        $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($aspecto);
+        $em->flush();
+
+        if ($aspec == 'opor' || $aspec == 'amen') {
+            $interno   = 0;            
+        } else {
+            $interno   = 1;            
+        }
+
+        return $this->redirectToRoute('aspecto', ['interna' => $interno]);
+    }
 }
