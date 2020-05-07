@@ -153,8 +153,16 @@ class AspectoController extends AbstractController
             return $this->redirectToRoute('aspecto', ['interna' => $interno]);
         }
 
-        $cuestiones = $aspecto->getCuestiones();
-
+        //$cuestiones = $aspecto->getCuestiones();
+        if ($interno == 1) {
+            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
+                ['interno' => $interno]
+            );
+        } else {
+            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
+                ['interno' => $interno]
+            );
+        }
 
         $form->add(
             'cuestiones',
