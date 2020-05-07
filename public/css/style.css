@@ -52,5 +52,11 @@ select{
 .buttons-edit{
     float: right;
     margin-top: 10px;
->>>>>>> Stashed changes
+}
+
+.ocultar{
+    display: none;
+}
+.visible{
+    display: block;
 }

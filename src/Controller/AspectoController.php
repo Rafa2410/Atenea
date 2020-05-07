@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-//use Acme\StoreBundle\Entity\Cuestion;
 use App\Entity\Aspecto;
 use App\Entity\Cuestion;
 use App\Form\AspectoType;
@@ -37,7 +36,7 @@ class AspectoController extends AbstractController
     {
         $aspecto = new Aspecto();
 
-        $form = $this->createForm(AspectoType::class, $aspecto, ['label' => 'Crear']);
+        $form = $this->createForm(AspectoType::class, $aspecto);
 
         //Comprueba que recibo por la url
 
