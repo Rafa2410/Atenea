@@ -3,33 +3,25 @@
 {% block title %}Editar Factor Crítico de Éxito{% endblock %}
 
 {% block body %}
-    <h3>Editar Factor Crítico de Éxito</h3>
-
+    <h3>Editar Factor Crítico de Éxito</h3>    
     {{ form_start(form) }}
     {{ form_row(form.descripcion) }}
     {{ form_row(form.fecha_alta) }}
     {{ form_row(form.fecha_baja) }}
-
-    <br>
-    <label>Aspectos Favorables</label>
-    <div class="input-field col s12">
-        {{ form_row(form.aspectosFav) }}
+    {{ form_row(form.aspectosFav) }}    
+    {{ form_row(form.aspectosDes) }}
+    <div style="display:none">
+    {{ form_row(form.aspecto) }}
     </div>
-    <br>
-    <label>Aspectos Desfavorables</label>
-    <div class="input-field col s12">
-        {{ form_row(form.aspectosDes) }}
-    </div>
-    <br>
-    <button class="btn waves-effect waves-light left" type="submit">Editar</button>
-    <a href="#" onClick="window.history.back();" class="btn red darken-1 right">Volver</a>
+    <button class="btn waves-effect waves-light right" type="submit">Guardar</button>
+    <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
     <br/>
     {{ form_end(form) }}
 
 {% endblock %}
 
 
-    {% block javascripts %}
-        <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
-    {% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+{% endblock %}
 

@@ -34,17 +34,17 @@ class UnidadDeGestion
     private $tipo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="corporacion_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="corporacion_id", cascade={"persist", "remove"})
      */
     private $unidadDeGestion;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UnidadDeGestion", mappedBy="unidadDeGestion")
+     * @ORM\OneToMany(targetEntity="App\Entity\UnidadDeGestion", mappedBy="unidadDeGestion", cascade={"persist", "remove"})
      */
     private $corporacion_id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="unidad")
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="unidad", cascade={"persist", "remove"})
      */
     private $usuarioUnidadPermisos;
 

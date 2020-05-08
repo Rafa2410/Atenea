@@ -55,7 +55,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
             foreach ($aspectosDes as $aspectoDes) {
                 $fce->addAspecto($aspectoDes);
             }
-
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fce);
             $entityManager->flush();
@@ -64,7 +64,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
         }
 
-        //Busco aspectos favorables y desfavorables
+        //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
         $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
 
@@ -117,10 +117,10 @@ class FactoresPotencialesDeExitoController extends AbstractController
         //Comprueba si el form es valido
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $fce         = $form->getData();
+            $fce = $form->getData();
             $aspectosFav = $fce->getAspectosFav();
             $aspectosDes = $fce->getAspectosDes();
-
+            
             foreach ($aspectosFav as $aspectoFav) {
                 $fce->addAspecto($aspectoFav);
             }
@@ -136,16 +136,12 @@ class FactoresPotencialesDeExitoController extends AbstractController
             return $this->redirectToRoute('factores_potenciales_de_exito');
 
         }
-        /*$aspectosFCE = $fce->getAspecto();
-
-        $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();*/
-
         //Busco aspectos favorables y desfavorables
+        $aspecto = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
-        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
+        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);        
 
         //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-
         $form->add(
             'aspectosFav',
             EntityType::class,
@@ -153,7 +149,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
                 'class'        => Aspecto::Class,
                 'choices'      => $aspectosFav,
                 'choice_label' => 'descripcion',
-                'multiple'     => true,
+                'multiple'     => true,                
                 'label' => false,
             )
         );
@@ -170,10 +166,26 @@ class FactoresPotencialesDeExitoController extends AbstractController
             )
         );
 
+        $form->add(
+            'aspecto',
+            EntityType::class,
+            array(
+                'class'        => Aspecto::Class,
+                'choices'      => $aspecto,
+                'choice_label' => 'descripcion',
+                'multiple'     => true,
+                'attr' => ['id' => 'aspectos'],
+                'label' => false,
+            )
+        );
+
         return $this->render(
             'factores_potenciales_de_exito/edit.html.twig',
             [
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
+                'aspectosFav' => $aspectosFav,                
+                'aspectosDes' => $aspectosDes,
+                'aspecto' => $aspecto
             ]
         );
 
