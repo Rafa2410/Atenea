@@ -1,12 +1,155 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DafoController!{% endblock %}
+{% block title %}DAFO{% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    /*Creates table with scrollable tbody*/
+    tbody {
+    display:block;
+    height:150px;
+    overflow:auto;
+    }
+    thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+    }
+    thead {
+    width: calc( 100% - 1em )
+    }
+    table {
+    width:100%;
+    }
 </style>
+<div class="row">
+    {# DEBILIDADES #}
+    <ul class="collapsible popout col s6">
+    <li>
+        <div class="collapsible-header">
+        <table class="striped fixed">
+            <thead>
+            <tr>
+                <th>Debilidades</th>                
+            </tr>
+            </thead>
+        </table>
+        </div>
+        <div class="collapsible-body">
+        <span>
+        <table>
+            <tbody>
+            {% for aspecto in aspectos %}
+            {% if aspecto.interno == true and aspecto.favorable == false %}
+            <tr>
+                <td>{{ aspecto.descripcion }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </span>
+        </div>
+    </li>
+    </ul>
+    {# AMENAZAS #}
+    <ul class="collapsible popout col s6">
+    <li>
+        <div class="collapsible-header">
+        <table class="striped fixed">
+            <thead>
+            <tr>
+                <th>Amenazas</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+        <div class="collapsible-body">
+        <span>
+        <table>
+            <tbody>
+            {% for aspecto in aspectos %}
+            {% if aspecto.interno == false and aspecto.favorable == false %}
+            <tr>
+                <td>{{ aspecto.descripcion }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </span>
+        </div>
+    </li>
+    </ul>
+</div>
+<div class="row">
+    {# FORTALEZAS #}
+    <ul class="collapsible popout col s6">
+    <li>
+        <div class="collapsible-header">
+        <table class="striped fixed">
+            <thead>
+            <tr>
+                <th>Fortalezas</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+        <div class="collapsible-body">
+        <span>
+        <table>
+            <tbody>
+            {% for aspecto in aspectos %}
+            {% if aspecto.interno == true and aspecto.favorable == true %}
+            <tr>
+                <td>{{ aspecto.descripcion }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </span>
+        </div>
+    </li>
+    </ul>
+    {# OPORTUNIDADES #}
+    <ul class="collapsible popout col s6">
+    <li>
+        <div class="collapsible-header">
+        <table class="striped fixed">
+            <thead>
+            <tr>
+                <th>Oportunidades</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+        <div class="collapsible-body">
+        <span>
+        <table>
+            <tbody>
+            {% for aspecto in aspectos %}
+            {% if aspecto.interno == false and aspecto.favorable == true %}
+            <tr>
+                <td>{{ aspecto.descripcion }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </span>
+        </div>
+    </li>
+    </ul>
+</div>
 
-{{ dump(aspectos) }}
+{% endblock %}
+{% block javascripts %}
+    <script>
+    $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
+    </script>
 {% endblock %}
