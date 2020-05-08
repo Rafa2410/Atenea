@@ -36,10 +36,39 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
         $fce = new FactoresPotencialesDeExito();
 
-        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);
+        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);        
+
+        //Busco aspectos favorables y desfavorables        
+        $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
+        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
+
+        //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
+
+        $form->add(
+            'aspectosFav',
+            EntityType::class,
+            array(
+                'class'        => Aspecto::Class,
+                'choices'      => $aspectosFav,
+                'choice_label' => 'descripcion',
+                'multiple'     => true,
+                'label' => false,
+            )
+        );
+
+        $form->add(
+            'aspectosDes',
+            EntityType::class,
+            array(
+                'class'        => Aspecto::Class,
+                'choices'      => $aspectosDes,
+                'choice_label' => 'descripcion',
+                'multiple'     => true,
+                'label' => false,
+            )
+        );
 
         $form->handleRequest($request);
-
 
         //Comprueba si el form es valido
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,37 +91,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
             return $this->redirectToRoute('factores_potenciales_de_exito');
 
-        }
-
-        //Busco aspectos favorables y desfavorables        
-        $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
-        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
-
-        //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-
-            $form->add(
-                'aspectosFav',
-                EntityType::class,
-                array(
-                    'class'        => Aspecto::Class,
-                    'choices'      => $aspectosFav,
-                    'choice_label' => 'descripcion',
-                    'multiple'     => true,
-                    'label' => false,
-                )
-            );
-
-            $form->add(
-                'aspectosDes',
-                EntityType::class,
-                array(
-                    'class'        => Aspecto::Class,
-                    'choices'      => $aspectosDes,
-                    'choice_label' => 'descripcion',
-                    'multiple'     => true,
-                    'label' => false,
-                )
-            );
+        }        
 
         return $this->render(
             'factores_potenciales_de_exito/new.html.twig',
@@ -110,23 +109,25 @@ class FactoresPotencialesDeExitoController extends AbstractController
     {
         $fce = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::class)->find($id);
 
-        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);
+        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce, array('allow_extra_fields' =>true));
 
         $form->handleRequest($request);
-
+        
         //Comprueba si el form es valido
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fce = $form->getData();
-            $aspectosFav = $fce->getAspectosFav();
-            $aspectosDes = $fce->getAspectosDes();
+            $aspectosFav = $request->request->get('factores_criticos_de_exito')['aspectosFav'];
+            $aspectosDes = $request->request->get('factores_criticos_de_exito')['aspectosDes'];
             
             foreach ($aspectosFav as $aspectoFav) {
-                $fce->addAspecto($aspectoFav);
+                $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoFav);
+                $fce->addAspecto($aspecto);                
             }
-
+            
             foreach ($aspectosDes as $aspectoDes) {
-                $fce->addAspecto($aspectoDes);
+                $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoDes);    
+                $fce->addAspecto($aspecto);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -136,56 +137,18 @@ class FactoresPotencialesDeExitoController extends AbstractController
             return $this->redirectToRoute('factores_potenciales_de_exito');
 
         }
-        //Busco aspectos favorables y desfavorables
-        $aspecto = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
+        //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
-        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);        
-
+        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
+        
         //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-        $form->add(
-            'aspectosFav',
-            EntityType::class,
-            array(
-                'class'        => Aspecto::Class,
-                'choices'      => $aspectosFav,
-                'choice_label' => 'descripcion',
-                'multiple'     => true,                
-                'label' => false,
-            )
-        );
-
-        $form->add(
-            'aspectosDes',
-            EntityType::class,
-            array(
-                'class'        => Aspecto::Class,
-                'choices'      => $aspectosDes,
-                'choice_label' => 'descripcion',
-                'multiple'     => true,
-                'label' => false,
-            )
-        );
-
-        $form->add(
-            'aspecto',
-            EntityType::class,
-            array(
-                'class'        => Aspecto::Class,
-                'choices'      => $aspecto,
-                'choice_label' => 'descripcion',
-                'multiple'     => true,
-                'attr' => ['id' => 'aspectos'],
-                'label' => false,
-            )
-        );
-
         return $this->render(
             'factores_potenciales_de_exito/edit.html.twig',
             [
-                'form' => $form->createView(),
-                'aspectosFav' => $aspectosFav,                
+                'form' => $form->createView(),                
+                'aspectosFav' => $aspectosFav,
                 'aspectosDes' => $aspectosDes,
-                'aspecto' => $aspecto
+                'fce' => $fce
             ]
         );
 

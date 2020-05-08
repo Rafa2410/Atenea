@@ -28,22 +28,6 @@ class FactoresCriticosDeExitoType extends AbstractType
                         'class'       => 'materialize-textarea',
                     ],
                 ]
-            )->add(
-                'aspectosFav',
-                EntityType::class,
-                array(
-                    'class'        => Aspecto::Class,
-                    'choice_label' => 'descripcion',
-                    'multiple'     => true,
-                )
-            )->add(
-                'aspectosDes',
-                EntityType::class,
-                array(
-                    'class'        => Aspecto::Class,
-                    'choice_label' => 'descripcion',
-                    'multiple'     => true,
-                )
             );
     }
 

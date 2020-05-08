@@ -3,16 +3,36 @@
 {% block title %}Editar Factor Crítico de Éxito{% endblock %}
 
 {% block body %}
-    <h3>Editar Factor Crítico de Éxito</h3>    
+    <h3>Editar Factor Crítico de Éxito</h3>
     {{ form_start(form) }}
     {{ form_row(form.descripcion) }}
     {{ form_row(form.fecha_alta) }}
-    {{ form_row(form.fecha_baja) }}
-    {{ form_row(form.aspectosFav) }}    
-    {{ form_row(form.aspectosDes) }}
-    <div style="display:none">
-    {{ form_row(form.aspecto) }}
+    {{ form_row(form.fecha_baja) }}    
+    <div class="input-field col s12">
+        <select id="factores_criticos_de_exito_aspectosFav" name="factores_criticos_de_exito[aspectosFav][]" required="required" multiple="multiple" tabindex="-1">
+        {% for aspectoFav in aspectosFav %}
+            {% if fce in aspectoFav.factoresPotencialesDeExitos %}
+                <option value="{{ aspectoFav.id }}" selected>{{ aspectoFav.descripcion }}</option>
+            {% else %}
+                <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
+            {% endif %}        
+        {% endfor %}
+        </select>
+        <label>Aspectos Favorables</label>
     </div>
+    <div class="input-field col s12">        
+        <select multiple id="factores_criticos_de_exito_aspectosDes" name="factores_criticos_de_exito[aspectosDes][]" required="required" multiple="multiple" tabindex="-1">
+        {% for aspectoDes in aspectosDes %}
+            {% if fce in aspectoDes.factoresPotencialesDeExitos %}
+                <option value="{{ aspectoDes.id }}" selected>{{ aspectoDes.descripcion }}</option>
+            {% else %}
+                <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
+            {% endif %}        
+        {% endfor %}
+        </select>
+        <label>Aspectos Desfavorables</label>
+    </div>
+        
     <button class="btn waves-effect waves-light right" type="submit">Guardar</button>
     <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
     <br/>
@@ -22,6 +42,12 @@
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+        $('select').formSelect();
+        $('#factores_criticos_de_exito_aspectosFav').attr('style','display: none !important');
+        $('#factores_criticos_de_exito_aspectosDes').attr('style','display: none !important');
+    });
+    </script>
 {% endblock %}
 

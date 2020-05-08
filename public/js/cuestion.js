@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('select').formSelect();    
+    $('select').formSelect();
     var path = window.location.pathname;
     var res = path.split('/');
     if (res[jQuery.inArray("index.php", res)+1] == 'aspecto') {

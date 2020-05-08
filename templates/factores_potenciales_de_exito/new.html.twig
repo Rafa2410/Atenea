@@ -27,5 +27,11 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('select').formSelect();
+        $('#factores_criticos_de_exito_aspectosFav').attr('style','display: none !important');
+        $('#factores_criticos_de_exito_aspectosDes').attr('style','display: none !important');
+    });
+    </script>
 {% endblock %}
