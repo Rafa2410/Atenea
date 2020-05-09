@@ -9,7 +9,6 @@ use App\Form\UnidadType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class UnidadController extends AbstractController
 {
@@ -29,8 +28,7 @@ class UnidadController extends AbstractController
     }
 
     /**
-     * @Route("/unidad/crear", name="nueva_unidad")
-     * @Method({"POST"})
+     * @Route("/unidad/crear", name="nueva_unidad")     
      */
     public function crearUnidad(Request $request) {
         $unidad = new UnidadDeGestion();
@@ -45,6 +43,11 @@ class UnidadController extends AbstractController
 
             if ($unidad->getTipo() == 1) {
                 $unidad->setUnidadDeGestion(null);
+                $this->addFlash('creado','Corporación '.$unidad->getNombre().' creada!');
+            } else if ($unidad->getTipo() == 2) {
+                $this->addFlash('creado','Empresa '.$unidad->getNombre().' creada!');
+            } else {
+                $this->addFlash('creado','Emplazamiento '.$unidad->getNombre().' creado!');
             }
 
             $em->persist($unidad);
@@ -97,8 +100,7 @@ class UnidadController extends AbstractController
     }
 
     /**
-     * @Route("/unidad/eliminar/{id}", name="unidad_delete")
-     * @Method({"DELETE"})
+     * @Route("/unidad/eliminar/{id}", name="unidad_delete")     
      */
     public function eliminarUnidad(Request $request, $id) {        
         $unidad = $this->getDoctrine()->getRepository(UnidadDeGestion::class)->find($id);
@@ -106,9 +108,14 @@ class UnidadController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($unidad);
         $em->flush();
-
-        /*$response = new Response();
-        $response->send();*/
+        
+        if ($unidad->getTipo() == 1) {            
+            $this->addFlash('eliminado','Corporación '.$unidad->getNombre().' eliminada!');
+        } else if ($unidad->getTipo() == 2) {
+            $this->addFlash('eliminado','Empresa '.$unidad->getNombre().' eliminada!');
+        } else {
+            $this->addFlash('eliminado','Emplazamiento '.$unidad->getNombre().' eliminado!');
+        }        
 
         return $this->redirectToRoute('lista_unidad');
     }

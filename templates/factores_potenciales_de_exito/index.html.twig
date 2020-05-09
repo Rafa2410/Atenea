@@ -4,6 +4,28 @@
 
 {% block body %}
 <h3>Factores Potenciales de Éxito</h3>
+  {# MENSAJES #}
+    {% for message in app.flashes('creado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green lighten-1'
+                });
+            </script>        
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('eliminado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>        
+        </div>
+    {% endfor %}
+  {# FIN MENSAJES #}
 {% if fpe|length > 0 %}
     <table id="contratos">
         <thead>
@@ -18,7 +40,7 @@
                 <td>{{ factor.descripcion }}</td>
                 <td>
                     <a href="{{ path('factores_potenciales_de_exito_edit', {'id': factor.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                    <a href="{{ path('contrato_delete', {'id': factor.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                    <a href="{{ path('factores_potenciales_de_exito_delete', {'id': factor.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         {% endfor %}

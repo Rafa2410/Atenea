@@ -89,6 +89,8 @@ class FactoresPotencialesDeExitoController extends AbstractController
             $entityManager->persist($fce);
             $entityManager->flush();
 
+            $this->addFlash('creado','Factor '.$fce->getDescripcion().' creado!');
+
             return $this->redirectToRoute('factores_potenciales_de_exito');
 
         }        
@@ -160,15 +162,22 @@ class FactoresPotencialesDeExitoController extends AbstractController
      */
     public function delete($id, Request $request)
     {
-        $fpe = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::Class)->findAll();
+        $fce = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::Class)->find($id);
 
-        return $this->render(
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($fce);
+        $em->flush();
+
+        $this->addFlash('eliminado','Factor '.$fce->getDescripcion().' eliminado!');
+
+        /*return $this->render(
             'factores_potenciales_de_exito/index.html.twig',
             [
                 'controller_name' => 'FactoresPotencialesDeExitoController',
-                'fpe'             => $fpe,
+                'fpe'             => $fce,
             ]
-        );
+        );*/
+        return $this->redirectToRoute('factores_potenciales_de_exito');
     }
 
 }

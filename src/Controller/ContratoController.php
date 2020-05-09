@@ -7,7 +7,6 @@ use App\Form\ContratoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ContratoController extends AbstractController
 {
@@ -23,8 +22,7 @@ class ContratoController extends AbstractController
         ]);
     }
     /**
-     * @Route("/contrato/crear", name="nuevo_contrato")
-     * @Method({"POST"})
+     * @Route("/contrato/crear", name="nuevo_contrato")     
      */
     public function crearContrato(Request $request) {
         $contrato = new Contrato();
@@ -39,6 +37,8 @@ class ContratoController extends AbstractController
 
             $em->persist($contrato);
             $em->flush();
+
+            $this->addFlash('creado','Contrato creado!');
 
             return $this->redirectToRoute('lista_unidad');
         }
@@ -59,6 +59,8 @@ class ContratoController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();        
         $entityManager->remove($contrato);
         $entityManager->flush();
+
+        $this->addFlash('eliminado','Contrato eliminado!');
 
         return $this->redirectToRoute('lista_unidad');
     }

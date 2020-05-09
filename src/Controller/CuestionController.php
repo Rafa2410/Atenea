@@ -71,6 +71,8 @@ class CuestionController extends AbstractController
             $entityManager->persist($cuestion);
             $entityManager->flush();
 
+            $this->addFlash('creado','Cuestion '.$cuestion->getDescripcion().' creada!');
+
             return $this->redirectToRoute('cuestion', ['interna' => $interno]);
 
         }
@@ -157,7 +159,9 @@ class CuestionController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($cuestion);
-        $em->flush();        
+        $em->flush();
+        
+        $this->addFlash('eliminado','Cuestión '.$cuestion->getDescripcion().' eliminada!');
 
         if ($cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);
@@ -193,6 +197,8 @@ class CuestionController extends AbstractController
 
             $subtipo_cuestion = $form->getData();
             $subtipo_cuestion->setInterno($interno);
+
+            $this->addFlash('creado','Subtipo '.$subtipo_cuestion->getDescripcion().' creado!');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($subtipo_cuestion);
@@ -284,6 +290,8 @@ class CuestionController extends AbstractController
         $em->remove($subtipo_cuestion);
         $em->flush();        
 
+        $this->addFlash('eliminado','Subtipo '.$subtipo_cuestion->getDescripcion().' eliminado!');
+
         if ($subtipo_cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);
         } else {
@@ -306,6 +314,8 @@ class CuestionController extends AbstractController
 
             $tipo_cuestion = $form->getData();
             $tipo_cuestion->setInterno($interno);
+
+            $this->addFlash('creado','Tipo '.$tipo_cuestion->getDescripcion().' creado!');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tipo_cuestion);
@@ -385,6 +395,8 @@ class CuestionController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($tipo_cuestion);
         $em->flush();        
+
+        $this->addFlash('eliminado','Tipo '.$tipo_cuestion->getDescripcion().' eliminado!');
 
         if ($tipo_cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);

@@ -74,6 +74,8 @@ class AspectoController extends AbstractController
             $entityManager->persist($aspecto);
             $entityManager->flush();
 
+            $this->addFlash('creado','Aspecto '.$aspecto->getDescripcion().' creado!');
+
             return $this->redirectToRoute('aspecto', ['interna' => $interno]);
 
         }
@@ -195,6 +197,8 @@ class AspectoController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($aspecto);
         $em->flush();
+
+        $this->addFlash('eliminado','Aspecto '.$aspecto->getDescripcion().' eliminado!');
 
         if ($aspec == 'opor' || $aspec == 'amen') {
             $interno   = 0;            

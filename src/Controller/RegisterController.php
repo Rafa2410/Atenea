@@ -42,12 +42,16 @@ class RegisterController extends AbstractController
               $permiso = $this->getDoctrine()
               ->getRepository(Permisos::class)
               ->findBy(array('tipo' => 'l'));
+
+              $this->addFlash('creado','Superusuario '.$user->getNombre().' '.$user->getApellidos().' creado!');
             } else if ($this->isGranted('ROLE_SUPER')) {
               $user->setRoles(['ROLE_USER']);
 
               $permiso = $this->getDoctrine()
               ->getRepository(Permisos::class)
               ->findBy(array('tipo' => 'le'));
+
+              $this->addFlash('creado','Usuario '.$user->getNombre().' '.$user->getApellidos().' creado!');
             }
             
             $unidad = $this->getDoctrine()
@@ -127,7 +131,13 @@ class RegisterController extends AbstractController
       $UUP = $this->getDoctrine()
         ->getRepository(UsuarioUnidadPermiso::class)
         ->findBy(array('usuario' => $id));
-
+      
+      if ($user->getRoles()[0] == 'ROLE_SUPER') {
+        $this->addFlash('eliminado','Superusuario '.$user->getNombre().' '.$user->getApellidos().' eliminado!');
+      } else {
+        $this->addFlash('eliminado','Usuario '.$user->getNombre().' '.$user->getApellidos().' eliminado!');
+      }
+      
       $em = $this->getDoctrine()->getManager();
       $em->remove($UUP[0]);
       $em->remove($user);

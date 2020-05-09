@@ -17,19 +17,19 @@ class UsuarioUnidadPermiso
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Permisos", inversedBy="usuarioUnidadPermisos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Permisos", inversedBy="usuarioUnidadPermisos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $permiso;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="usuarioUnidadPermisos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="usuarioUnidadPermisos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $usuario;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="usuarioUnidadPermisos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="usuarioUnidadPermisos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $unidad;

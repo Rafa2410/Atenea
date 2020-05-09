@@ -9,6 +9,29 @@
     .mt-15 { margin-top: 15px !important; }
     .mb-15 { margin-bottom: 15px !important; }
 </style>
+  {# MENSAJES #}
+    {% for message in app.flashes('creado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green lighten-1'
+                });
+            </script>        
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('eliminado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>        
+        </div>
+    {% endfor %}
+  {# FIN MENSAJES #}
+  {# BADGETS #}
     {% set empresaBadget = 0 %}
     {% set emplazamientoBadget = 0 %}
     {% set contratoBadget = 0 %}
@@ -31,7 +54,8 @@
     {% endif %}
     {% if contrato %}
       {% set contratoBadget = 1 %}
-    {% endif %}    
+    {% endif %}
+  {# FIN BADGETS #}
     <blockquote>
       <h2>{{ unidad.nombre }}</h2>
       <small>{{ unidad.descripcion }}</small>
