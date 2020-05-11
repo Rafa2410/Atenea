@@ -72,8 +72,7 @@ td {
                 <tr>
                     <td>{{ cuestion.descripcion }}</td>
                     <td>
-                        <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                        <a href="{{ path('cuestion_tipo_delete', {'id': cuestion.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                        <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
                     </td>
                 </tr>
             {% endif %}
@@ -102,8 +101,7 @@ td {
                 <td>{{ cuestion.descripcion }}</td>
                 <td>{{ cuestion.tipo.descripcion }}</td>
                 <td>
-                    <a href="{{ path('cuestion_subtipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                    <a href="{{ path('cuestion_subtipo_delete', {'id': cuestion.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                    <a href="{{ path('cuestion_subtipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                    
                 </td>
             </tr>
             {% endif %}
@@ -132,8 +130,7 @@ td {
                 <td>{{ cuestion.descripcion }}</td>
                 <td>{{ cuestion.subtipo.descripcion }}</td>
                 <td>
-                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                    <a href="{{ path('cuestion_delete', {'id': cuestion.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                    
                 </td>              
             </tr>
             {% endif %}
