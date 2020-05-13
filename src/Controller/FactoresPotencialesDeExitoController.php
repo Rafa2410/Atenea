@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Aspecto;
 use App\Entity\FactoresPotencialesDeExito;
+use App\Entity\UsuarioUnidadPermiso;
+use App\Entity\CuestionUnidad;
 use App\Form\FactoresCriticosDeExitoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,11 +21,34 @@ class FactoresPotencialesDeExitoController extends AbstractController
     {
         $fpe = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::Class)->findAll();
 
+        $fpeResult = [];
+
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        
+        $factorNombre = '';
+
+        foreach ($fpe as $key => $factor) {            
+            foreach ($factor->getAspecto() as $key => $aspecto) {
+                foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                    foreach($cuestion->getCuestionUnidads() as $key => $unidad) {
+                        if ($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId() && $factorNombre != $factor->getDescripcion()) {
+                            array_push($fpeResult, $factor);
+                            $factorNombre = $factor->getDescripcion();
+                        }
+                    }
+                }
+            }
+        }        
+        
         return $this->render(
             'factores_potenciales_de_exito/index.html.twig',
             [
                 'controller_name' => 'FactoresPotencialesDeExitoController',
-                'fpe'             => $fpe,
+                'fpe'             => $fpeResult,
             ]
         );
     }
@@ -40,16 +65,44 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
         //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
-        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
+        $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);        
 
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        
+        $aspectosFavResult = [];
+        $aspectosDesResult = [];
+
+        foreach ($aspectosFav as $key => $aspecto) {
+            foreach($aspecto->getCuestiones() as $key2 => $cuestion) {
+                foreach($cuestion->getCuestionUnidads() as $key3 => $unidad) {
+                    if($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
+                        array_push($aspectosFavResult, $aspecto);
+                    }
+                }
+            }
+        }
+
+        foreach ($aspectosDes as $key => $aspecto) {
+            foreach($aspecto->getCuestiones() as $key2 => $cuestion) {
+                foreach($cuestion->getCuestionUnidads() as $key3 => $unidad) {
+                    if($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
+                        array_push($aspectosDesResult, $aspecto);
+                    }
+                }
+            }
+        }
+        
         //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-
         $form->add(
             'aspectosFav',
             EntityType::class,
             array(
                 'class'        => Aspecto::Class,
-                'choices'      => $aspectosFav,
+                'choices'      => $aspectosFavResult,
                 'choice_label' => 'descripcion',
                 'multiple'     => true,
                 'label' => false,
@@ -61,7 +114,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
             EntityType::class,
             array(
                 'class'        => Aspecto::Class,
-                'choices'      => $aspectosDes,
+                'choices'      => $aspectosDesResult,
                 'choice_label' => 'descripcion',
                 'multiple'     => true,
                 'label' => false,
@@ -142,14 +195,43 @@ class FactoresPotencialesDeExitoController extends AbstractController
         //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
         $aspectosDes = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 0]);
+
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        
+        $aspectosFavResult = [];
+        $aspectosDesResult = [];
+
+        foreach ($aspectosFav as $key => $aspecto) {
+            foreach($aspecto->getCuestiones() as $key2 => $cuestion) {
+                foreach($cuestion->getCuestionUnidads() as $key3 => $unidad) {
+                    if($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
+                        array_push($aspectosFavResult, $aspecto);
+                    }
+                }
+            }
+        }
+
+        foreach ($aspectosDes as $key => $aspecto) {
+            foreach($aspecto->getCuestiones() as $key2 => $cuestion) {
+                foreach($cuestion->getCuestionUnidads() as $key3 => $unidad) {
+                    if($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
+                        array_push($aspectosDesResult, $aspecto);
+                    }
+                }
+            }
+        }
         
         //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
         return $this->render(
             'factores_potenciales_de_exito/edit.html.twig',
             [
                 'form' => $form->createView(),                
-                'aspectosFav' => $aspectosFav,
-                'aspectosDes' => $aspectosDes,
+                'aspectosFav' => $aspectosFavResult,
+                'aspectosDes' => $aspectosDesResult,
                 'fce' => $fce
             ]
         );
