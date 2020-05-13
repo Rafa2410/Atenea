@@ -218,12 +218,32 @@ class AspectoController extends AbstractController
             );
         }
 
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        //Cuestiones del usuario activo        
+        $cuestionUnidad = $this->getDoctrine()
+            ->getRepository(CuestionUnidad::class)
+            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
+
+        $cuestionesResult = [];
+
+        foreach ($cuestiones as $key => $cuestion) {
+            foreach ($cuestionUnidad as $key2 => $cUnidad) {
+                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
+                    array_push($cuestionesResult, $cuestion);
+                }
+            }            
+        }
+
         $form->add(
             'cuestiones',
             EntityType::class,
             array(
                 'class'        => Cuestion::Class,
-                'choices'      => $cuestiones,
+                'choices'      => $cuestionesResult,
                 'choice_label' => 'descripcion',
                 'multiple'     => true,
                 'attr'         => ['class' => 'height'],
