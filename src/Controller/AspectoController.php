@@ -5,6 +5,9 @@ namespace App\Controller;
 //use Acme\StoreBundle\Entity\Cuestion;
 use App\Entity\Aspecto;
 use App\Entity\Cuestion;
+use App\Entity\UsuarioUnidadPermiso;
+use App\Entity\UnidadDeGestion;
+use App\Entity\CuestionUnidad;
 use App\Form\AspectoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +21,36 @@ class AspectoController extends AbstractController
      */
     public function index($interna)
     {
+        //Busco las cuestiones internas o externas
+        if ($interna == 1) {
+            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
+                ['interno' => $interna]
+            );
+        } else {
+            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
+                ['interno' => $interna]
+            );
+        }
+
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        //Cuestiones del usuario activo        
+        $cuestionUnidad = $this->getDoctrine()
+            ->getRepository(CuestionUnidad::class)
+            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
+
+        $cuestionesResult = [];
+
+        foreach ($cuestiones as $key => $cuestion) {
+            foreach ($cuestionUnidad as $key2 => $cUnidad) {
+                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
+                    array_push($cuestionesResult, $cuestion);
+                }
+            }            
+        }
 
         $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
 
@@ -25,7 +58,8 @@ class AspectoController extends AbstractController
             'aspecto/index.html.twig',
             [
                 'aspectos' => $aspectos,
-                'interna'  => $interna,
+                'cuestionesResult' => $cuestionesResult,
+                'interna'  => $interna
             ]
         );
     }
@@ -91,13 +125,33 @@ class AspectoController extends AbstractController
             );
         }
 
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        //Cuestiones del usuario activo        
+        $cuestionUnidad = $this->getDoctrine()
+            ->getRepository(CuestionUnidad::class)
+            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
+
+        $cuestionesResult = [];
+
+        foreach ($cuestiones as $key => $cuestion) {
+            foreach ($cuestionUnidad as $key2 => $cUnidad) {
+                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
+                    array_push($cuestionesResult, $cuestion);
+                }
+            }            
+        }
+
         //añado en el form un desplegable de cuestiones        
         $form->add(
             'cuestiones',
             EntityType::class,
             array(
                 'class'        => Cuestion::Class,
-                'choices'      => $cuestiones,
+                'choices'      => $cuestionesResult,
                 'choice_label' => 'descripcion',
                 'multiple'     => true,
                 'attr'         => ['class' => 'height'],

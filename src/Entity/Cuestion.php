@@ -39,9 +39,15 @@ class Cuestion
      */
     private $aspectos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CuestionUnidad", mappedBy="cuestion")
+     */
+    private $cuestionUnidads;
+
     public function __construct()
     {
         $this->aspectos = new ArrayCollection();
+        $this->cuestionUnidads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +114,37 @@ class Cuestion
         if ($this->aspectos->contains($aspecto)) {
             $this->aspectos->removeElement($aspecto);
             $aspecto->removeAspectoCuestion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CuestionUnidad[]
+     */
+    public function getCuestionUnidads(): Collection
+    {
+        return $this->cuestionUnidads;
+    }
+
+    public function addCuestionUnidad(CuestionUnidad $cuestionUnidad): self
+    {
+        if (!$this->cuestionUnidads->contains($cuestionUnidad)) {
+            $this->cuestionUnidads[] = $cuestionUnidad;
+            $cuestionUnidad->setCuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCuestionUnidad(CuestionUnidad $cuestionUnidad): self
+    {
+        if ($this->cuestionUnidads->contains($cuestionUnidad)) {
+            $this->cuestionUnidads->removeElement($cuestionUnidad);
+            // set the owning side to null (unless already changed)
+            if ($cuestionUnidad->getCuestion() === $this) {
+                $cuestionUnidad->setCuestion(null);
+            }
         }
 
         return $this;

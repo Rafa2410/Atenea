@@ -39,7 +39,8 @@ td {
             </script>        
         </div>
     {% endfor %}
-  {# FIN MENSAJES #}
+  {# FIN MENSAJES #}  
+  {% set sem = false %}
     {% if interna == 0 %}
     <div class="card-panel center" style="margin-bottom:0;">
         <h3>Aspectos Externos</h3>
@@ -53,7 +54,18 @@ td {
     </div>
     <div class="section col s12" id="oportunidades">        
         <a href="{{ path('aspecto_new',{'aspec': 'opor'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>        
-        {% if aspectos|length > 0 %}
+        {% for aspecto in aspectos %}
+                {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+                    {% for cuestion in aspecto.cuestiones %}                        
+                        {% for cues in cuestionesResult %}
+                            {% if cues.id == cuestion.id %}
+                                {% set sem = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+        {% endfor%}
+        {% if sem %}
         <table>
             <thead>
                 <tr>
@@ -62,30 +74,36 @@ td {
                 <th>Acción</th>
                 </tr>
             </thead>            
-            <tbody>
+            <tbody>            
             {% for aspecto in aspectos %}
                 {% if aspecto.favorable == 1 and aspecto.interno == interna %}
-                <tr>
-                    <td>{{ aspecto.descripcion }}</td>
-                    <td>
-                        {% if aspecto.cuestiones|length > 1 %}
-                        {% set cont = 0 %}
-                        {% for cuestion in aspecto.cuestiones %}
-                        {% set cont = cont + 1 %}
-                            {% if cont != aspecto.cuestiones|length %}
-                                {{ cuestion.descripcion }},
-                            {% else %}
-                                {{ cuestion.descripcion }}
-                            {% endif %}                        
+                    {% for cuestion in aspecto.cuestiones %}
+                        {% for cues in cuestionesResult %}
+                            {% if cues.id == cuestion.id %}
+                                <tr>
+                                    <td>{{ aspecto.descripcion }}</td>
+                                    <td>
+                                        {% if aspecto.cuestiones|length > 1 %}
+                                        {% set cont = 0 %}
+                                        {% for cuestion in aspecto.cuestiones %}
+                                        {% set cont = cont + 1 %}
+                                            {% if cont != aspecto.cuestiones|length %}
+                                                {{ cuestion.descripcion }},
+                                            {% else %}
+                                                {{ cuestion.descripcion }}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% else %}                                                    
+                                            {{ aspecto.cuestiones[0].descripcion }}                                        
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
-                        {% else %}
-                            {{ aspecto.cuestiones[0].descripcion }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
-                    </td>
-                </tr>
+                    {% endfor %}                        
                 {% endif %}
             {% endfor %}
             </tbody>
@@ -95,8 +113,20 @@ td {
         {% endif %}        
     </div>
     <div class="section col s12" id="amenazas">
+        {% set sem = false %}
         <a href="{{ path('aspecto_new',{'aspec': 'amen'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
-        {% if aspectos|length > 0 %}
+        {% for aspecto in aspectos %}
+        {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+            {% for cuestion in aspecto.cuestiones %}                        
+                {% for cues in cuestionesResult %}
+                    {% if cues.id == cuestion.id %}
+                        {% set sem = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% endfor%}
+        {% if sem %}
         <table>
             <thead>
                 <tr>
@@ -108,29 +138,35 @@ td {
             <tbody>                    
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
-                    <tr>
-                        <td>{{ aspecto.descripcion }}</td>
-                        <td>
-                            {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
-                            {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
-                            {% endfor %}
-                            {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
-                        </td>
-                    </tr>
+                    {% for cuestion in aspecto.cuestiones %}
+                        {% for cues in cuestionesResult %}
+                            {% if cues.id == cuestion.id %}
+                                <tr>
+                                    <td>{{ aspecto.descripcion }}</td>
+                                    <td>
+                                        {% if aspecto.cuestiones|length > 1 %}
+                                        {% set cont = 0 %}
+                                        {% for cuestion in aspecto.cuestiones %}
+                                        {% set cont = cont + 1 %}
+                                            {% if cont != aspecto.cuestiones|length %}
+                                                {{ cuestion.descripcion }},
+                                            {% else %}
+                                                {{ cuestion.descripcion }}
+                                            {% endif %}                        
+                                        {% endfor %}
+                                        {% else %}
+                                            {{ aspecto.cuestiones[0].descripcion }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
+                                    </td>
+                                </tr>                        
                     {% endif %}
-                {% endfor %}
+                    {% endfor %}
+                {% endfor %}                        
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>            
         {% else %}
@@ -149,8 +185,20 @@ td {
         </ul>
     </div>
     <div class="section col s12" id="fortalezas">
+    {% set sem = false %}
         <a href="{{ path('aspecto_new',{'aspec': 'fort'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
-        {% if aspectos|length > 0 %}
+        {% for aspecto in aspectos %}
+        {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+            {% for cuestion in aspecto.cuestiones %}                        
+                {% for cues in cuestionesResult %}
+                    {% if cues.id == cuestion.id %}
+                        {% set sem = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% endfor%}
+        {% if sem %}
         <table>
             <thead>
                 <tr>
@@ -162,29 +210,35 @@ td {
             <tbody>
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 1 and aspecto.interno == interna %}
-                    <tr>
-                        <td>{{ aspecto.descripcion }}</td>
-                        <td>
-                            {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
-                            {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
-                            {% endfor %}
-                            {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
+                    {% for cuestion in aspecto.cuestiones %}
+                        {% for cues in cuestionesResult %}
+                            {% if cues.id == cuestion.id %}
+                                <tr>
+                                    <td>{{ aspecto.descripcion }}</td>
+                                    <td>
+                                        {% if aspecto.cuestiones|length > 1 %}
+                                        {% set cont = 0 %}
+                                        {% for cuestion in aspecto.cuestiones %}
+                                        {% set cont = cont + 1 %}
+                                            {% if cont != aspecto.cuestiones|length %}
+                                                {{ cuestion.descripcion }},
+                                            {% else %}
+                                                {{ cuestion.descripcion }}
+                                            {% endif %}                        
+                                        {% endfor %}
+                                        {% else %}
+                                            {{ aspecto.cuestiones[0].descripcion }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
+                                    </td>
+                                </tr>
                             {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
-                        </td>
-                    </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
         {% else %}
@@ -192,8 +246,20 @@ td {
         {% endif %}
     </div>
     <div class="section col s12" id="debilidades">
+    {% set sem = false %}
         <a href="{{ path('aspecto_new',{'aspec': 'debi'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
-        {% if aspectos|length > 0 %}
+        {% for aspecto in aspectos %}
+        {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+            {% for cuestion in aspecto.cuestiones %}                        
+                {% for cues in cuestionesResult %}
+                    {% if cues.id == cuestion.id %}
+                        {% set sem = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% endfor%}
+        {% if sem %}
         <table>
             <thead>
                 <tr>
@@ -205,29 +271,35 @@ td {
             <tbody>            
                 {% for aspecto in aspectos %}
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
-                    <tr>
-                        <td>{{ aspecto.descripcion }}</td>
-                        <td>
-                            {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
-                            {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
-                            {% endfor %}
-                            {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
+                    {% for cuestion in aspecto.cuestiones %}
+                        {% for cues in cuestionesResult %}
+                            {% if cues.id == cuestion.id %}
+                                <tr>
+                                    <td>{{ aspecto.descripcion }}</td>
+                                    <td>
+                                        {% if aspecto.cuestiones|length > 1 %}
+                                        {% set cont = 0 %}
+                                        {% for cuestion in aspecto.cuestiones %}
+                                        {% set cont = cont + 1 %}
+                                            {% if cont != aspecto.cuestiones|length %}
+                                                {{ cuestion.descripcion }},
+                                            {% else %}
+                                                {{ cuestion.descripcion }}
+                                            {% endif %}                        
+                                        {% endfor %}
+                                        {% else %}
+                                            {{ aspecto.cuestiones[0].descripcion }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
+                                    </td>
+                                </tr>
                             {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
-                        </td>
-                    </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
         {% else %}

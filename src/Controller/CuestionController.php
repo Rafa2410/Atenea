@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Cuestion;
 use App\Entity\SubtipoCuestion;
 use App\Entity\TipoCuestion;
+use App\Entity\UsuarioUnidadPermiso;
+use App\Entity\UnidadDeGestion;
+use App\Entity\CuestionUnidad;
 use App\Form\CuestionType;
 use App\Form\SubtipoCuestionType;
 use App\Form\TipoCuestionType;
@@ -21,18 +24,38 @@ class CuestionController extends AbstractController
      */
     public function index($interna)
     {
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
+        //Cuestiones del usuario activo        
+        $cuestionUnidad = $this->getDoctrine()
+            ->getRepository(CuestionUnidad::class)
+            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
+
         $cuestiones         = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
         $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
         $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();
 
+        $cuestionesResult = [];
+
+        foreach ($cuestiones as $key => $cuestion) {
+            foreach ($cuestionUnidad as $key2 => $cUnidad) {
+                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
+                    array_push($cuestionesResult, $cuestion);
+                }
+            }            
+        }
 
         return $this->render(
             'cuestion/index.html.twig',
             [
-                'cuestiones'         => $cuestiones,
+                'cuestiones'         => $cuestionesResult,
                 'subtipo_cuestiones' => $subtipo_cuestiones,
                 'tipo_cuestiones'    => $tipo_cuestiones,
                 'cue_interna'        => $interna,
+                'cuestionUnidad'     => $cuestionUnidad
             ]
         );
     }
@@ -67,8 +90,24 @@ class CuestionController extends AbstractController
             $cuestion = $form->getData();
             $cuestion->setInterno($interno);
 
+            $user = $this->getUser()->getId();
+            //Tabla usuario_unidad_permiso
+            $UUP = $this->getDoctrine()
+                ->getRepository(UsuarioUnidadPermiso::class)
+                ->findBy(array('usuario' => $user));
+            //Empresas de la corporacion
+            $unidad = $this->getDoctrine()
+                ->getRepository(UnidadDeGestion::class)
+                ->findBy(array('id' => $UUP[0]->getUnidad()->getId()));
+
+            $unidadCuestion = new CuestionUnidad();
+
+            $unidadCuestion->setCuestion($cuestion);
+            $unidadCuestion->setUnidad($unidad[0]);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cuestion);
+            $entityManager->persist($unidadCuestion);
             $entityManager->flush();
 
             $this->addFlash('creado','Cuestion '.$cuestion->getDescripcion().' creada!');
