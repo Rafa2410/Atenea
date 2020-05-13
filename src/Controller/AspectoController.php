@@ -20,45 +20,31 @@ class AspectoController extends AbstractController
      * @Route("/aspecto/{interna}", name="aspecto")
      */
     public function index($interna)
-    {
-        //Busco las cuestiones internas o externas
-        if ($interna == 1) {
-            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
-                ['interno' => $interna]
-            );
-        } else {
-            $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findBy(
-                ['interno' => $interna]
-            );
-        }
-
+    {        
         $user = $this->getUser()->getId();
         //Tabla usuario_unidad_permiso
         $UUP = $this->getDoctrine()
             ->getRepository(UsuarioUnidadPermiso::class)
             ->findBy(array('usuario' => $user));
-        //Cuestiones del usuario activo        
-        $cuestionUnidad = $this->getDoctrine()
-            ->getRepository(CuestionUnidad::class)
-            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
-
-        $cuestionesResult = [];
-
-        foreach ($cuestiones as $key => $cuestion) {
-            foreach ($cuestionUnidad as $key2 => $cUnidad) {
-                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
-                    array_push($cuestionesResult, $cuestion);
-                }
-            }            
-        }
 
         $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
+        
+        $aspectosResult = [];
+
+        foreach ($aspectos as $key => $aspecto) {
+            foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {                    
+                    if ($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
+                        array_push($aspectosResult, $aspecto);
+                    }
+                }                
+            }
+        }                
 
         return $this->render(
             'aspecto/index.html.twig',
             [
-                'aspectos' => $aspectos,
-                'cuestionesResult' => $cuestionesResult,
+                'aspectos' => $aspectosResult,
                 'interna'  => $interna
             ]
         );
