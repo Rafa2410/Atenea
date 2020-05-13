@@ -25,6 +25,8 @@ security:
                 # where to redirect after logout
                 target: /login
 
+            access_denied_handler: App\Security\AccessDeniedHandler
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -34,5 +36,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/unidad, roles: [ROLE_ADMIN,ROLE_SUPER] }
+         - { path: ^/cuestion, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
+         - { path: ^/aspecto, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
+         - { path: ^/dafo, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
+         - { path: ^/factores, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
+
         # - { path: ^/profile, roles: ROLE_USER }

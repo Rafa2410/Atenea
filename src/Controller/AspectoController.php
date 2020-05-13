@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-//use Acme\StoreBundle\Entity\Cuestion;
 use App\Entity\Aspecto;
 use App\Entity\Cuestion;
 use App\Entity\UsuarioUnidadPermiso;

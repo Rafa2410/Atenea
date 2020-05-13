@@ -126,6 +126,7 @@ class FactoresPotencialesDeExito
 
     public function addAspectosFav(Aspecto $aspectosFav): self
     {
+
         if (!$this->aspectosFav->contains($aspectosFav)) {
             $this->aspectosFav[] = $aspectosFav;
         }
@@ -150,19 +151,19 @@ class FactoresPotencialesDeExito
         return $this->aspectosDes;
     }
 
-    public function addAspectosDe(Aspecto $aspectosDe): self
+    public function addAspectosDes(Aspecto $aspectosDes): self
     {
-        if (!$this->aspectosDes->contains($aspectosDe)) {
-            $this->aspectosDes[] = $aspectosDe;
+        if (!$this->aspectosDes->contains($aspectosDes)) {
+            $this->aspectosDes[] = $aspectosDes;
         }
 
         return $this;
     }
 
-    public function removeAspectosDe(Aspecto $aspectosDe): self
+    public function removeAspectosDes(Aspecto $aspectosDes): self
     {
-        if ($this->aspectosDes->contains($aspectosDe)) {
-            $this->aspectosDes->removeElement($aspectosDe);
+        if ($this->aspectosDes->contains($aspectosDes)) {
+            $this->aspectosDes->removeElement($aspectosDes);
         }
 
         return $this;

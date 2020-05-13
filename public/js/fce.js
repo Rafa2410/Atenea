@@ -2,7 +2,7 @@ $(document).ready(function () {
     console.log("fce js");
 });
 
-$("#aspectos_favorables").click(function (e) {
+/*$("#aspectos_favorables").click(function (e) {
     console.log("favorables");
     e.preventDefault();
     $.ajax({
@@ -36,4 +36,4 @@ $("#aspectos_desfavorables").click(function (e) {
         }
     })
 
-});
+});*/

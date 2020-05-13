@@ -3,7 +3,7 @@
 {% block title %}Factores Potenciales de Éxito{% endblock %}
 
 {% block body %}
-  {# MENSAJES #}
+    {# MENSAJES #}
     {% for message in app.flashes('creado') %}
         <div class="alert alert-success" data-info="{{ message }}">
             <script>
@@ -11,7 +11,7 @@
                     html: '{{ message }}',
                     classes: 'green lighten-1'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
     {% for message in app.flashes('eliminado') %}
@@ -21,80 +21,102 @@
                     html: '{{ message }}',
                     classes: 'red darken-2'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
-  {# FIN MENSAJES #}
-<div class="card-panel center" style="margin-bottom:0;">
-  <h3>Factores Potenciales de Éxito</h3>
-</div>
-<div class="divider"></div>
+    {# FIN MENSAJES #}
+    <div class="card-panel center" style="margin-bottom:0;">
+        <h3>Factores Potenciales de Éxito</h3>
+    </div>
+    <div class="divider"></div>
     <div class="row">
-        <ul class="tabs">          
-          <li class="tab col s12"><a href="#factores">Factores</a></li>          
+        <ul class="tabs">
+            <li class="tab col s12"><a href="#factores">Factores</a></li>
         </ul>
     </div>
-<a href="{{ path('factores_potenciales_de_exito_new')}}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
-<div class="section col s12" id="factores">
-{% if fpe|length > 0 %}
-    <table id="contratos">
-        <thead>
-        <tr>
-            <th>Factor</th>
-            <th>Aspectos favorables</th>
-            <th>Aspectos desfavorables</th>
-            <th>Acción</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for factor in fpe %}
-            <tr>                
-                <td>{{ factor.descripcion }}</td>
-                <td>                    
-                    <b style="font-size:20px;">Oportunidad</b>
-                    <ul>
-                    {% for aspecto in factor.aspecto %}
-                        {% if aspecto.favorable == 1 and aspecto.interno == 0 %}
-                            <li>{{ aspecto.descripcion }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                    <b style="font-size:20px;">Fortaleza</b>
-                    <ul>                    
-                    {% for aspecto in factor.aspecto %}
-                        {% if aspecto.favorable == 1 and aspecto.interno == 1 %}
-                            <li>{{ aspecto.descripcion }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <b style="font-size:20px;">Debilidad</b>
-                    <ul>
-                    {% for aspecto in factor.aspecto %}
-                        {% if aspecto.favorable == 0 and aspecto.interno == 1 %}
-                            <li>{{ aspecto.descripcion }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                    <b style="font-size:20px;">Amenaza</b>
-                    <ul>                    
-                    {% for aspecto in factor.aspecto %}
-                        {% if aspecto.favorable == 0 and aspecto.interno == 0 %}
-                            <li>{{ aspecto.descripcion }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <a href="{{ path('factores_potenciales_de_exito_edit', {'id': factor.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                    
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <span>No hay factores potenciales de éxito creados.</span>
-{% endif %}
-</div>
+    <a href="{{ path('factores_potenciales_de_exito_new') }}"
+       class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+    <div class="section col s12" id="factores">
+        {% if fpe|length > 0 %}
+            <table id="contratos">
+                <thead>
+                <tr>
+                    <th>Factor</th>
+                    <th>Aspectos favorables</th>
+                    <th>Aspectos desfavorables</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set opor = 0 %}{% set debi = 0 %}{% set fort = 0 %}{% set amen = 0 %}
+
+                {% for factor in fpe %}
+                    <tr>
+                        <td>{{ factor.descripcion }}</td>
+                        <td>
+                            {% for aspecto in factor.aspecto %}
+                            {% if aspecto.favorable == 1 and aspecto.interno == 0 %}
+                            {% if opor == 0 %}
+                            <b style="font-size:20px;">Oportunidad</b>
+                            <ul>
+                                {% set opor = 1 %}
+                                {% endif %}
+                                <li>{{ aspecto.descripcion }}</li>
+
+                                {% endif %}
+                                {% endfor %}
+                                {% set opor = 0 %}
+                            </ul>
+                            {% for aspecto in factor.aspecto %}
+                            {% if aspecto.favorable == 1 and aspecto.interno == 1 %}
+                            {% if fort == 0 %}
+                            <b style="font-size:20px;">Fortaleza</b>
+                            <ul>
+                                {% set fort = 1 %}
+                                {% endif %}
+                                <li>{{ aspecto.descripcion }}</li>
+                                {% endif %}
+                                {% endfor %}
+                                {% set fort = 0 %}
+                            </ul>
+                        </td>
+                        <td>
+                            {% for aspecto in factor.aspecto %}
+                            {% if aspecto.favorable == 0 and aspecto.interno == 1 %}
+                            {% if debi == 0 %}
+                            <b style="font-size:20px;">Debilidad</b>
+                            <ul>
+                                {% set debi = 1 %}
+                                {% endif %}
+                                <li>{{ aspecto.descripcion }}</li>
+                                {% endif %}
+                                {% endfor %}
+                                {% set debi = 0 %}
+                            </ul>
+
+                            {% for aspecto in factor.aspecto %}
+                            {% if aspecto.favorable == 0 and aspecto.interno == 0 %}
+                            {% if amen == 0 %}
+                            <b style="font-size:20px;">Amenaza</b>
+                            <ul>
+                                {% set amen = 1 %}
+                                {% endif %}
+                                <li>{{ aspecto.descripcion }}</li>
+                                {% endif %}
+                                {% endfor %}
+                                {% set amen = 0 %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="{{ path('factores_potenciales_de_exito_edit', {'id': factor.id}) }}"
+                               class="btn-floating"><i class="material-icons">edit</i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span>No hay factores potenciales de éxito creados.</span>
+        {% endif %}
+    </div>
 {% endblock %}

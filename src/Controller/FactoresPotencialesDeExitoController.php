@@ -137,7 +137,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
             foreach ($aspectosDes as $aspectoDes) {
                 $fce->addAspecto($aspectoDes);
             }
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fce);
             $entityManager->flush();
@@ -151,7 +151,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
         return $this->render(
             'factores_potenciales_de_exito/new.html.twig',
             [
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
 

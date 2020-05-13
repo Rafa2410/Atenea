@@ -48,3 +48,10 @@ function compruebaAspectos() {
         }
     });        
 }
+
+
+$('#factores_criticos_de_exito').click(function (e) {
+    e.preventDefault();
+    console.log($(this).serialize());
+
+})
