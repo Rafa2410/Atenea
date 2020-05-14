@@ -37,9 +37,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/unidad, roles: [ROLE_ADMIN,ROLE_SUPER] }
-         - { path: ^/cuestion, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
-         - { path: ^/aspecto, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
-         - { path: ^/dafo, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
-         - { path: ^/factores, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER] }
+         - { path: ^/cuestion, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_SUPER] }
+         - { path: ^/aspecto, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_SUPER] }
+         - { path: ^/dafo, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_SUPER] }
+         - { path: ^/factores, roles: [IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_SUPER] }
 
         # - { path: ^/profile, roles: ROLE_USER }

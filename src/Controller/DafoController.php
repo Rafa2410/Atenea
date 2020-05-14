@@ -38,4 +38,28 @@ class DafoController extends AbstractController
             'aspectos' => $aspectosResult,
         ]);
     }
+
+    /**
+     * @Route("/dafo/{id}", name="dafo_super")
+     */
+    public function indexSuper($id)
+    {
+        $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
+
+        $aspectosResult = [];
+        
+        foreach ($aspectos as $key => $aspecto) {
+            foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {
+                    if ($unidad->getUnidad()->getId() == $id) {
+                        array_push($aspectosResult, $aspecto);
+                    }                    
+                }
+            }
+        }
+        
+        return $this->render('dafo/index.html.twig', [
+            'aspectos' => $aspectosResult,
+        ]);
+    }
 }

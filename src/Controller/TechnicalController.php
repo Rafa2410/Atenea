@@ -30,4 +30,18 @@ class TechnicalController extends AbstractController
             'unidad' => $unidad,
         ]);
     }
+    /**
+     * @Route("/technical/{id}", name="technical_super")
+     */
+    public function indexSuper($id)
+    {           
+        $unidad = $this->getDoctrine()
+            ->getRepository(UnidadDeGestion::class)
+            ->findBy(array('id' => $id));
+
+        return $this->render('technical/index.html.twig', [
+            'controller_name' => 'TechnicalController',
+            'unidad' => $unidad,
+        ]);
+    }
 }

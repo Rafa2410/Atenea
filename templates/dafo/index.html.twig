@@ -142,7 +142,12 @@
         </span>
         </div>
     </li>
-    </ul>
+    </ul>    
+</div>
+<div class="row">
+    {% if is_granted('ROLE_SUPER') %}
+        <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+    {% endif %}
 </div>
 
 {% endblock %}

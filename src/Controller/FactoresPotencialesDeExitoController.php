@@ -164,6 +164,12 @@ class FactoresPotencialesDeExitoController extends AbstractController
     {
         $fce = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::class)->find($id);
 
+        $aspectosActuales = [];
+
+        foreach ($fce->getAspecto() as $key => $aspecto) {
+            array_push($aspectosActuales, $aspecto);
+        }        
+
         $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce, array('allow_extra_fields' =>true));
 
         $form->handleRequest($request);
@@ -177,14 +183,28 @@ class FactoresPotencialesDeExitoController extends AbstractController
             
             foreach ($aspectosFav as $aspectoFav) {
                 $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoFav);
-                $fce->addAspecto($aspecto);                
+                $fce->addAspecto($aspecto);
+                foreach($aspectosActuales as $key => $aspect) {
+                    if ($aspect->getId() == $aspecto->getId()) {
+                        unset($aspectosActuales[$key]);
+                    }
+                }
             }
             
             foreach ($aspectosDes as $aspectoDes) {
                 $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoDes);    
                 $fce->addAspecto($aspecto);
+                foreach($aspectosActuales as $key => $aspect) {
+                    if ($aspect->getId() == $aspecto->getId()) {
+                        unset($aspectosActuales[$key]);
+                    }
+                }
             }
 
+            foreach ($aspectosActuales as $key => $aspecto) {
+                $fce->removeAspecto($aspecto);
+            }
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fce);
             $entityManager->flush();
@@ -260,6 +280,39 @@ class FactoresPotencialesDeExitoController extends AbstractController
             ]
         );*/
         return $this->redirectToRoute('factores_potenciales_de_exito');
+    }
+
+        /**
+     * @Route("/factores/potenciales/de/exito/{id}", name="factores_potenciales_de_exito_super")
+     */
+    public function indexSuper($id)
+    {
+        $fpe = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::Class)->findAll();
+
+        $fpeResult = [];        
+        
+        $factorNombre = '';
+
+        foreach ($fpe as $key => $factor) {            
+            foreach ($factor->getAspecto() as $key => $aspecto) {
+                foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                    foreach($cuestion->getCuestionUnidads() as $key => $unidad) {
+                        if ($unidad->getUnidad()->getId() == $id && $factorNombre != $factor->getDescripcion()) {
+                            array_push($fpeResult, $factor);
+                            $factorNombre = $factor->getDescripcion();
+                        }
+                    }
+                }
+            }
+        }        
+        
+        return $this->render(
+            'factores_potenciales_de_exito/index.html.twig',
+            [
+                'controller_name' => 'FactoresPotencialesDeExitoController',
+                'fpe'             => $fpeResult,
+            ]
+        );
     }
 
 }

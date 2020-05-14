@@ -99,6 +99,67 @@ class CuestionController extends AbstractController
         );
     }
 
+        /**
+     * @Route("/cuestion/{interna}/{id}", name="cuestion_super")
+     */
+    public function indexSuper($interna, $id)
+    {        
+        //Cuestiones del usuario activo        
+        $cuestionUnidad = $this->getDoctrine()
+                               ->getRepository(CuestionUnidad::class)
+                               ->findBy(array('unidad' => $id));        
+
+        $subtiposCuestionUnidad = [];
+        $tiposCuestionUnidad    = [];
+        if (count($cuestionUnidad) > 0) {
+            for ($i = 0; $i < count($cuestionUnidad); $i++) {
+
+                $subtipo = $this->getDoctrine()
+                                ->getRepository(SubtipoCuestion::class)
+                                ->findOneBy(
+                                    array(
+                                        'tipo' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getTipo()->getId(),
+                                    )
+                                );
+                array_push($subtiposCuestionUnidad, $subtipo);
+            }
+            for ($i = 0; $i < count($cuestionUnidad); $i++) {                
+
+                $tipo = $this->getDoctrine()
+                                ->getRepository(TipoCuestion::class)
+                                ->findOneBy(
+                                    array(
+                                        'subtipoCuestions' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getId(),
+                                    )
+                                );                
+                array_push($tiposCuestionUnidad, $tipo);
+            }
+        }
+
+        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();        
+
+        $cuestionesResult = [];
+
+        foreach ($cuestiones as $key => $cuestion) {
+            foreach ($cuestionUnidad as $key2 => $cUnidad) {
+                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
+                    array_push($cuestionesResult, $cuestion);
+                }
+            }
+        }
+
+        return $this->render(
+            'cuestion/index.html.twig',
+            [
+                'cuestiones'         => $cuestionesResult,
+                'subtipo_cuestiones' => $subtiposCuestionUnidad,
+                'tipo_cuestiones'    => $tiposCuestionUnidad,
+                'cue_interna'        => $interna,
+                'cuestionUnidad'     => $cuestionUnidad,
+            ]
+        );
+    }
+
     /**
      * @Route("/cuestion/new/{interno}", name="cuestion_new")
      */

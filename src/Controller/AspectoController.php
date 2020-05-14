@@ -50,6 +50,35 @@ class AspectoController extends AbstractController
     }
 
     /**
+     * @Route("/aspecto/{interna}/{id}", name="aspecto_super")
+     */
+    public function indexSuper($interna, $id)
+    {        
+
+        $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
+        
+        $aspectosResult = [];
+
+        foreach ($aspectos as $key => $aspecto) {
+            foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {                    
+                    if ($unidad->getUnidad()->getId() == $id) {
+                        array_push($aspectosResult, $aspecto);
+                    }
+                }                
+            }
+        }                
+
+        return $this->render(
+            'aspecto/index.html.twig',
+            [
+                'aspectos' => $aspectosResult,
+                'interna'  => $interna
+            ]
+        );
+    }
+
+    /**
      * @Route("/aspecto/new/{aspec}", name="aspecto_new")
      */
     public function new($aspec, Request $request)

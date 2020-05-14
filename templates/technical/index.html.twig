@@ -14,6 +14,69 @@
         <div class="row center">
             <a href="#" data-target="slide-out" class="btn-large waves-effect waves-light red darken-1 sidenav-trigger">Comenzar</a>
         </div>
+    {% elseif is_granted('ROLE_SUPER') %}
+        <div class="section">
+            <h1 class="header center red-text">{{ unidad[0].nombre }}</h1>
+        </div>
+        <div class="row">
+            <div class="col s6 m6">
+                <div class="card">
+                    <div class="card-content">
+                    <span class="card-title">Cuestiones</span>
+                    <div class="card-action">
+                        <a href="{{ path('cuestion_super',{'interna': 0, 'id' : unidad[0].id }) }}">Cuestiones externas</a>
+                        <a href="{{ path('cuestion_super',{'interna': 1, 'id' : unidad[0].id }) }}">Cuestiones internas</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m6">
+                <div class="card">
+                    <div class="card-content">
+                    <span class="card-title">Aspectos</span>
+                    <div class="card-action">
+                        <a href="{{ path('aspecto_super',{'interna': 0, 'id' : unidad[0].id }) }}">Aspectos externos</a>
+                        <a href="{{ path('aspecto_super',{'interna': 1, 'id' : unidad[0].id}) }}">Aspectos internos</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 m6">
+                <div class="card">
+                    <div class="card-content">
+                    <span class="card-title">Factores potenciales</span>
+                    <div class="card-action">
+                        <a href="{{ path('factores_potenciales_de_exito_super', {'id': unidad[0].id}) }}">Factores</a>                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m6">
+                <div class="card">
+                    <div class="card-content">
+                    <span class="card-title">Partes interesadas</span>
+                    <div class="card-action">
+                        <a href="#">Partes interesadas</a>                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card">
+                    <div class="card-content">
+                    <span class="card-title">DAFO</span>
+                    <div class="card-action">
+                        <a href="{{ path('dafo_super', {'id': unidad[0].id}) }}">DAFO</a>                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('lista_unidad') }}" class="btn light-blue lighten-1 left">Volver</a>
     {% else %}
         <h1>Error</h1>
     {% endif %}

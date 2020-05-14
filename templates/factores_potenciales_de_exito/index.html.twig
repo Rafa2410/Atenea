@@ -34,8 +34,10 @@
             <li class="tab col s12"><a href="#factores">Factores</a></li>
         </ul>
     </div>
-    <a href="{{ path('factores_potenciales_de_exito_new') }}"
-       class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('factores_potenciales_de_exito_new') }}"
+        class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+    {% endif %}
     <div class="section col s12" id="factores">
         {% if fpe|length > 0 %}
             <table id="contratos">
@@ -44,7 +46,9 @@
                     <th>Factor</th>
                     <th>Aspectos favorables</th>
                     <th>Aspectos desfavorables</th>
-                    <th>Acción</th>
+                    {% if is_granted('ROLE_USER') %}
+                        <th>Acción</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -107,16 +111,21 @@
                                 {% set amen = 0 %}
                             </ul>
                         </td>
-                        <td>
-                            <a href="{{ path('factores_potenciales_de_exito_edit', {'id': factor.id}) }}"
-                               class="btn-floating"><i class="material-icons">edit</i></a>
-                        </td>
+                        {% if is_granted('ROLE_USER') %}
+                            <td>
+                                <a href="{{ path('factores_potenciales_de_exito_edit', {'id': factor.id}) }}"
+                                class="btn-floating"><i class="material-icons">edit</i></a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         {% else %}
             <span>No hay factores potenciales de éxito creados.</span>
+        {% endif %}
+        {% if is_granted('ROLE_SUPER') %}
+            <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
         {% endif %}
     </div>
 {% endblock %}
