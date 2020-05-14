@@ -3,13 +3,28 @@
 {% block title %}Unidades de gestion{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    .mt-15 { margin-top: 15px !important; }
-    .mb-15 { margin-bottom: 15px !important; }
-</style>
-  {# MENSAJES #}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        .mt-15 {
+            margin-top: 15px !important;
+        }
+
+        .mb-15 {
+            margin-bottom: 15px !important;
+        }
+    </style>
+    {# MENSAJES #}
     {% for message in app.flashes('creado') %}
         <div class="alert alert-success" data-info="{{ message }}">
             <script>
@@ -17,7 +32,7 @@
                     html: '{{ message }}',
                     classes: 'green lighten-1'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
     {% for message in app.flashes('eliminado') %}
@@ -27,165 +42,179 @@
                     html: '{{ message }}',
                     classes: 'red darken-2'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
-  {# FIN MENSAJES #}
-  {# BADGETS #}
+    {# FIN MENSAJES #}
+    {# BADGETS #}
     {% set empresaBadget = 0 %}
     {% set emplazamientoBadget = 0 %}
     {% set contratoBadget = 0 %}
     {% set superBadget = 0 %}
     {% if superusuarios %}
-      {% for superusuario in superusuarios %}
-        {% if superusuario.usuario.roles[0] == 'ROLE_SUPER' %}
-          {% set superBadget = superBadget + 1 %}
-        {% endif %}
-      {% endfor %}
+        {% for superusuario in superusuarios %}
+            {% if superusuario.usuario.roles[0] == 'ROLE_SUPER' %}
+                {% set superBadget = superBadget + 1 %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
     {% if empresas %}
-      {% for empresa in empresas %}
-        {% if empresa.tipo == 2 %}
-          {% set empresaBadget = empresaBadget + 1 %}
-        {% elseif empresa.tipo == 3 %}    
-          {% set emplazamientoBadget =+ 1 %}
-        {% endif %}
-      {% endfor %}    
+        {% for empresa in empresas %}
+            {% if empresa.tipo == 2 %}
+                {% set empresaBadget = empresaBadget + 1 %}
+            {% elseif empresa.tipo == 3 %}
+                {% set emplazamientoBadget =+ 1 %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
     {% if contrato %}
-      {% set contratoBadget = 1 %}
+        {% set contratoBadget = 1 %}
     {% endif %}
-  {# FIN BADGETS #}
+    {# FIN BADGETS #}
     <blockquote>
-      <h2>{{ unidad.nombre }}</h2>
-      <small>{{ unidad.descripcion }}</small>
+        <h2>{{ unidad.nombre }}</h2>
+        <small>{{ unidad.descripcion }}</small>
     </blockquote>
     <div class="divider"></div>
-    <div class="row">      
+    <div class="row">
         <ul class="tabs">
-          <li class="tab col s3"><a href="#empresas">Empresas <span class="new badge red lighten-1" data-badge-caption="">{{ empresaBadget }}</span></a></li>
-          <li class="tab col s3"><a href="#emplazamientos">Emplazamientos <span class="new badge red lighten-1" data-badge-caption="">{{ emplazamientoBadget }}</span></a></li>
-          <li class="tab col s3"><a href="#superusuarios">SuperUsuarios <span class="new badge red lighten-1" data-badge-caption="">{{ superBadget }}</span></a></li>
-          <li class="tab col s3"><a href="#contrato">Contrato <span class="new badge red lighten-1" data-badge-caption="">{{ contratoBadget }}</span></a></li>
+            <li class="tab col s3"><a href="#empresas">Empresas <span class="new badge red lighten-1"
+                                                                      data-badge-caption="">{{ empresaBadget }}</span></a>
+            </li>
+            <li class="tab col s3"><a href="#emplazamientos">Emplazamientos <span class="new badge red lighten-1"
+                                                                                  data-badge-caption="">{{ emplazamientoBadget }}</span></a>
+            </li>
+            <li class="tab col s3"><a href="#superusuarios">SuperUsuarios <span class="new badge red lighten-1"
+                                                                                data-badge-caption="">{{ superBadget }}</span></a>
+            </li>
+            <li class="tab col s3"><a href="#contrato">Contrato <span class="new badge red lighten-1"
+                                                                      data-badge-caption="">{{ contratoBadget }}</span></a>
+            </li>
         </ul>
-      </div>
-      <div id="empresas" class="col s12">
-        {% if empresas %}          
-          <table id="empresas">
-            <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-          {% for empresa in empresas %}
-            {% if empresa.tipo == 2 %}
-              <tr>
-                  <td>{{ empresa.nombre }}</td>
-                  <td>{{ empresa.descripcion }}</td>
-                  <td>                      
-                      <a href="{{ path('unidad_edit', {'id': empresa.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                      <a href="{{ path('unidad_delete', {'id': empresa.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
-                  </td>
-              </tr>  
-            {% endif %}
-          {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <p>No hay empresas asignadas a esta corporación</p>
-        {% endif %}
-      </div>
-      <div id="emplazamientos" class="col s12">
+    </div>
+    <div id="empresas" class="col s12">
         {% if empresas %}
-          <table id="emplazamiento">
-            <thead>
+            <table id="empresas">
+                <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Acciones</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
                 </tr>
-            </thead>
-            <tbody>
-          {% for emplazamiento in empresas %}
-            {% if emplazamiento.tipo == 3 %}
-              <tr>
-                  <td>{{ emplazamiento.nombre }}</td>
-                  <td>{{ emplazamiento.descripcion }}</td>
-                  <td>                      
-                      <a href="{{ path('unidad_edit', {'id': emplazamiento.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                      <a href="{{ path('unidad_delete', {'id': emplazamiento.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
-                  </td>
-              </tr>  
-            {% endif %}
-          {% endfor %}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                {% for empresa in empresas %}
+                    {% if empresa.tipo == 2 %}
+                        <tr>
+                            <td>{{ empresa.nombre }}</td>
+                            <td>{{ empresa.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('unidad_edit', {'id': empresa.id}) }}" class="btn-floating"><i
+                                            class="material-icons">edit</i></a>
+                                <a href="{{ path('unidad_delete', {'id': empresa.id}) }}"
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay empresas asignadas a esta corporación</p>
+        {% endif %}
+    </div>
+    <div id="emplazamientos" class="col s12">
+        {% if empresas %}
+            <table id="emplazamiento">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for emplazamiento in empresas %}
+                    {% if emplazamiento.tipo == 3 %}
+                        <tr>
+                            <td>{{ emplazamiento.nombre }}</td>
+                            <td>{{ emplazamiento.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('unidad_edit', {'id': emplazamiento.id}) }}" class="btn-floating"><i
+                                            class="material-icons">edit</i></a>
+                                <a href="{{ path('unidad_delete', {'id': emplazamiento.id}) }}"
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
         {% else %}
             <p>No hay emplazamientos asignados a esta corporación</p>
         {% endif %}
-      </div>
-      <div id="superusuarios" class="col s12">
+    </div>
+    <div id="superusuarios" class="col s12">
         {% if superusuarios %}
-          {% if superBadget < 3 %}
-            <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
-          {% else %}
-            <a href="{{ path('register', {'id': unidad.id}) }}" class="btn" disabled>Añadir superusuario</a>
-          {% endif %}
-          <table id="superusuarios">
-            <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellidos</th>
-                  <th>Teléfono</th>
-                  <th>Correo electronico</th>
-                  <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for superusuario in superusuarios %}
-            {% if superusuario.usuario.roles[0] == 'ROLE_SUPER' %}
-            <tr>              
-              <td>{{ superusuario.usuario.nombre }}</td>
-              <td>{{ superusuario.usuario.apellidos }}</td>
-              <td>{{ superusuario.usuario.telefono }}</td>
-              <td>{{ superusuario.usuario.email }}</td>              
-              <td>                      
-                <a href="{{ path('register_edit', {'id': superusuario.usuario.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
-                <a href="{{ path('register_delete', {'id': superusuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>                
-              </td>
-            </tr>
+            {% if superBadget < 3 %}
+                <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
+            {% else %}
+                <a href="{{ path('register', {'id': unidad.id}) }}" class="btn" disabled>Añadir superusuario</a>
             {% endif %}
-            {% endfor %}
-            </tbody>
-          </table>
+            <table id="superusuarios">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Teléfono</th>
+                    <th>Correo electronico</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for superusuario in superusuarios %}
+                    {% if superusuario.usuario.roles[0] == 'ROLE_SUPER' %}
+                        <tr>
+                            <td>{{ superusuario.usuario.nombre }}</td>
+                            <td>{{ superusuario.usuario.apellidos }}</td>
+                            <td>{{ superusuario.usuario.telefono }}</td>
+                            <td>{{ superusuario.usuario.email }}</td>
+                            <td>
+                                <a href="{{ path('register_edit', {'id': superusuario.usuario.id}) }}"
+                                   class="btn-floating"><i class="material-icons">edit</i></a>
+                                <a href="{{ path('register_delete', {'id': superusuario.usuario.id}) }}"
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-        <div class="center-align">
-          <h4 style="color:#d32f2f;">No exite ningún superusuario todavía</h4> 
-          <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
-        </div>
+            <div class="center-align">
+                <h4 style="color:#d32f2f;">No existe ningún superusuario todavía</h4>
+                <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir superusuario</a>
+            </div>
         {% endif %}
-      </div>
-      <div id="contrato" class="col s12">
+    </div>
+    <div id="contrato" class="col s12">
         {% if contrato %}
-          <p><b>Descripción : </b> {{ contrato[0].descripcion }}</p>
-          <p><b>Fecha alta : </b>{{ contrato[0].fechaalta|date("d/m/Y") }}</p>
-          <p><b>Fecha baja : </b>{{ contrato[0].fechabaja|date("d/m/Y") }}</p>
-          <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn">Editar contrato</a>
+            <p><b>Descripción : </b> {{ contrato[0].descripcion }}</p>
+            <p><b>Fecha alta : </b>{{ contrato[0].fechaalta|date("d/m/Y") }}</p>
+            <p><b>Fecha baja : </b>{{ contrato[0].fechabaja|date("d/m/Y") }}</p>
+            <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn">Editar contrato</a>
         {% else %}
-          <div class="center-align">
-            <h4 style="color:#d32f2f;">No exite ningún contrato todavía</h4> 
-            <a href="{{ path('nuevo_contrato') }}" class="btn">Crear contrato</a>
-          </div>
+            <div class="center-align">
+                <h4 style="color:#d32f2f;">No existe ningún contrato todavía</h4>
+                <a href="{{ path('nuevo_contrato') }}" class="btn">Crear contrato</a>
+            </div>
         {% endif %}
-      </div>
+    </div>
     <div class="divider mt-15 mb-15"></div>
-    <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>    
+    <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>
 {% endblock %}
 
-{% block javascripts %}          
+{% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/unidad.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>
 {% endblock %}

@@ -9,24 +9,25 @@
 {% endblock %}
 
 {% block body %}
-<style>
-table {
-  table-layout: fixed ;
-  width: 100% ;
-}
-td {
-  width: 25% ;
-} 
-</style>
-<div class="card-panel center" style="margin-bottom:0;">
-    <h3>
-        {% if cue_interna == 0 %}
-            Cuestiones Externas
-        {% else %}
-            Cuestiones Internas
-        {% endif %}</h3>
-</div>
-  {# MENSAJES #}
+    <style>
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td {
+            width: 25%;
+        }
+    </style>
+    <div class="card-panel center" style="margin-bottom:0;">
+        <h3>
+            {% if cue_interna == 0 %}
+                Cuestiones Externas
+            {% else %}
+                Cuestiones Internas
+            {% endif %}</h3>
+    </div>
+    {# MENSAJES #}
     {% for message in app.flashes('creado') %}
         <div class="alert alert-success" data-info="{{ message }}">
             <script>
@@ -34,7 +35,7 @@ td {
                     html: '{{ message }}',
                     classes: 'green lighten-1'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
     {% for message in app.flashes('eliminado') %}
@@ -44,104 +45,123 @@ td {
                     html: '{{ message }}',
                     classes: 'red darken-2'
                 });
-            </script>        
+            </script>
         </div>
     {% endfor %}
-  {# FIN MENSAJES #}
+    {# FIN MENSAJES #}
     <div class="divider"></div>
     <div class="row">
         <ul class="tabs">
-          <li class="tab col s4"><a href="#tipos">Tipos</a></li>
-          <li class="tab col s4"><a href="#subtipos">Subtipos</a></li>
-          <li class="tab col s4"><a href="#cuestiones">Cuestiones</a></li>          
+            <li class="tab col s4"><a href="#tipos">Tipos</a></li>
+            <li class="tab col s4"><a href="#subtipos">Subtipos</a></li>
+            <li class="tab col s4"><a href="#cuestiones">Cuestiones</a></li>
         </ul>
     </div>
-    <div class="section col s12" id="tipos">    
-    <a href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
-    {% if tipo_cuestiones|length > 0 %}    
-    <table>
-        <thead>
-            <tr>
-            <th>Tipo</th>
-            <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cuestion in tipo_cuestiones %}
-            {% if cuestion.interno == cue_interna %}
+    {# TIPOS DE CUESTIONES #}
+    <div class="section col s12" id="tipos">
+        <a href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}"
+           class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% if tipo_cuestiones|length > 0 %}
+            <table>
+                <thead>
                 <tr>
-                    <td>{{ cuestion.descripcion }}</td>
-                    <td>
-                        <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
-                    </td>
+                    <th>Tipo</th>
+                    <th>Acción</th>
                 </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <span>No hay ningun tipo de cuestion</span>
-    {% endif %}    
-    </div>    
-    <div class="section col s12" id="subtipos">    
-    <a href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>        
-    {% if subtipo_cuestiones|length > 0 %}    
-    <table>
-        <thead>
-            <tr>
-            <th>Subtipo</th>
-            <th>Tipo</th>
-            <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for cuestion in subtipo_cuestiones %}
-            {% if cuestion.interno == cue_interna %}
-            <tr>
-                <td>{{ cuestion.descripcion }}</td>
-                <td>{{ cuestion.tipo.descripcion }}</td>
-                <td>
-                    <a href="{{ path('cuestion_subtipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                    
-                </td>
-            </tr>
-            {% endif %}
-        {% endfor %}
-        </tbody>
-    </table>    
-    {% else %}
-        <span>No hay ningun subtipo de cuestion</span>
-    {% endif %}
-    </div>    
-    <div class="section col s12" id="cuestiones">        
-    <a href="{{ path('cuestion_new',{'interno': cue_interna}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>    
-    {% if cuestiones|length > 0 %}        
-    <table>
-        <thead>
-        <tr>
-            <th>Cuestión</th>
-            <th>Subtipo</th>
-            <th>Acción</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for cuestion in cuestiones %}
-            {% if cuestion.interno == cue_interna %}
-            <tr>
-                <td>{{ cuestion.descripcion }}</td>
-                <td>{{ cuestion.subtipo.descripcion }}</td>
-                <td>
-                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                    
-                </td>              
-            </tr>
-            {% endif %}
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <span>No hay ninguna cuestion creada</span>
-    {% endif %}
+                </thead>
+                <tbody>
+                {% for cuestion in tipo_cuestiones %}
+                    {{ dump(tipo_cuestiones) }}
+                    {% if cuestion.interno == cue_interna %}
+
+                        <tr>
+                            <td>{{ cuestion.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                            class="material-icons">edit</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span>No hay ningun tipo de cuestion</span>
+        {% endif %}
+    </div>
+    {# SUBTIPOS DE CUESTIONES #}
+    <div class="section col s12" id="subtipos">
+        {% if tipo_cuestiones|length > 0 %}
+            <a href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}"
+               class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% else %}
+            <span>Tienes que crear primero un tipo antes que el subtipo.</span><br>
+        {% endif %}
+        {% if subtipo_cuestiones|length > 0 %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Subtipo</th>
+                    <th>Tipo</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subtipo in subtipo_cuestiones %}
+                    {% if subtipo.interno == cue_interna %}
+                        <tr>
+                            <td>{{ subtipo.descripcion }}</td>
+                            <td>{{ subtipo.tipo.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating"><i
+                                            class="material-icons">edit</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span>No hay ningun subtipo de cuestion</span>
+        {% endif %}
+    </div>
+    {# CUESTIONES #}
+    <div class="section col s12" id="cuestiones">
+        {% if subtipo_cuestiones|length > 0 %}
+            <a href="{{ path('cuestion_new',{'interno': cue_interna}) }}"
+               class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% else %}
+            <span>Tienes que crear primero un subtipo antes que la cuestion.</span><br>
+        {% endif %}
+        {% if cuestiones|length > 0 %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Cuestión</th>
+                    <th>Subtipo</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cuestion in cuestiones %}
+                    {% if cuestion.interno == cue_interna %}
+                        <tr>
+                            <td>{{ cuestion.descripcion }}</td>
+                            <td>{{ cuestion.subtipo.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                            class="material-icons">edit</i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span>No hay ninguna cuestion creada</span>
+        {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>
 {% endblock %}
