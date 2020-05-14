@@ -32,49 +32,11 @@ class CuestionController extends AbstractController
         //Cuestiones del usuario activo        
         $cuestionUnidad = $this->getDoctrine()
                                ->getRepository(CuestionUnidad::class)
-                               ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
-        //var_dump($cuestionUnidad[0]->getCuestion()->getSubtipo()->getDescripcion());
+                               ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));        
 
-        $subtiposCuestionUnidad = [];
-        $tiposCuestionUnidad    = [];
-        if (count($cuestionUnidad) > 0) {
-            for ($i = 0; $i < count($cuestionUnidad); $i++) {
-
-                $subtipo = $this->getDoctrine()
-                                ->getRepository(SubtipoCuestion::class)
-                                ->findOneBy(
-                                    array(
-                                        'tipo' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getTipo()->getId(),
-                                    )
-                                );
-                array_push($subtiposCuestionUnidad, $subtipo);
-            }
-            for ($i = 0; $i < count($cuestionUnidad); $i++) {
-                //var_dump($cuestionUnidad[$i]->getCuestion()->getSubtipo()->getId());
-
-                $tipo = $this->getDoctrine()
-                                ->getRepository(TipoCuestion::class)
-                                ->findOneBy(
-                                    array(
-                                        'subtipoCuestions' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getId(),
-                                    )
-                                );
-                //var_dump($subtipo->getDescripcion());
-                array_push($tiposCuestionUnidad, $tipo);
-            }
-        }
-
-        /*$tiposCuestionUnidad = [];
-        if (count($subtiposCuestionUnidad) > 0) {
-            $tiposCuestionUnidad = $this->getDoctrine()
-                                        ->getRepository(SubtipoCuestion::class)
-                                        ->findBy(array('tipo' => $subtiposCuestionUnidad->getTipo()));
-        }*/
-
-
-        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
-        //$subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
-        //$tipo_cuestiones = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();
+        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll(); 
+        $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
+        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();      
 
         $cuestionesResult = [];
 
@@ -91,10 +53,9 @@ class CuestionController extends AbstractController
             'cuestion/index.html.twig',
             [
                 'cuestiones'         => $cuestionesResult,
-                'subtipo_cuestiones' => $subtiposCuestionUnidad,
-                'tipo_cuestiones'    => $tiposCuestionUnidad,
-                'cue_interna'        => $interna,
-                'cuestionUnidad'     => $cuestionUnidad,
+                'subtipo_cuestiones' => $subtipo_cuestiones,
+                'tipo_cuestiones'    => $tipo_cuestiones,
+                'cue_interna'        => $interna
             ]
         );
     }
@@ -107,34 +68,7 @@ class CuestionController extends AbstractController
         //Cuestiones del usuario activo        
         $cuestionUnidad = $this->getDoctrine()
                                ->getRepository(CuestionUnidad::class)
-                               ->findBy(array('unidad' => $id));        
-
-        $subtiposCuestionUnidad = [];
-        $tiposCuestionUnidad    = [];
-        if (count($cuestionUnidad) > 0) {
-            for ($i = 0; $i < count($cuestionUnidad); $i++) {
-
-                $subtipo = $this->getDoctrine()
-                                ->getRepository(SubtipoCuestion::class)
-                                ->findOneBy(
-                                    array(
-                                        'tipo' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getTipo()->getId(),
-                                    )
-                                );
-                array_push($subtiposCuestionUnidad, $subtipo);
-            }
-            for ($i = 0; $i < count($cuestionUnidad); $i++) {                
-
-                $tipo = $this->getDoctrine()
-                                ->getRepository(TipoCuestion::class)
-                                ->findOneBy(
-                                    array(
-                                        'subtipoCuestions' => $cuestionUnidad[$i]->getCuestion()->getSubtipo()->getId(),
-                                    )
-                                );                
-                array_push($tiposCuestionUnidad, $tipo);
-            }
-        }
+                               ->findBy(array('unidad' => $id));
 
         $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();        
 

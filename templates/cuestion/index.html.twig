@@ -70,10 +70,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for cuestion in tipo_cuestiones %}
-                    {{ dump(tipo_cuestiones) }}
+                {% for cuestion in tipo_cuestiones %}                    
                     {% if cuestion.interno == cue_interna %}
-
                         <tr>
                             <td>{{ cuestion.descripcion }}</td>
                             <td>
