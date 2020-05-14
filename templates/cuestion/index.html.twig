@@ -59,14 +59,18 @@
     </div>
     {# TIPOS DE CUESTIONES #}
     <div class="section col s12" id="tipos">
-        <a href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}"
-           class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('cuestion_tipo_new',{'interno': cue_interna}) }}"
+            class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% endif %}
         {% if tipo_cuestiones|length > 0 %}
             <table>
                 <thead>
                 <tr>
                     <th>Tipo</th>
-                    <th>Acción</th>
+                    {% if is_granted('ROLE_USER') %}
+                        <th>Acción</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -74,10 +78,12 @@
                     {% if cuestion.interno == cue_interna %}
                         <tr>
                             <td>{{ cuestion.descripcion }}</td>
-                            <td>
-                                <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
-                                            class="material-icons">edit</i></a>
-                            </td>
+                            {% if is_granted('ROLE_USER') %}
+                                <td>
+                                    <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                                class="material-icons">edit</i></a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -90,8 +96,10 @@
     {# SUBTIPOS DE CUESTIONES #}
     <div class="section col s12" id="subtipos">
         {% if tipo_cuestiones|length > 0 %}
+        {% if is_granted('ROLE_USER') %}
             <a href="{{ path('cuestion_subtipo_new',{'interno': cue_interna}) }}"
                class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% endif %}
         {% else %}
             <span>Tienes que crear primero un tipo antes que el subtipo.</span><br>
         {% endif %}
@@ -101,7 +109,9 @@
                 <tr>
                     <th>Subtipo</th>
                     <th>Tipo</th>
-                    <th>Acción</th>
+                    {% if is_granted('ROLE_USER') %}
+                        <th>Acción</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -110,10 +120,12 @@
                         <tr>
                             <td>{{ subtipo.descripcion }}</td>
                             <td>{{ subtipo.tipo.descripcion }}</td>
-                            <td>
-                                <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating"><i
-                                            class="material-icons">edit</i></a>
-                            </td>
+                            {% if is_granted('ROLE_USER') %}
+                                <td>
+                                    <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating"><i
+                                                class="material-icons">edit</i></a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -126,8 +138,10 @@
     {# CUESTIONES #}
     <div class="section col s12" id="cuestiones">
         {% if subtipo_cuestiones|length > 0 %}
+        {% if is_granted('ROLE_USER') %}
             <a href="{{ path('cuestion_new',{'interno': cue_interna}) }}"
                class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+        {% endif %}
         {% else %}
             <span>Tienes que crear primero un subtipo antes que la cuestion.</span><br>
         {% endif %}
@@ -137,7 +151,9 @@
                 <tr>
                     <th>Cuestión</th>
                     <th>Subtipo</th>
-                    <th>Acción</th>
+                    {% if is_granted('ROLE_USER') %}
+                        <th>Acción</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -146,10 +162,12 @@
                         <tr>
                             <td>{{ cuestion.descripcion }}</td>
                             <td>{{ cuestion.subtipo.descripcion }}</td>
-                            <td>
-                                <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
-                                            class="material-icons">edit</i></a>
-                            </td>
+                            {% if is_granted('ROLE_USER') %}
+                                <td>
+                                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                                class="material-icons">edit</i></a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -159,6 +177,9 @@
             <span>No hay ninguna cuestion creada</span>
         {% endif %}
     </div>
+     {% if is_granted('ROLE_SUPER') %}
+        <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>

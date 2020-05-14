@@ -70,7 +70,9 @@ class CuestionController extends AbstractController
                                ->getRepository(CuestionUnidad::class)
                                ->findBy(array('unidad' => $id));
 
-        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();        
+        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
+        $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
+        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();  
 
         $cuestionesResult = [];
 
@@ -86,10 +88,9 @@ class CuestionController extends AbstractController
             'cuestion/index.html.twig',
             [
                 'cuestiones'         => $cuestionesResult,
-                'subtipo_cuestiones' => $subtiposCuestionUnidad,
-                'tipo_cuestiones'    => $tiposCuestionUnidad,
-                'cue_interna'        => $interna,
-                'cuestionUnidad'     => $cuestionUnidad,
+                'subtipo_cuestiones' => $subtipo_cuestiones,
+                'tipo_cuestiones'    => $tipo_cuestiones,
+                'cue_interna'        => $interna
             ]
         );
     }
