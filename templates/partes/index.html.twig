@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partes interesadas{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{# MENSAJES #}
+    {% for message in app.flashes('creado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green lighten-1'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('eliminado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {# FIN MENSAJES #}
+    <div class="card-panel center" style="margin-bottom:0;">
+        <h3>Partes interesadas</h3>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+        <ul class="tabs">
+            <li class="tab col s12"><a href="#partes">Partes</a></li>
+        </ul>
+    </div>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('partes_new') }}"
+        class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
+    {% endif %}
+    <div class="section col s12" id="partes">
+    {% if partes|length > 0 %}
+        <table id="partes">
+            <thead>
+            <tr>
+                <th>Parte interesada</th>
+                <th>Tipo</th>
+                <th>Expectativa</th>
+                {% if is_granted('ROLE_USER') %}
+                    <th>Acción</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+                {% for parte in partes %}
+                <tr>
+                    <td>{{ parte.nombre }}</td>
+                    {% for tipo in tipos %}
+                        <td>{{ tipo.nombre }}</td>
+                    {% endfor %}
+                    {% for expectativa in expectativas %}
+                        <td>{{ expectativa.nombre }}</td>
+                    {% endfor %}
+                    {% if is_granted('ROLE_USER') %}
+                        <td>
+                            <a href="#"
+                            class="btn-floating"><i class="material-icons">edit</i></a>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <span>No hay partes interesadas creadas.</span>
+    {% endif %}
+    {% if is_granted('ROLE_SUPER') %}
+        <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+    {% endif %}
+    </div>
+{% endblock %}

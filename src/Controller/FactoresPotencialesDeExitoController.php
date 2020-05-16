@@ -61,7 +61,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
         $fce = new FactoresPotencialesDeExito();
 
-        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);        
+        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);
 
         //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);

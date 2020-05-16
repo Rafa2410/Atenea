@@ -53,11 +53,17 @@ class UnidadDeGestion
      */
     private $cuestionUnidads;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PartesInteresadas", mappedBy="unidad_de_gestion")
+     */
+    private $partesInteresadas;
+
     public function __construct()
     {
         $this->corporacion_id = new ArrayCollection();
         $this->usuarioUnidadPermisos = new ArrayCollection();
         $this->cuestionUnidads = new ArrayCollection();
+        $this->partesInteresadas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +206,37 @@ class UnidadDeGestion
             // set the owning side to null (unless already changed)
             if ($cuestionUnidad->getUnidad() === $this) {
                 $cuestionUnidad->setUnidad(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PartesInteresadas[]
+     */
+    public function getPartesInteresadas(): Collection
+    {
+        return $this->partesInteresadas;
+    }
+
+    public function addPartesInteresada(PartesInteresadas $partesInteresada): self
+    {
+        if (!$this->partesInteresadas->contains($partesInteresada)) {
+            $this->partesInteresadas[] = $partesInteresada;
+            $partesInteresada->setUnidadDeGestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartesInteresada(PartesInteresadas $partesInteresada): self
+    {
+        if ($this->partesInteresadas->contains($partesInteresada)) {
+            $this->partesInteresadas->removeElement($partesInteresada);
+            // set the owning side to null (unless already changed)
+            if ($partesInteresada->getUnidadDeGestion() === $this) {
+                $partesInteresada->setUnidadDeGestion(null);
             }
         }
 
