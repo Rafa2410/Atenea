@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Cuestion;
-use App\Entity\CuestionUnidad;
 use App\Entity\SubtipoCuestion;
 use App\Entity\TipoCuestion;
-use App\Entity\UnidadDeGestion;
 use App\Entity\UsuarioUnidadPermiso;
+use App\Entity\UnidadDeGestion;
+use App\Entity\CuestionUnidad;
 use App\Form\CuestionType;
 use App\Form\SubtipoCuestionType;
 use App\Form\TipoCuestionType;
@@ -27,16 +27,16 @@ class CuestionController extends AbstractController
         $user = $this->getUser()->getId();
         //Tabla usuario_unidad_permiso
         $UUP = $this->getDoctrine()
-                    ->getRepository(UsuarioUnidadPermiso::class)
-                    ->findBy(array('usuario' => $user));
+            ->getRepository(UsuarioUnidadPermiso::class)
+            ->findBy(array('usuario' => $user));
         //Cuestiones del usuario activo        
         $cuestionUnidad = $this->getDoctrine()
-                               ->getRepository(CuestionUnidad::class)
-                               ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));        
+            ->getRepository(CuestionUnidad::class)
+            ->findBy(array('unidad' => $UUP[0]->getUnidad()->getId()));
 
-        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll(); 
+        $cuestiones         = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
         $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
-        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();      
+        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();
 
         $cuestionesResult = [];
 
@@ -45,43 +45,7 @@ class CuestionController extends AbstractController
                 if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
                     array_push($cuestionesResult, $cuestion);
                 }
-            }
-        }
-
-        //var_dump($subtiposCuestionUnidad[0]->getDescripcion());
-        return $this->render(
-            'cuestion/index.html.twig',
-            [
-                'cuestiones'         => $cuestionesResult,
-                'subtipo_cuestiones' => $subtipo_cuestiones,
-                'tipo_cuestiones'    => $tipo_cuestiones,
-                'cue_interna'        => $interna
-            ]
-        );
-    }
-
-        /**
-     * @Route("/cuestion/{interna}/{id}", name="cuestion_super")
-     */
-    public function indexSuper($interna, $id)
-    {        
-        //Cuestiones del usuario activo        
-        $cuestionUnidad = $this->getDoctrine()
-                               ->getRepository(CuestionUnidad::class)
-                               ->findBy(array('unidad' => $id));
-
-        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
-        $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
-        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();  
-
-        $cuestionesResult = [];
-
-        foreach ($cuestiones as $key => $cuestion) {
-            foreach ($cuestionUnidad as $key2 => $cUnidad) {
-                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
-                    array_push($cuestionesResult, $cuestion);
-                }
-            }
+            }            
         }
 
         return $this->render(
@@ -90,7 +54,8 @@ class CuestionController extends AbstractController
                 'cuestiones'         => $cuestionesResult,
                 'subtipo_cuestiones' => $subtipo_cuestiones,
                 'tipo_cuestiones'    => $tipo_cuestiones,
-                'cue_interna'        => $interna
+                'cue_interna'        => $interna,
+                'cuestionUnidad'     => $cuestionUnidad
             ]
         );
     }
@@ -128,12 +93,12 @@ class CuestionController extends AbstractController
             $user = $this->getUser()->getId();
             //Tabla usuario_unidad_permiso
             $UUP = $this->getDoctrine()
-                        ->getRepository(UsuarioUnidadPermiso::class)
-                        ->findBy(array('usuario' => $user));
+                ->getRepository(UsuarioUnidadPermiso::class)
+                ->findBy(array('usuario' => $user));
             //Empresas de la corporacion
             $unidad = $this->getDoctrine()
-                           ->getRepository(UnidadDeGestion::class)
-                           ->findBy(array('id' => $UUP[0]->getUnidad()->getId()));
+                ->getRepository(UnidadDeGestion::class)
+                ->findBy(array('id' => $UUP[0]->getUnidad()->getId()));
 
             $unidadCuestion = new CuestionUnidad();
 
@@ -145,7 +110,7 @@ class CuestionController extends AbstractController
             $entityManager->persist($unidadCuestion);
             $entityManager->flush();
 
-            $this->addFlash('creado', 'Cuestion '.$cuestion->getDescripcion().' creada!');
+            $this->addFlash('creado','Cuestion '.$cuestion->getDescripcion().' creada!');
 
             return $this->redirectToRoute('cuestion', ['interna' => $interno]);
 
@@ -226,17 +191,16 @@ class CuestionController extends AbstractController
     }
 
     /**
-     * @Route("/cuestion/delete/{id}", name="cuestion_delete")
+     * @Route("/cuestion/delete/{id}", name="cuestion_delete")     
      */
-    public function eliminarCuestion(Request $request, $id)
-    {
+    public function eliminarCuestion(Request $request, $id) {        
         $cuestion = $this->getDoctrine()->getRepository(Cuestion::class)->find($id);
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($cuestion);
         $em->flush();
-
-        $this->addFlash('eliminado', 'Cuestión '.$cuestion->getDescripcion().' eliminada!');
+        
+        $this->addFlash('eliminado','Cuestión '.$cuestion->getDescripcion().' eliminada!');
 
         if ($cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);
@@ -273,7 +237,7 @@ class CuestionController extends AbstractController
             $subtipo_cuestion = $form->getData();
             $subtipo_cuestion->setInterno($interno);
 
-            $this->addFlash('creado', 'Subtipo '.$subtipo_cuestion->getDescripcion().' creado!');
+            $this->addFlash('creado','Subtipo '.$subtipo_cuestion->getDescripcion().' creado!');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($subtipo_cuestion);
@@ -309,9 +273,7 @@ class CuestionController extends AbstractController
 
         $form = $this->createForm(SubtipoCuestionType::class, $subtipo_cuestion, ['label' => 'Editar']);
 
-        $tipo_cuestiones = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findBy(
-            ['interno' => $subtipo_cuestion->getInterno()]
-        );
+        $tipo_cuestiones = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findBy(['interno' => $subtipo_cuestion->getInterno()]);
 
         $form->add(
             'tipo',
@@ -360,15 +322,14 @@ class CuestionController extends AbstractController
     /**
      * @Route("/cuestion/subtipo/delete/{id}", name="cuestion_subtipo_delete")
      */
-    public function eliminarSubtipo(Request $request, $id)
-    {
+    public function eliminarSubtipo(Request $request, $id) {
         $subtipo_cuestion = $this->getDoctrine()->getRepository(SubtipoCuestion::class)->find($id);
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($subtipo_cuestion);
-        $em->flush();
+        $em->flush();        
 
-        $this->addFlash('eliminado', 'Subtipo '.$subtipo_cuestion->getDescripcion().' eliminado!');
+        $this->addFlash('eliminado','Subtipo '.$subtipo_cuestion->getDescripcion().' eliminado!');
 
         if ($subtipo_cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);
@@ -393,7 +354,7 @@ class CuestionController extends AbstractController
             $tipo_cuestion = $form->getData();
             $tipo_cuestion->setInterno($interno);
 
-            $this->addFlash('creado', 'Tipo '.$tipo_cuestion->getDescripcion().' creado!');
+            $this->addFlash('creado','Tipo '.$tipo_cuestion->getDescripcion().' creado!');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tipo_cuestion);
@@ -425,7 +386,7 @@ class CuestionController extends AbstractController
     public function editExternatipo($id, Request $request)
     {
 
-        $tipo_cuestion = $this->getDoctrine()->getRepository(TipoCuestion::class)->find($id);        
+        $tipo_cuestion = $this->getDoctrine()->getRepository(TipoCuestion::class)->find($id);
 
         $form = $this->createForm(TipoCuestionType::class, $tipo_cuestion, ['label' => 'Editar']);
 
@@ -472,9 +433,9 @@ class CuestionController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($tipo_cuestion);
-        $em->flush();
+        $em->flush();        
 
-        $this->addFlash('eliminado', 'Tipo '.$tipo_cuestion->getDescripcion().' eliminado!');
+        $this->addFlash('eliminado','Tipo '.$tipo_cuestion->getDescripcion().' eliminado!');
 
         if ($tipo_cuestion->getInterno() == 0) {
             return $this->redirectToRoute('cuestion', ['interna' => 0]);

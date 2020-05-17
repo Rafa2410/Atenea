@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+//use Acme\StoreBundle\Entity\Cuestion;
 use App\Entity\Aspecto;
 use App\Entity\Cuestion;
 use App\Entity\UsuarioUnidadPermiso;
@@ -34,36 +35,19 @@ class AspectoController extends AbstractController
             foreach ($aspecto->getCuestiones() as $key => $cuestion) {
                 foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {                    
                     if ($unidad->getUnidad()->getId() == $UUP[0]->getUnidad()->getId()) {
-                        array_push($aspectosResult, $aspecto);
-                    }
-                }                
-            }
-        }                
-
-        return $this->render(
-            'aspecto/index.html.twig',
-            [
-                'aspectos' => $aspectosResult,
-                'interna'  => $interna
-            ]
-        );
-    }
-
-    /**
-     * @Route("/aspecto/{interna}/{id}", name="aspecto_super")
-     */
-    public function indexSuper($interna, $id)
-    {        
-
-        $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
-        
-        $aspectosResult = [];
-
-        foreach ($aspectos as $key => $aspecto) {
-            foreach ($aspecto->getCuestiones() as $key => $cuestion) {
-                foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {                    
-                    if ($unidad->getUnidad()->getId() == $id) {
-                        array_push($aspectosResult, $aspecto);
+                            if (count($aspectosResult) > 0) {
+                            $repe = false;
+                            foreach ($aspectosResult as $key => $aspect) {                            
+                                if ($aspect->getDescripcion() == $aspecto->getDescripcion()) {
+                                    $repe = true;
+                                }
+                            }
+                            if (!$repe) {
+                                array_push($aspectosResult, $aspecto);
+                            }
+                        } else {
+                            array_push($aspectosResult, $aspecto);
+                        }
                     }
                 }                
             }
