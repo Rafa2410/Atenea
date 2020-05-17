@@ -425,8 +425,7 @@ class CuestionController extends AbstractController
     public function editExternatipo($id, Request $request)
     {
 
-        $tipo_cuestion = $this->getDoctrine()->getRepository(TipoCuestion::class)->find($id);
-        var_dump($tipo_cuestion);
+        $tipo_cuestion = $this->getDoctrine()->getRepository(TipoCuestion::class)->find($id);        
 
         $form = $this->createForm(TipoCuestionType::class, $tipo_cuestion, ['label' => 'Editar']);
 

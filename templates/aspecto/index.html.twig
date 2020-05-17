@@ -70,22 +70,16 @@ td {
             {% for aspecto in aspectos %}
                 {% if aspecto.favorable == 1 and aspecto.interno == interna %}
                 <tr>
-                    <td>{{ aspecto.descripcion }}</td>
-                    <td>
+                    <td>{{ aspecto.descripcion }}</td>                    
                         {% if aspecto.cuestiones|length > 1 %}
-                        {% set cont = 0 %}
-                        {% for cuestion in aspecto.cuestiones %}
-                        {% set cont = cont + 1 %}
-                            {% if cont != aspecto.cuestiones|length %}
-                                {{ cuestion.descripcion }},
-                            {% else %}
-                                {{ cuestion.descripcion }}
-                            {% endif %}                        
-                        {% endfor %}
+                        <td><ul>
+                            {% for cuestion in aspecto.cuestiones %}
+                                <li>{{ cuestion.descripcion }}</li>
+                            {% endfor %}
+                        </ul></td>
                         {% else %}
-                            {{ aspecto.cuestiones[0].descripcion }}
+                            <td>{{ aspecto.cuestiones[0].descripcion }}</td>
                         {% endif %}
-                    </td>
                     {% if is_granted('ROLE_USER') %}
                     <td>
                         <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
@@ -120,21 +114,15 @@ td {
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
-                        <td>
                             {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
-                            {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
-                            {% endfor %}
+                            <td><ul>
+                                {% for cuestion in aspecto.cuestiones %}
+                                    <li>{{ cuestion.descripcion }}</li>
+                                {% endfor %}
+                            </ul></td>
                             {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
+                                <td>{{ aspecto.cuestiones[0].descripcion }}</td>
                             {% endif %}
-                        </td>
                         {% if is_granted('ROLE_USER') %}
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
@@ -180,21 +168,15 @@ td {
                     {% if aspecto.favorable == 1 and aspecto.interno == interna %}
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
-                        <td>
-                            {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
+                        {% if aspecto.cuestiones|length > 1 %}
+                        <td><ul>
                             {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
+                                <li>{{ cuestion.descripcion }}</li>
                             {% endfor %}
-                            {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
-                            {% endif %}
-                        </td>
+                        </ul></td>
+                        {% else %}
+                            <td>{{ aspecto.cuestiones[0].descripcion }}</td>
+                        {% endif %}
                         {% if is_granted('ROLE_USER') %}
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
@@ -232,21 +214,15 @@ td {
                     {% if aspecto.favorable == 0 and aspecto.interno == interna %}
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
-                        <td>
-                            {% if aspecto.cuestiones|length > 1 %}
-                            {% set cont = 0 %}
+                        {% if aspecto.cuestiones|length > 1 %}
+                        <td><ul>
                             {% for cuestion in aspecto.cuestiones %}
-                            {% set cont = cont + 1 %}
-                                {% if cont != aspecto.cuestiones|length %}
-                                    {{ cuestion.descripcion }},
-                                {% else %}
-                                    {{ cuestion.descripcion }}
-                                {% endif %}                        
+                                <li>{{ cuestion.descripcion }}</li>
                             {% endfor %}
-                            {% else %}
-                                {{ aspecto.cuestiones[0].descripcion }}
-                            {% endif %}
-                        </td>
+                        </ul></td>
+                        {% else %}
+                            <td>{{ aspecto.cuestiones[0].descripcion }}</td>
+                        {% endif %}
                         {% if is_granted('ROLE_USER') %}
                         <td>
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            

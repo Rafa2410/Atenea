@@ -6,6 +6,8 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    tr { cursor:pointer; }
+    .active-table { background-color: #e0e0e0; }
 </style>
 
 {# MENSAJES #}
@@ -45,7 +47,7 @@
     {% endif %}
     <div class="section col s12" id="partes">
     {% if partes|length > 0 %}
-        <table id="partes">
+        <table id="partes" class="highlight">
             <thead>
             <tr>
                 <th>Parte interesada</th>
@@ -58,17 +60,31 @@
             </thead>
             <tbody>
                 {% for parte in partes %}
-                <tr>
-                    <td>{{ parte.nombre }}</td>
-                    {% for tipo in tipos %}
-                        <td>{{ tipo.nombre }}</td>
-                    {% endfor %}
-                    {% for expectativa in expectativas %}
-                        <td>{{ expectativa.nombre }}</td>
-                    {% endfor %}
+                <tr id="{{ parte.id }}" onClick="activeButtons('{{ parte.id }}')">
+                    <td>{{ parte.nombre }}</td>                    
+                    {% if parte.tipoPartesInteresadas|length > 0 %}
+                        {% if parte.tipoPartesInteresadas|length == 1 %}
+                            <td>{{ parte.tipoPartesInteresadas[0].nombre }}</td>
+                        {% else %}
+                            <td><ul>
+                            {% for tipoParte in parte.tipoPartesInteresadas %}
+                                <li>{{ tipoParte.nombre }}</li>
+                            {% endfor %}
+                            </ul></td>
+                        {% endif %}
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if parte.expectativaPartesInteresadas|length > 0 %}
+                        {% for expectParte in parte.expectativaPartesInteresadas %}
+                            <td>{{ expectParte.nombre }}</td>
+                        {% endfor %}
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <td>
-                            <a href="#"
+                            <a href="{{ path('partes_edit',{'id':parte.id}) }}"
                             class="btn-floating"><i class="material-icons">edit</i></a>
                         </td>
                     {% endif %}
@@ -76,11 +92,57 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if is_granted('ROLE_USER') %}
+        <br/>
+            <div class="row">
+                <a href="#modalTipo" id="add-tipo" class="btn light-blue lighten-1 modal-trigger" disabled>Añadir tipo</a>
+                <a href="#modalExpectativa" id="add-expectativa" class="btn light-blue lighten-1" modal-trigger disabled>Añadir expectativa</a>
+            </div>            
+            <div id="modalTipo" class="modal">
+                <div class="modal-content">
+                    <h4 class="center">Añadir tipo</h4>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="nombreTipo" type="text" class="validate">
+                            <label for="nombreTipo">Tipo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                
+                    <a href="#" class=" modal-action modal-close waves-effect waves-red btn-flat left">Cancelar</a>
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addTipo($('#nombreTipo').val())">Añadir</a>
+                </div>
+            </div>
+            <div id="modalExpectativa" class="modal">
+                <div class="modal-content">
+                    <h4 class="center">Añadir expectativa</h4>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="nombreExpectativa" type="text" class="validate">
+                            <label for="nombreExpectativa">Expectativa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                
+                    <a href="#" class=" modal-action modal-close waves-effect waves-red btn-flat left">Cancelar</a>
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addExpectativa($('#nombreTipo').val())">Añadir</a>
+                </div>
+            </div>
+        {% endif %}
     {% else %}
         <span>No hay partes interesadas creadas.</span>
     {% endif %}
+    </div>
     {% if is_granted('ROLE_SUPER') %}
         <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
-    {% endif %}
-    </div>
+    {% endif %}    
+{% endblock %}
+{% block javascripts %}
+    <script>
+   $(document).ready(function(){        
+        $('.modal').modal();        
+        $('select').formSelect();
+    });
+    </script>
+    <script type="text/javascript" src="{{ asset('js/partes.js') }}"></script>        
 {% endblock %}

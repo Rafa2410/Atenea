@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class PartesController extends AbstractController
 {
@@ -64,53 +65,6 @@ class PartesController extends AbstractController
                     ->getRepository(UsuarioUnidadPermiso::class)
                     ->findBy(array('usuario' => $user));
 
-        $tipos = $this->getDoctrine()
-                        ->getRepository(TipoPartesInteresadas::Class)
-                        ->findAll();
-        
-        $expectativas = $this->getDoctrine()
-                        ->getRepository(ExpectativaPartesInteresadas::Class)
-                        ->findAll();
-
-        $tiposResult = [];
-        $expectativasResult = [];
-
-        foreach ($tipos as $key => $tipo) {
-            if ($tipo->getParteInteresada()->getUnidadDeGestion()->getId() ==  $UUP[0]->getUnidad()->getId()) {
-                array_push($tiposResult, $tipo);
-            }
-        }
-        foreach ($expectativas as $key => $expectativa) {
-            if ($expectativa->getParteInteresada()->getUnidadDeGestion()->getId() ==  $UUP[0]->getUnidad()->getId()) {
-                array_push($expectativasResult, $expectativa);
-            }
-        }
-        
-        //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-        $form->add(
-            'tipoPartesInteresadas',
-            EntityType::class,
-            array(
-                'class'        => TipoPartesInteresadas::Class,
-                'choices'      => $tiposResult,
-                'choice_label' => 'nombre',
-                'multiple'  => true,
-                'label' => false,
-            )
-        );
-
-        $form->add(
-            'expectativaPartesInteresadas',
-            EntityType::class,
-            array(
-                'class'        => ExpectativaPartesInteresadas::Class,
-                'choices'      => $expectativasResult,
-                'choice_label' => 'nombre',
-                'multiple' => true,
-                'label' => false,
-            )
-        );
-
         $form->handleRequest($request);
 
         //Comprueba si el form es valido
@@ -127,7 +81,7 @@ class PartesController extends AbstractController
 
             return $this->redirectToRoute('partes');
 
-        }        
+        }
 
         return $this->render(
             'partes/new.html.twig',
@@ -135,5 +89,55 @@ class PartesController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     *  @Route("/partes/edit/{id}", name="partes_edit")
+     */
+    public function edit($id, Request $request) {
+        $parte = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($id);
+
+        $form = $this->createForm(PartesInteresadasType::class, $parte);
+
+        $form->handleRequest($request);
+
+        //Comprueba si el form es valido
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $parte = $form->getData();            
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($parte);
+            $entityManager->flush();            
+
+            return $this->redirectToRoute('partes');
+
+        }
+
+        return $this->render(
+            'partes/edit.html.twig',
+            [
+                'form'  => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/partes/tipo/new/{nombre}/{parte}", name="partes_tipo_new")
+     */
+    public function addTipo($nombre, $parte) {
+        $tipo = new TipoPartesInteresadas();
+
+        $parteInteresada = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($parte);
+
+        $tipo->setNombre($nombre);
+        $tipo->setParteInteresada($parteInteresada);
+        
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($tipo);
+        $entityManager->flush();
+
+        $this->addFlash('creado','Tipo '.$tipo->getNombre().' creado!');
     }
 }
