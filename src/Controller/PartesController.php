@@ -140,4 +140,23 @@ class PartesController extends AbstractController
 
         $this->addFlash('creado','Tipo '.$tipo->getNombre().' creado!');
     }
+
+    /**
+     * @Route("/partes/expectativa/new/{nombre}/{parte}", name="partes_tipo_new")
+     */
+    public function addExpectativa($nombre, $parte) {
+        $expectativa = new ExpectativaPartesInteresadas();
+
+        $parteInteresada = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($parte);
+
+        $expectativa->setNombre($nombre);
+        $expectativa->setParteInteresada($parteInteresada);
+        
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($expectativa);
+        $entityManager->flush();
+
+        $this->addFlash('creado','Expectativa '.$expectativa->getNombre().' creado!');
+    }
 }

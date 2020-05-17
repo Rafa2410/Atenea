@@ -19,3 +19,16 @@ function addTipo(nombre) {
         }
     })
 }
+
+function addExpectativa(nombre) {
+    var parte = $('.active-table').attr('id');    
+    $.ajax({
+        url: `/Atenea/public/index.php/partes/expectativa/new/${nombre}/${parte}`,        
+        success (response) {
+            location.reload();
+        },
+        error (jqXHR,status,errorThrown){
+            location.reload();
+        }
+    })
+}

@@ -96,7 +96,7 @@
         <br/>
             <div class="row">
                 <a href="#modalTipo" id="add-tipo" class="btn light-blue lighten-1 modal-trigger" disabled>Añadir tipo</a>
-                <a href="#modalExpectativa" id="add-expectativa" class="btn light-blue lighten-1" modal-trigger disabled>Añadir expectativa</a>
+                <a href="#modalExpectativa" id="add-expectativa" class="btn light-blue lighten-1 modal-trigger" disabled>Añadir expectativa</a>
             </div>            
             <div id="modalTipo" class="modal">
                 <div class="modal-content">
@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">                
-                    <a href="#" class=" modal-action modal-close waves-effect waves-red btn-flat left">Cancelar</a>
+                    <a href="#" class="modal-close waves-effect waves-red btn-flat left">Cancelar</a>
                     <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addTipo($('#nombreTipo').val())">Añadir</a>
                 </div>
             </div>
@@ -124,8 +124,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">                
-                    <a href="#" class=" modal-action modal-close waves-effect waves-red btn-flat left">Cancelar</a>
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addExpectativa($('#nombreTipo').val())">Añadir</a>
+                    <a href="#" class="modal-close waves-effect waves-red btn-flat left">Cancelar</a>
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addExpectativa($('#nombreExpectativa').val())">Añadir</a>
                 </div>
             </div>
         {% endif %}
