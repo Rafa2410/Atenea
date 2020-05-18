@@ -51,12 +51,32 @@ class AspectoController extends AbstractController
                     }
                 }                
             }
-        }                
+        }
+        $oportunidades = [];
+        $amenazas = [];
+        $fortalezas = [];
+        $debilidades = [];
 
+
+        foreach ($aspectosResult as $key => $aspecto) {
+            if ($aspecto->getFavorable() == 1 && $aspecto->getInterno() == 0) {
+                array_push($oportunidades, $aspecto);
+            } else if ($aspecto->getFavorable() == 0 && $aspecto->getInterno() == 0) {
+                array_push($amenazas, $aspecto);
+            } else if ($aspecto->getFavorable() == 1 && $aspecto->getInterno() == 1) {
+                array_push($fortalezas, $aspecto);
+            } else if ($aspecto->getFavorable() == 0 && $aspecto->getInterno() == 1) {
+                array_push($debilidades, $aspecto);
+            }            
+        }
+        
         return $this->render(
             'aspecto/index.html.twig',
             [
-                'aspectos' => $aspectosResult,
+                'oportunidades' => $oportunidades,
+                'amenazas' => $amenazas,
+                'fortalezas' => $fortalezas,
+                'debilidades' => $debilidades,
                 'interna'  => $interna
             ]
         );

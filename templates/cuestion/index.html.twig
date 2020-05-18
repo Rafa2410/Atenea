@@ -182,5 +182,9 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>
+    <script>
+    $(document).ready(function() {        
+        $('.tabs').tabs();
+    });
+    </script>
 {% endblock %}

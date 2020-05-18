@@ -216,5 +216,9 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/unidad.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tabs').tabs();
+    });
+    </script>
 {% endblock %}

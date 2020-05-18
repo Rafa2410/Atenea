@@ -55,7 +55,7 @@ td {
         {% if is_granted('ROLE_USER') %}
             <a href="{{ path('aspecto_new',{'aspec': 'opor'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>        
         {% endif %}
-        {% if aspectos|length > 0 %}
+        {% if oportunidades|length > 0 %}
         <table>
             <thead>
                 <tr>
@@ -67,8 +67,7 @@ td {
                 </tr>
             </thead>            
             <tbody>
-            {% for aspecto in aspectos %}
-                {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+            {% for aspecto in oportunidades %}                
                 <tr>
                     <td>{{ aspecto.descripcion }}</td>                    
                         {% if aspecto.cuestiones|length > 1 %}
@@ -85,20 +84,19 @@ td {
                         <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'opor'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                        
                     </td>
                     {% endif %}
-                </tr>
-                {% endif %}
+                </tr>                
             {% endfor %}
             </tbody>
         </table>
         {% else %}
-            <span>No hay ningun aspecto favorable</span>
+            <span>No hay ninguna oportunidad</span>
         {% endif %}        
     </div>
     <div class="section col s12" id="amenazas">
         {% if is_granted('ROLE_USER') %}
             <a href="{{ path('aspecto_new',{'aspec': 'amen'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% endif %}
-        {% if aspectos|length > 0 %}
+        {% if amenazas|length > 0 %}
         <table>
             <thead>
                 <tr>
@@ -110,8 +108,7 @@ td {
                 </tr>
             </thead>            
             <tbody>                    
-                {% for aspecto in aspectos %}
-                    {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+                {% for aspecto in amenazas %}                    
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
                             {% if aspecto.cuestiones|length > 1 %}
@@ -128,13 +125,12 @@ td {
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'amen'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
                         </td>
                         {% endif %}
-                    </tr>
-                    {% endif %}
+                    </tr>                    
                 {% endfor %}
             </tbody>
         </table>            
         {% else %}
-            <span>No hay ningun aspecto desfavorable</span>
+            <span>No hay ninguna amenaza</span>
         {% endif %}        
     </div>    
     {% else %}
@@ -152,7 +148,7 @@ td {
         {% if is_granted('ROLE_USER') %}
             <a href="{{ path('aspecto_new',{'aspec': 'fort'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% endif %}
-        {% if aspectos|length > 0 %}
+        {% if fortalezas|length > 0 %}
         <table>
             <thead>
                 <tr>
@@ -164,8 +160,7 @@ td {
                 </tr>
             </thead>            
             <tbody>
-                {% for aspecto in aspectos %}
-                    {% if aspecto.favorable == 1 and aspecto.interno == interna %}
+                {% for aspecto in fortalezas %}                    
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
                         {% if aspecto.cuestiones|length > 1 %}
@@ -182,13 +177,12 @@ td {
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'fort'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
                         </td>
                         {% endif %}
-                    </tr>
-                    {% endif %}
+                    </tr>                    
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-            <span>No hay ningun aspecto favorable</span>
+            <span>No hay ninguna fortaleza</span>
         {% endif %}
         {% if is_granted('ROLE_SUPER') %}
             <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
@@ -198,7 +192,7 @@ td {
         {% if is_granted('ROLE_USER') %}
             <a href="{{ path('aspecto_new',{'aspec': 'debi'}) }}" class="btn-floating pulse btn-large light-blue lighten-1 right"><i class="material-icons">add</i></a>
         {% endif %}
-        {% if aspectos|length > 0 %}
+        {% if debilidades|length > 0 %}
         <table>
             <thead>
                 <tr>
@@ -210,8 +204,7 @@ td {
                 </tr>
             </thead>
             <tbody>            
-                {% for aspecto in aspectos %}
-                    {% if aspecto.favorable == 0 and aspecto.interno == interna %}
+                {% for aspecto in debilidades %}                    
                     <tr>
                         <td>{{ aspecto.descripcion }}</td>
                         {% if aspecto.cuestiones|length > 1 %}
@@ -228,13 +221,12 @@ td {
                             <a href="{{ path('aspecto_edit', {'id': aspecto.id, 'aspec': 'debi'}) }}" class="btn-floating"><i class="material-icons">edit</i></a>                            
                         </td>
                         {% endif %}
-                    </tr>
-                    {% endif %}
+                    </tr>                    
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-            <span>No hay ningun aspecto desfavorable</span>
+            <span>No hay ninguna debilidad</span>
         {% endif %}        
     {% endif %}
     {% if is_granted('ROLE_SUPER') %}
@@ -244,5 +236,9 @@ td {
 
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/tabs.js') }}"></script>    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tabs').tabs();
+    });
+    </script>
 {% endblock %}
