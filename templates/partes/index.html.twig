@@ -66,7 +66,7 @@
                         {% if parte.tipoPartesInteresadas|length == 1 %}
                             <td>{{ parte.tipoPartesInteresadas[0].nombre }}</td>
                         {% else %}
-                            <td><ul>
+                            <td><ul id="tipos">
                             {% for tipoParte in parte.tipoPartesInteresadas %}
                                 <li>{{ tipoParte.nombre }}</li>
                             {% endfor %}
@@ -76,9 +76,15 @@
                         <td></td>
                     {% endif %}
                     {% if parte.expectativaPartesInteresadas|length > 0 %}
-                        {% for expectParte in parte.expectativaPartesInteresadas %}
-                            <td>{{ expectParte.nombre }}</td>
-                        {% endfor %}
+                        {% if parte.expectativaPartesInteresadas|length == 1 %}
+                            <td>{{ parte.expectativaPartesInteresadas[0].nombre }}</td>
+                        {% else %}
+                            <td><ul id="expectativas">
+                            {% for expectParte in parte.expectativaPartesInteresadas %}
+                                <li>{{ expectParte.nombre }}</li>
+                            {% endfor %}
+                            </ul></td>
+                        {% endif %}
                     {% else %}
                         <td></td>
                     {% endif %}

@@ -126,6 +126,7 @@ class PartesController extends AbstractController
      * @Route("/partes/tipo/new/{nombre}/{parte}", name="partes_tipo_new")
      */
     public function addTipo($nombre, $parte) {
+        
         $tipo = new TipoPartesInteresadas();
 
         $parteInteresada = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($parte);
@@ -133,16 +134,21 @@ class PartesController extends AbstractController
         $tipo->setNombre($nombre);
         $tipo->setParteInteresada($parteInteresada);
         
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($tipo);
         $entityManager->flush();
+        
+        $response = new Response(
+            $tipo->getNombre(),
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
 
-        $this->addFlash('creado','Tipo '.$tipo->getNombre().' creado!');
+        return $response;
     }
 
     /**
-     * @Route("/partes/expectativa/new/{nombre}/{parte}", name="partes_tipo_new")
+     * @Route("/partes/expectativa/new/{nombre}/{parte}", name="partes_expectativa_new")
      */
     public function addExpectativa($nombre, $parte) {
         $expectativa = new ExpectativaPartesInteresadas();
@@ -152,11 +158,16 @@ class PartesController extends AbstractController
         $expectativa->setNombre($nombre);
         $expectativa->setParteInteresada($parteInteresada);
         
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($expectativa);
         $entityManager->flush();
 
-        $this->addFlash('creado','Expectativa '.$expectativa->getNombre().' creado!');
+        $response = new Response(
+            $expectativa->getNombre(),
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+
+        return $response;
     }
 }
