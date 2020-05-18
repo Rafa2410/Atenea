@@ -8,6 +8,27 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     tr { cursor:pointer; }
     .active-table { background-color: #e0e0e0; }
+    .tabs .tab a {
+    color: rgba(38, 166, 154, 0.7);
+    /*Custom Text Color*/
+    }
+    .tabs .tab a:hover {
+    color:#26a69a;
+    /*Custom Color On Hover*/
+    }
+    .tabs .tab a:focus.active {
+    color:#26a69a;
+    /*Custom Text Color While Active*/
+    background-color: rgba(38, 166, 154, 0.2);
+    /*Custom Background Color While Active*/
+    }
+    .tabs .indicator {
+    background-color:#26a69a;
+    /*Custom Color Of Indicator*/
+    }
+    .tabs .tab a.active {
+    color:#26a69a;
+    }
 </style>
 
 {# MENSAJES #}
@@ -91,7 +112,7 @@
                     {% if is_granted('ROLE_USER') %}
                         <td>
                             <a href="{{ path('partes_edit',{'id':parte.id}) }}"
-                            class="btn-floating"><i class="material-icons">edit</i></a>
+                            class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                         </td>
                     {% endif %}
                 </tr>

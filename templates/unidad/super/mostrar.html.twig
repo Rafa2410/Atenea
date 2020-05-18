@@ -12,7 +12,31 @@
 {% endblock %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }    
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .tabs .tab a {
+    color: rgba(38, 166, 154, 0.7);
+    /*Custom Text Color*/
+    }
+    .tabs .tab a:hover {
+    color:#26a69a;
+    /*Custom Color On Hover*/
+    }
+    .tabs .tab a:focus.active {
+    color:#26a69a;
+    /*Custom Text Color While Active*/
+    background-color: rgba(38, 166, 154, 0.2);
+    /*Custom Background Color While Active*/
+    }
+    .tabs .indicator {
+    background-color:#26a69a;
+    /*Custom Color Of Indicator*/
+    }
+    .tabs .tab a.active {
+    color:#26a69a;
+    }
+    blockquote{    
+    border-left: 5px solid #64b5f6;
+    }
 </style>
   {# MENSAJES #}
     {% for message in app.flashes('creado') %}
@@ -84,7 +108,7 @@
                 <td>{{ usuario.usuario.telefono }}</td>
                 <td>{{ usuario.usuario.email }}</td>
                 <td>                      
-                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                     <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                 </td>
             </tr>

@@ -14,9 +14,29 @@
             table-layout: fixed;
             width: 100%;
         }
-
         td {
             width: 25%;
+        }
+        .tabs .tab a {
+        color: rgba(38, 166, 154, 0.7);
+        /*Custom Text Color*/
+        }
+        .tabs .tab a:hover {
+        color:#26a69a;
+        /*Custom Color On Hover*/
+        }
+        .tabs .tab a:focus.active {
+        color:#26a69a;
+        /*Custom Text Color While Active*/
+        background-color: rgba(38, 166, 154, 0.2);
+        /*Custom Background Color While Active*/
+        }
+        .tabs .indicator {
+        background-color:#26a69a;
+        /*Custom Color Of Indicator*/
+        }
+        .tabs .tab a.active {
+        color:#26a69a;
         }
     </style>
     <div class="card-panel center" style="margin-bottom:0;">
@@ -81,7 +101,7 @@
                             {% if is_granted('ROLE_USER') %}
                                 <td>
                                     <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
-                                                class="material-icons">edit</i></a>
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -123,7 +143,7 @@
                             {% if is_granted('ROLE_USER') %}
                                 <td>
                                     <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating"><i
-                                                class="material-icons">edit</i></a>
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -165,7 +185,7 @@
                             {% if is_granted('ROLE_USER') %}
                                 <td>
                                     <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
-                                                class="material-icons">edit</i></a>
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -182,8 +202,8 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-    <script>
-    $(document).ready(function() {        
+    <script type="text/javascript">
+    $(document).ready(function() {
         $('.tabs').tabs();
     });
     </script>
