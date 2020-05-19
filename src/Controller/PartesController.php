@@ -65,6 +65,35 @@ class PartesController extends AbstractController
     }
 
     /**
+     * @Route("/partes/super/{id}", name="partes_super")
+     */
+    public function indexSuper($id)
+    {        
+        $partesInteresadas = $this->getDoctrine()
+                               ->getRepository(PartesInteresadas::class)
+                               ->findBy(array('unidad_de_gestion' => $id));
+        
+        if (count($partesInteresadas) > 0) {        
+            $tipos = $this->getDoctrine()
+                        ->getRepository(TipoPartesInteresadas::Class)
+                        ->findBy(array('parte_interesada' => $partesInteresadas[0]->getId()));
+
+            $expectativas = $this->getDoctrine()
+                                ->getRepository(ExpectativaPartesInteresadas::Class)
+                                ->findBy(array('parte_interesada' => $partesInteresadas[0]->getId()));
+        } else {
+            $tipos = [];
+            $expectativas = [];
+        }
+
+        return $this->render('partes/index.html.twig', [
+            'partes' => $partesInteresadas,
+            'tipos' => $tipos,
+            'expectativas' => $expectativas            
+        ]);
+    }
+
+    /**
      * @Route("/partes/new/parte", name="partes_new")
      */
     public function addParte(Request $request) {

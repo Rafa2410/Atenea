@@ -146,7 +146,7 @@ background-color:#42a5f5;
                     </tr>
                 {% endfor %}
                 </tbody>
-            </table>
+            </table>            
             <div class="right">
             {% if maxPages > 1 %}
                 <ul class="pagination">
@@ -177,12 +177,12 @@ background-color:#42a5f5;
                     {% endif %}
                 </ul>
             {% endif %}
-            </div>
+            </div>            
         {% else %}
             <span>No hay factores potenciales de éxito creados.</span>
         {% endif %}
-        {% if is_granted('ROLE_SUPER') %}
+        </div>        
+        {% if is_granted('ROLE_SUPER') %}            
             <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
-        {% endif %}
-    </div>
+        {% endif %}    
 {% endblock %}

@@ -126,6 +126,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if is_granted('ROLE_USER') %}
         <div class="right">
             {% if maxPages > 1 %}
                 <ul class="pagination">
@@ -157,6 +158,7 @@
                 </ul>
             {% endif %}
             </div>
+        {% endif %}
         {% if is_granted('ROLE_USER') %}
         <br/>
             <div class="row">

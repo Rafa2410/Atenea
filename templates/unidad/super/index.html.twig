@@ -23,7 +23,7 @@
                     <td>{{ uni.descripcion }}</td>
                     <td>
                         <a href="{{ path('technical_super', {'id': uni.id}) }}" class="btn-floating light-blue lighten-1"><i class="material-icons">visibility</i></a>
-                        <a href="{{ path('mostrar_unidad', {'id': uni.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        <a href="{{ path('mostrar_unidad', {'id': uni.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -34,7 +34,7 @@
                         <td>{{ emp.descripcion }}</td>
                         <td>
                         <a href="{{ path('technical_super', {'id': emp.id}) }}" class="btn-floating light-blue lighten-1"><i class="material-icons">visibility</i></a>
-                        <a href="{{ path('mostrar_unidad', {'id': emp.id}) }}" class="btn-floating"><i class="material-icons">edit</i></a>
+                        <a href="{{ path('mostrar_unidad', {'id': emp.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                     </td>
                     </tr>
                     {% endfor %}

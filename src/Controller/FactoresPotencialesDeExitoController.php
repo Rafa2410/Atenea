@@ -50,7 +50,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
         $limit = 3;
         $factor = $em->getRepository(FactoresPotencialesDeExito::Class)->getAllPers($currentPage, $limit, $fpeResult);
         $factorResultado = $factor['paginator'];
-        $factorQueryCompleta =  $factor['query'];
+        $factorQueryCompleta =  $factor['query'];        
 
         $maxPages = ceil($factor['paginator']->count() / $limit);
 
@@ -68,7 +68,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
     }
 
     /**
-     * @Route("/factores/potenciales/de/exito/new/factor", name="factores_potenciales_de_exito_new")
+     * @Route("/factores/potenciales/de/exito/new", name="factores_potenciales_de_exito_new")
      */
     public function new(Request $request)
     {
@@ -296,22 +296,23 @@ class FactoresPotencialesDeExitoController extends AbstractController
         return $this->redirectToRoute('factores_potenciales_de_exito');
     }
 
-        /**
-     * @Route("/factores/potenciales/de/exito/{id}", name="factores_potenciales_de_exito_super")
+    /**
+     * @Route("/factores/potenciales/de/exito/super/{id}/{currentPage}", name="factores_potenciales_de_exito_super")
      */
-    public function indexSuper($id)
+    public function indexSuper($id, $currentPage = 1)
     {
         $fpe = $this->getDoctrine()->getRepository(FactoresPotencialesDeExito::Class)->findAll();
 
         $fpeResult = [];        
         
-        $factorNombre = '';
+        $factorNombre = '';        
+        $currentId = $id;
 
         foreach ($fpe as $key => $factor) {            
             foreach ($factor->getAspecto() as $key => $aspecto) {
                 foreach ($aspecto->getCuestiones() as $key => $cuestion) {
                     foreach($cuestion->getCuestionUnidads() as $key => $unidad) {
-                        if ($unidad->getUnidad()->getId() == $id && $factorNombre != $factor->getDescripcion()) {
+                        if ($unidad->getUnidad()->getId() == $id && $factorNombre != $factor->getDescripcion()) {                            
                             array_push($fpeResult, $factor);
                             $factorNombre = $factor->getDescripcion();
                         }
@@ -320,11 +321,25 @@ class FactoresPotencialesDeExitoController extends AbstractController
             }
         }        
         
+        //Paginacion
+        $em = $this->getDoctrine()->getManager();
+
+        $limit = 3;
+        $factor = $em->getRepository(FactoresPotencialesDeExito::Class)->getAllPers($currentPage, $limit, $fpeResult);
+        $factorResultado = $factor['paginator'];
+        $factorQueryCompleta =  $factor['query'];        
+
+        $maxPages = ceil($factor['paginator']->count() / $limit);
+
+        //Fin paginacion
         return $this->render(
             'factores_potenciales_de_exito/index.html.twig',
             [
                 'controller_name' => 'FactoresPotencialesDeExitoController',
-                'fpe'             => $fpeResult,
+                'fpe'             => $factorResultado,                
+                'maxPages'        => $maxPages,
+                'thisPage'        => $currentPage,
+                'all_items'       => $factorQueryCompleta
             ]
         );
     }
