@@ -61,41 +61,6 @@ class CuestionController extends AbstractController
     }
 
     /**
-    * @Route("/cuestion/{interna}/{id}", name="cuestion_super")
-    */
-    public function indexSuper($interna, $id)
-    {        
-        //Cuestiones del usuario activo        
-        $cuestionUnidad = $this->getDoctrine()
-                               ->getRepository(CuestionUnidad::class)
-                               ->findBy(array('unidad' => $id));
-
-        $cuestiones = $this->getDoctrine()->getRepository(Cuestion::Class)->findAll();
-        $subtipo_cuestiones = $this->getDoctrine()->getRepository(SubtipoCuestion::Class)->findAll();
-        $tipo_cuestiones    = $this->getDoctrine()->getRepository(TipoCuestion::Class)->findAll();  
-
-        $cuestionesResult = [];
-
-        foreach ($cuestiones as $key => $cuestion) {
-            foreach ($cuestionUnidad as $key2 => $cUnidad) {
-                if ($cuestion->getId() == $cUnidad->getCuestion()->getId()) {
-                    array_push($cuestionesResult, $cuestion);
-                }
-            }
-        }
-
-        return $this->render(
-            'cuestion/index.html.twig',
-            [
-                'cuestiones'         => $cuestionesResult,
-                'subtipo_cuestiones' => $subtipo_cuestiones,
-                'tipo_cuestiones'    => $tipo_cuestiones,
-                'cue_interna'        => $interna
-            ]
-        );
-    }
-
-    /**
      * @Route("/cuestion/new/{interno}", name="cuestion_new")
      */
     public function new($interno, Request $request)

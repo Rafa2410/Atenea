@@ -68,7 +68,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
     }
 
     /**
-     * @Route("/factores/potenciales/de/exito/new", name="factores_potenciales_de_exito_new")
+     * @Route("/factores/potenciales/de/exito/new/factor", name="factores_potenciales_de_exito_new")
      */
     public function new(Request $request)
     {
