@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ExpectativaPartesInteresadasRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ExpectativaRepository")
  */
-class ExpectativaPartesInteresadas
+class Expectativa
 {
     /**
      * @ORM\Id()
@@ -22,9 +22,9 @@ class ExpectativaPartesInteresadas
     private $nombre;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PartesInteresadas", inversedBy="expectativaPartesInteresadas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PartesInteresadas", inversedBy="expectativas")
      */
-    private $parte_interesada;
+    private $ParteInteresada;
 
     public function getId(): ?int
     {
@@ -45,12 +45,12 @@ class ExpectativaPartesInteresadas
 
     public function getParteInteresada(): ?PartesInteresadas
     {
-        return $this->parte_interesada;
+        return $this->ParteInteresada;
     }
 
-    public function setParteInteresada(?PartesInteresadas $parte_interesada): self
+    public function setParteInteresada(?PartesInteresadas $ParteInteresada): self
     {
-        $this->parte_interesada = $parte_interesada;
+        $this->ParteInteresada = $ParteInteresada;
 
         return $this;
     }
