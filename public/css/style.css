@@ -66,3 +66,13 @@ select{
     font-size: 20px;
     color: red;
 }
+.modal {
+    max-height: 90%;
+}
+
+.modal-form-row {
+    margin-bottom: 0px;
+}
+.background-menu{
+    background-color: #01579b;
+}

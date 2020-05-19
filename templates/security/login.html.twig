@@ -3,54 +3,116 @@
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block body %}
-<div class="card">
-<form method="post">
-    <div class="card-content">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        <h3 class="h3 mb-3 font-weight-normal center">Atenea</h3>
-
-        {% if app.user %}
-            <br>
-            <div class="mb-3">
-                Estas logueado como: {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
-        
-        <label for="inputEmail">Correo electrónico</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-        <br>
-        <label for="inputPassword">Contraseña</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-        <input type="hidden" name="_csrf_token"
-            value="{{ csrf_token('authenticate') }}"
-        >
+    {% for message in app.flashes('passwordCorrecto') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green lighten-1'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('passwordError') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('noencontrado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('email_encontrado') %}
+    <div class="alert alert-success" data-info="{{ message }}">
+        <script>
+            M.toast({
+                html: '{{ message }}',
+                classes: 'green darken-2'
+            });
+        </script>
     </div>
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+{% endfor %}
+    {% for message in app.flashes('userError') %}
+    <div class="alert alert-success" data-info="{{ message }}">
+        <script>
+            M.toast({
+                html: '{{ message }}',
+                classes: 'red darken-2'
+            });
+        </script>
+    </div>
+    {% endfor %}
+    <div class="container">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-    <br>
-    <div class="card-action">
-        <div class="buttons-form">
-            <button class="btn light-blue lighten-1" type="submit">
-                Inicia Sesión
-            </button>
-            <!--<div style="height:10px;"></div>
-            <button class="btn btn-lg btn-primary">
-                Pedir ayuda
-            </button>-->            
-        </div>
-    </div>    
-</form>
-</div>
+            <h3 class="h3 mb-3 font-weight-normal center">Atenea</h3>
+
+            {% if app.user %}
+                <br>
+                <div class="mb-3">
+                    Estas logueado como: {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <label for="inputEmail">Correo electrónico</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required
+                   autofocus>
+            <br>
+            <label for="inputPassword">Contraseña</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+            #}
+            <br>
+            <div class="buttons-form">
+                <button class="btn btn-lg btn-primary" type="submit" style="width: 215px">
+                    Inicia Sesión
+                </button>
+                <div style="height:10px;"></div>
+                <button class="waves-effect waves-light btn modal-trigger" href="#recuperar">Recuperar contraseña
+                </button>
+            </div>
+        </form>
+        {{ include('register/change-password.html.twig') }}
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            console.log("hola0");
+            $('.modal').modal();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.modal');
+        });
+    </script>
+    {#<script type="text/javascript" src="{{ asset('js/recuperar.js') }}"></script>#}
 {% endblock %}

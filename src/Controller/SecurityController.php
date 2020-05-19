@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Usuario;
+use App\Form\UsuarioType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -31,7 +35,9 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException(
+            'This method can be blank - it will be intercepted by the logout key on your firewall.'
+        );
     }
 
     /**
@@ -43,4 +49,7 @@ class SecurityController extends AbstractController
             'security/error.html.twig'
         );
     }
+
+
+
 }

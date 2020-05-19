@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200515211804 extends AbstractMigration
+final class Version20200517095112 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -29,10 +29,10 @@ final class Version20200515211804 extends AbstractMigration
         $this->addSql('ALTER TABLE partes_interesadas ADD CONSTRAINT FK_FA9836F8D9176606 FOREIGN KEY (unidad_de_gestion_id) REFERENCES unidad_de_gestion (id)');
         $this->addSql('ALTER TABLE expectativa_partes_interesadas ADD CONSTRAINT FK_5B0323E0EC8BC28 FOREIGN KEY (parte_interesada_id) REFERENCES partes_interesadas (id)');
         $this->addSql('ALTER TABLE cuestion_unidad CHANGE cuestion_id cuestion_id INT DEFAULT NULL, CHANGE unidad_id unidad_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE factores_potenciales_de_exito CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
-        $this->addSql('ALTER TABLE contrato CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
-        $this->addSql('ALTER TABLE unidad_de_gestion CHANGE unidad_de_gestion_id unidad_de_gestion_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE usuario CHANGE roles roles JSON NOT NULL, CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
+        $this->addSql('ALTER TABLE factores_potenciales_de_exito CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
+        $this->addSql('ALTER TABLE unidad_de_gestion CHANGE unidad_de_gestion_id unidad_de_gestion_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE contrato CHANGE fecha_baja fecha_baja DATE DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void

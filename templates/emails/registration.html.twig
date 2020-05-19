@@ -1,0 +1,16 @@
+{# templates/emails/registration.html.twig #}
+<h3>Registro en Atenea!</h3>
+
+Bienvenido <strong>{{ name }} {{ surname }}</strong> Tu registro se ha completado correctamente!<br>
+
+Tu nombre de usuario es {{ email }}<br>
+
+
+{# example, assuming you have a route named "login"#}
+Para generar tu contraña: <a href="{{ url('password',{'email':  email,'encriptado': encriptado }) }}">Click para
+    generar tu password</a>.<br>
+
+Gracias!<br>
+
+{# Makes an absolute URL to the /images/logo.png file #}
+{#<img src="{{ absolute_url(asset('images/logo.png')) }}">#}

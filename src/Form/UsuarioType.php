@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Usuario;
+use phpDocumentor\Reflection\Type;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,8 +25,14 @@ class UsuarioType extends AbstractType
             ->add('telefono', TextType::class)
             ->add('email', EmailType::class)
             ->add('fecha_alta', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
-            ->add('password', PasswordType::class)
-            ;
+            //->add('password', PasswordType::class)
+            ->add('password',RepeatedType::class,[
+                'type' => PasswordType::class,
+                'required' => true,
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repite Password'],
+                'invalid_message' => 'Los passwords deben coincidir'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

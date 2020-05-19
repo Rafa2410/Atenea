@@ -61,7 +61,7 @@ class Usuario implements UserInterface
     private $fecha_baja;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="usuario")
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="usuario", cascade={"persist", "remove"})
      */
     private $usuarioUnidadPermisos;
 
