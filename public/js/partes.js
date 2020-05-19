@@ -9,7 +9,7 @@ function activeButtons(parte) {
 
 function addTipo(nombre) {    
     var parte = $('.active-table').attr('id');
-    $('.active-table #tipos').append(nombre);
+    $('.active-table #tipos').append(nombre);    
     $.ajax({
         url: `/Atenea/public/index.php/partes/tipo/new/${nombre}/${parte}`,        
         success (response) {

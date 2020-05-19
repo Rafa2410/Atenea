@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\PartesInteresadas;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method PartesInteresadas|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,32 @@ class PartesInteresadasRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function paginate($dql, $page = 1, $limit = 3)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+    public function getAllPers($currentPage = 1, $limit = 3, $partes)
+    {
+        $ids = [];
+
+        foreach ($partes as $key => $parte) {
+            array_push($ids,$parte->getId());
+        }        
+        // Create our query
+        $query  = $this->createQueryBuilder('p')
+        ->where('p.id IN (:ids)')
+        ->setParameter('ids', $ids)
+        ->orderBy('p.id', 'ASC');
+
+        $paginator = $this->paginate($query, $currentPage, $limit);
+
+        return array('paginator' => $paginator, 'query' => $query);
+    }
 }

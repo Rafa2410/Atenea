@@ -205,6 +205,8 @@ color:#26a69a;
         {% else %}
             <span>No hay ninguna fortaleza</span>
         {% endif %}
+        <br/>
+        <br/>
         {% if is_granted('ROLE_SUPER') %}
             <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
         {% endif %}
@@ -250,6 +252,8 @@ color:#26a69a;
             <span>No hay ninguna debilidad</span>
         {% endif %}        
     {% endif %}
+    <br/>
+    <br/>
     {% if is_granted('ROLE_SUPER') %}
         <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
     {% endif %}

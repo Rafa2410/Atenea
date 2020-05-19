@@ -14,9 +14,9 @@
         <div class="row center">
             <a href="#" data-target="slide-out" class="btn-large waves-effect waves-light red darken-1 sidenav-trigger">Comenzar</a>
         </div>
-    {% elseif is_granted('ROLE_SUPER') %}
+    {% elseif is_granted('ROLE_SUPER') %}        
         <div class="section">
-            <h1 class="header center red-text">{{ unidad[0].nombre }}</h1>
+            <h1 class="header center indigo-text text-accent-2">{{ unidad[0].nombre }}</h1>
         </div>
         <div class="row">
             <div class="col s6 m6">
@@ -58,7 +58,7 @@
                     <div class="card-content">
                     <span class="card-title">Partes interesadas</span>
                     <div class="card-action">
-                        <a href="{{ path('partes') }}">Partes interesadas</a>                        
+                        <a href="{{ path('partes_super', {'id':unidad[0].id}) }}">Partes interesadas</a>                        
                     </div>
                     </div>
                 </div>

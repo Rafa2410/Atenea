@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\FactoresPotencialesDeExito;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method FactoresPotencialesDeExito|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,33 @@ class FactoresPotencialesDeExitoRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function paginate($dql, $page = 1, $limit = 3)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+    public function getAllPers($currentPage = 1, $limit = 3, $factores)
+    {
+        $ids = [];
+
+        foreach ($factores as $key => $factor) {
+            array_push($ids,$factor->getId());
+        }        
+        // Create our query
+        $query  = $this->createQueryBuilder('f')
+        ->where('f.id IN (:ids)')
+        ->setParameter('ids', $ids)
+        ->orderBy('f.id', 'ASC');
+
+        $paginator = $this->paginate($query, $currentPage, $limit);
+
+        return array('paginator' => $paginator, 'query' => $query);
+    }
 }

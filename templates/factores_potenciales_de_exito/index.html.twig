@@ -25,6 +25,9 @@ background-color:#26a69a;
 .tabs .tab a.active {
 color:#26a69a;
 }
+.pagination li.active {
+background-color:#42a5f5;
+}
 </style>
     {# MENSAJES #}
     {% for message in app.flashes('creado') %}
@@ -143,12 +146,43 @@ color:#26a69a;
                     </tr>
                 {% endfor %}
                 </tbody>
-            </table>
+            </table>            
+            <div class="right">
+            {% if maxPages > 1 %}
+                <ul class="pagination">
+                    {% if thisPage > 1 %}
+                        <li class="waves-effect">
+                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                        </li>
+                    {% endif %}
+
+                    {# Render each page number #}
+                    {% for i in 1..maxPages %}
+                        {% if i == thisPage %}
+                        <li class="active">
+                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                        </li>
+                        {% else %}
+                        <li class="waves-effect">
+                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# `»` arrow #}
+                    {% if thisPage < maxPages %}
+                        <li class="waves-effect">
+                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+            </div>            
         {% else %}
             <span>No hay factores potenciales de éxito creados.</span>
         {% endif %}
-        {% if is_granted('ROLE_SUPER') %}
+        </div>        
+        {% if is_granted('ROLE_SUPER') %}            
             <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
-        {% endif %}
-    </div>
+        {% endif %}    
 {% endblock %}

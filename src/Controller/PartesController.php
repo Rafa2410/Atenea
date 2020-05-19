@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 class PartesController extends AbstractController
 {
     /**
-     * @Route("/partes", name="partes")
+     * @Route("/partes/{currentPage}", name="partes")
      */
-    public function index()
+    public function index($currentPage = 1)
     {
         $user = $this->getUser()->getId();
         //Tabla usuario_unidad_permiso
@@ -43,15 +43,58 @@ class PartesController extends AbstractController
             $expectativas = [];
         }
 
+        //Paginacion
+        $em = $this->getDoctrine()->getManager();
+
+        $limit = 3;
+        $partes = $em->getRepository(PartesInteresadas::Class)->getAllPers($currentPage, $limit, $partesInteresadas);
+        $partesResultado = $partes['paginator'];
+        $partesQueryCompleta =  $partes['query'];
+
+        $maxPages = ceil($partes['paginator']->count() / $limit);
+
+
         return $this->render('partes/index.html.twig', [
-            'partes' => $partesInteresadas,
+            'partes' => $partesResultado,
             'tipos' => $tipos,
-            'expectativas' => $expectativas
+            'expectativas' => $expectativas,
+            'maxPages'        => $maxPages,
+            'thisPage'        => $currentPage,
+            'all_items'       => $partesQueryCompleta
         ]);
     }
 
     /**
-     * @Route("/partes/new", name="partes_new")
+     * @Route("/partes/super/{id}", name="partes_super")
+     */
+    public function indexSuper($id)
+    {        
+        $partesInteresadas = $this->getDoctrine()
+                               ->getRepository(PartesInteresadas::class)
+                               ->findBy(array('unidad_de_gestion' => $id));
+        
+        if (count($partesInteresadas) > 0) {        
+            $tipos = $this->getDoctrine()
+                        ->getRepository(TipoPartesInteresadas::Class)
+                        ->findBy(array('parte_interesada' => $partesInteresadas[0]->getId()));
+
+            $expectativas = $this->getDoctrine()
+                                ->getRepository(ExpectativaPartesInteresadas::Class)
+                                ->findBy(array('parte_interesada' => $partesInteresadas[0]->getId()));
+        } else {
+            $tipos = [];
+            $expectativas = [];
+        }
+
+        return $this->render('partes/index.html.twig', [
+            'partes' => $partesInteresadas,
+            'tipos' => $tipos,
+            'expectativas' => $expectativas            
+        ]);
+    }
+
+    /**
+     * @Route("/partes/new/parte", name="partes_new")
      */
     public function addParte(Request $request) {
         $parte = new PartesInteresadas();

@@ -29,6 +29,9 @@
     .tabs .tab a.active {
     color:#26a69a;
     }
+    .pagination li.active {
+    background-color:#42a5f5;
+    }
 </style>
 
 {# MENSAJES #}
@@ -85,7 +88,9 @@
                     <td>{{ parte.nombre }}</td>                    
                     {% if parte.tipoPartesInteresadas|length > 0 %}
                         {% if parte.tipoPartesInteresadas|length == 1 %}
-                            <td>{{ parte.tipoPartesInteresadas[0].nombre }}</td>
+                            <td><ul id="tipos">
+                                {{ parte.tipoPartesInteresadas[0].nombre }}
+                            </ul></td>
                         {% else %}
                             <td><ul id="tipos">
                             {% for tipoParte in parte.tipoPartesInteresadas %}
@@ -94,11 +99,13 @@
                             </ul></td>
                         {% endif %}
                     {% else %}
-                        <td></td>
+                        <td><ul id="tipos"></ul></td>
                     {% endif %}
                     {% if parte.expectativaPartesInteresadas|length > 0 %}
                         {% if parte.expectativaPartesInteresadas|length == 1 %}
-                            <td>{{ parte.expectativaPartesInteresadas[0].nombre }}</td>
+                            <td><ul id="expectativas">                            
+                                {{ parte.expectativaPartesInteresadas[0].nombre }}
+                            </ul></td>
                         {% else %}
                             <td><ul id="expectativas">
                             {% for expectParte in parte.expectativaPartesInteresadas %}
@@ -107,7 +114,7 @@
                             </ul></td>
                         {% endif %}
                     {% else %}
-                        <td></td>
+                        <td><ul id="expectativas"></ul></td>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <td>
@@ -119,6 +126,39 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if is_granted('ROLE_USER') %}
+        <div class="right">
+            {% if maxPages > 1 %}
+                <ul class="pagination">
+                    {% if thisPage > 1 %}
+                        <li class="waves-effect">
+                            <a href="{{ path('partes', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                        </li>
+                    {% endif %}
+
+                    {# Render each page number #}
+                    {% for i in 1..maxPages %}
+                        {% if i == thisPage %}
+                        <li class="active">
+                            <a href="{{ path('partes', {currentPage: i}) }}">{{ i }}</a>
+                        </li>
+                        {% else %}
+                        <li class="waves-effect">
+                            <a href="{{ path('partes', {currentPage: i}) }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# `»` arrow #}
+                    {% if thisPage < maxPages %}
+                        <li class="waves-effect">
+                            <a href="{{ path('partes', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+            </div>
+        {% endif %}
         {% if is_granted('ROLE_USER') %}
         <br/>
             <div class="row">
