@@ -11,7 +11,9 @@
         {% endblock %}        
     </head>
     <body>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         {{ include('navbar.html.twig') }}
+    {% endif %}
         <div style="height: 30px"></div>
         {% if is_granted('ROLE_ADMIN') %}
         <div class="container-admin">

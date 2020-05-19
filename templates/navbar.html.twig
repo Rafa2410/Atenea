@@ -15,6 +15,13 @@
 </nav>
 <ul id="slide-out" class="sidenav">
     {% if is_granted('ROLE_USER') %}
+        <li>
+            <div class="user-view" style="margin-top:-30px;">            
+            <a href="#compania"><span class="name truncate"><h4 style="color:#01579b;">{{ app.user.usuarioUnidadPermisos[0].unidad.nombre }}</h4></span></a>
+            <a href="#email"><span class="name">{{ app.user.username }}</span></a>
+            </div>
+        </li>
+        <li><div class="divider"></div></li>
         <li><a class="waves-effect" href="{{ path('home') }}"><i class="material-icons">dashboard</i>Inicio</a></li>
         <li class="background-menu"><a style="color: white;">Gestionar cuestiones</a></li>
         <li><a class="waves-effect" href="{{ path('cuestion',{'interna': 1}) }}"><i class="material-icons">question_answer</i>Cuestiones

@@ -83,6 +83,56 @@ class AspectoController extends AbstractController
     }
 
     /**
+    * @Route("/aspecto/{interna}/{id}", name="aspecto_super")
+    */
+    public function indexSuper($interna, $id)
+    {        
+
+        $aspectos = $this->getDoctrine()->getRepository(Aspecto::Class)->findAll();
+        
+        $aspectosResult = [];
+
+        foreach ($aspectos as $key => $aspecto) {
+            foreach ($aspecto->getCuestiones() as $key => $cuestion) {
+                foreach ($cuestion->getCuestionUnidads() as $key => $unidad) {                    
+                    if ($unidad->getUnidad()->getId() == $id) {
+                        array_push($aspectosResult, $aspecto);
+                    }
+                }                
+            }
+        }
+
+        $oportunidades = [];
+        $amenazas = [];
+        $fortalezas = [];
+        $debilidades = [];
+
+
+        foreach ($aspectosResult as $key => $aspecto) {
+            if ($aspecto->getFavorable() == 1 && $aspecto->getInterno() == 0) {
+                array_push($oportunidades, $aspecto);
+            } else if ($aspecto->getFavorable() == 0 && $aspecto->getInterno() == 0) {
+                array_push($amenazas, $aspecto);
+            } else if ($aspecto->getFavorable() == 1 && $aspecto->getInterno() == 1) {
+                array_push($fortalezas, $aspecto);
+            } else if ($aspecto->getFavorable() == 0 && $aspecto->getInterno() == 1) {
+                array_push($debilidades, $aspecto);
+            }            
+        }
+
+        return $this->render(
+            'aspecto/index.html.twig',
+            [
+                'oportunidades' => $oportunidades,
+                'amenazas' => $amenazas,
+                'fortalezas' => $fortalezas,
+                'debilidades' => $debilidades,
+                'interna'  => $interna
+            ]
+        );
+    }
+
+    /**
      * @Route("/aspecto/new/{aspec}", name="aspecto_new")
      */
     public function new($aspec, Request $request)
