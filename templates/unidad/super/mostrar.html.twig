@@ -108,8 +108,8 @@
                 <td>{{ usuario.usuario.telefono }}</td>
                 <td>{{ usuario.usuario.email }}</td>
                 <td>                      
-                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
-                    <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating teal hoverable"><i class="material-icons">edit</i></a>
+                    <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1 hoverable"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
           {% endif %}
