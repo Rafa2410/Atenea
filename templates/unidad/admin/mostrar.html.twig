@@ -102,16 +102,16 @@
     <div class="divider"></div>
     <div class="row">
         <ul class="tabs">
-            <li class="tab col s3"><a href="#empresas">Empresas <span class="new badge teal darken-2"
+            <li class="tab col s3"><a href="#empresas">Empresas <span class="new badge blue lighten-1"
                                                                       data-badge-caption="">{{ empresaBadget }}</span></a>
             </li>
-            <li class="tab col s3"><a href="#emplazamientos">Emplazamientos <span class="new badge teal darken-2"
+            <li class="tab col s3"><a href="#emplazamientos">Emplazamientos <span class="new badge blue lighten-1"
                                                                                   data-badge-caption="">{{ emplazamientoBadget }}</span></a>
             </li>
-            <li class="tab col s3"><a href="#superusuarios">SuperUsuarios <span class="new badge teal darken-2"
+            <li class="tab col s3"><a href="#superusuarios">SuperUsuarios <span class="new badge blue lighten-1"
                                                                                 data-badge-caption="">{{ superBadget }}</span></a>
             </li>
-            <li class="tab col s3"><a href="#contrato">Contrato <span class="new badge teal darken-2"
+            <li class="tab col s3"><a href="#contrato">Contrato <span class="new badge blue lighten-1"
                                                                       data-badge-caption="">{{ contratoBadget }}</span></a>
             </li>
         </ul>
@@ -133,10 +133,10 @@
                             <td>{{ empresa.nombre }}</td>
                             <td>{{ empresa.descripcion }}</td>
                             <td>
-                                <a href="{{ path('unidad_edit', {'id': empresa.id}) }}" class="btn-floating teal hoverable"><i
-                                            class="material-icons">edit</i></a>
+                                <a href="{{ path('unidad_edit', {'id': empresa.id}) }}" class="btn-floating"><i
+                                            class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 <a href="{{ path('unidad_delete', {'id': empresa.id}) }}"
-                                   class="btn-floating red darken-1 hoverable"><i class="material-icons">delete</i></a>
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                     {% endif %}
@@ -164,10 +164,10 @@
                             <td>{{ emplazamiento.nombre }}</td>
                             <td>{{ emplazamiento.descripcion }}</td>
                             <td>
-                                <a href="{{ path('unidad_edit', {'id': emplazamiento.id}) }}" class="btn-floating teal hoverable"><i
-                                            class="material-icons">edit</i></a>
+                                <a href="{{ path('unidad_edit', {'id': emplazamiento.id}) }}" class="btn-floating"><i
+                                            class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 <a href="{{ path('unidad_delete', {'id': emplazamiento.id}) }}"
-                                   class="btn-floating red darken-1 hoverable"><i class="material-icons">delete</i></a>
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                     {% endif %}
@@ -205,9 +205,9 @@
                             <td>{{ superusuario.usuario.email }}</td>
                             <td>
                                 <a href="{{ path('register_edit', {'id': superusuario.usuario.id}) }}"
-                                   class="btn-floating teal hoverable"><i class="material-icons">edit</i></a>
+                                   class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 <a href="{{ path('register_delete', {'id': superusuario.usuario.id}) }}"
-                                   class="btn-floating red darken-1 hoverable"><i class="material-icons">delete</i></a>
+                                   class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                     {% endif %}
@@ -226,7 +226,7 @@
             <p><b>Descripción : </b> {{ contrato[0].descripcion }}</p>
             <p><b>Fecha alta : </b>{{ contrato[0].fechaalta|date("d/m/Y") }}</p>
             <p><b>Fecha baja : </b>{{ contrato[0].fechabaja|date("d/m/Y") }}</p>
-            <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn teal hoverable">Editar contrato</a>
+            <a href="{{ path('contrato_edit', {'id': contrato[0].id}) }}" class="btn" style="background-color:#ffb74d;">Editar contrato</a>
         {% else %}
             <div class="center-align">
                 <h4 style="color:#d32f2f;">No existe ningún contrato todavía</h4>

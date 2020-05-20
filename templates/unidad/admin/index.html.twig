@@ -46,9 +46,9 @@
                     <td>{{ unidad.nombre }}</td>
                     <td>{{ unidad.descripcion }}</td>                    
                     <td>
-                        <a href="{{ path('mostrar_unidad', {'id': unidad.id}) }}" class="btn-floating light-blue lighten-1 hoverable"><i class="material-icons">visibility</i></a>
-                        <a href="{{ path('unidad_edit', {'id': unidad.id}) }}" class="btn-floating teal hoverable"><i class="material-icons">edit</i></a>
-                        <a href="#modal" data-nombre="{{ unidad.nombre }}" data-href="{{ path('unidad_delete', {'id': unidad.id}) }}" class="btn-floating red darken-1 modal-trigger hoverable" onClick="confirmacion(this);"><i class="material-icons">delete</i></a>                        
+                        <a href="{{ path('mostrar_unidad', {'id': unidad.id}) }}" class="btn-floating light-blue lighten-1"><i class="material-icons">visibility</i></a>
+                        <a href="{{ path('unidad_edit', {'id': unidad.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
+                        <a href="#modal" data-nombre="{{ unidad.nombre }}" data-href="{{ path('unidad_delete', {'id': unidad.id}) }}" class="btn-floating red darken-1 modal-trigger" onClick="confirmacion(this);"><i class="material-icons">delete</i></a>                        
                     </td>
                 </tr>
                 {% endif %}                

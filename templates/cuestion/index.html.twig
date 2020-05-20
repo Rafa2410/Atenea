@@ -100,8 +100,8 @@
                             <td>{{ cuestion.descripcion }}</td>
                             {% if is_granted('ROLE_USER') %}
                                 <td>
-                                    <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating teal hoverable"><i
-                                                class="material-icons">edit</i></a>
+                                    <a href="{{ path('cuestion_tipo_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -142,8 +142,8 @@
                             <td>{{ subtipo.tipo.descripcion }}</td>
                             {% if is_granted('ROLE_USER') %}
                                 <td>
-                                    <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating teal hoverable"><i
-                                                class="material-icons">edit</i></a>
+                                    <a href="{{ path('cuestion_subtipo_edit', {'id': subtipo.id}) }}" class="btn-floating"><i
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -184,8 +184,8 @@
                             <td>{{ cuestion.subtipo.descripcion }}</td>
                             {% if is_granted('ROLE_USER') %}
                                 <td>
-                                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating teal hoverable"><i
-                                                class="material-icons">edit</i></a>
+                                    <a href="{{ path('cuestion_edit', {'id': cuestion.id}) }}" class="btn-floating"><i
+                                                class="material-icons" style="background-color:#ffb74d;">edit</i></a>
                                 </td>
                             {% endif %}
                         </tr>
