@@ -54,16 +54,17 @@ class UnidadDeGestion
     private $cuestionUnidads;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PartesInteresadas", mappedBy="unidad_de_gestion")
+     * @ORM\OneToMany(targetEntity="App\Entity\TipoPartesInteresadas", mappedBy="UnidadDeGestion")
      */
-    private $partesInteresadas;
+    private $tipoPartesInteresadas;
 
     public function __construct()
     {
-        $this->corporacion_id = new ArrayCollection();
+        $this->corporacion_id        = new ArrayCollection();
         $this->usuarioUnidadPermisos = new ArrayCollection();
-        $this->cuestionUnidads = new ArrayCollection();
-        $this->partesInteresadas = new ArrayCollection();
+        $this->cuestionUnidads       = new ArrayCollection();
+        $this->partesInteresadas     = new ArrayCollection();
+        $this->tipoPartesInteresadas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,7 +130,7 @@ class UnidadDeGestion
 
     public function addCorporacionId(self $corporacionId): self
     {
-        if (!$this->corporacion_id->contains($corporacionId)) {
+        if ( ! $this->corporacion_id->contains($corporacionId)) {
             $this->corporacion_id[] = $corporacionId;
             $corporacionId->setUnidadDeGestion($this);
         }
@@ -160,7 +161,7 @@ class UnidadDeGestion
 
     public function addUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
     {
-        if (!$this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+        if ( ! $this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
             $this->usuarioUnidadPermisos[] = $usuarioUnidadPermiso;
             $usuarioUnidadPermiso->setUnidad($this);
         }
@@ -191,7 +192,7 @@ class UnidadDeGestion
 
     public function addCuestionUnidad(CuestionUnidad $cuestionUnidad): self
     {
-        if (!$this->cuestionUnidads->contains($cuestionUnidad)) {
+        if ( ! $this->cuestionUnidads->contains($cuestionUnidad)) {
             $this->cuestionUnidads[] = $cuestionUnidad;
             $cuestionUnidad->setUnidad($this);
         }
@@ -213,30 +214,30 @@ class UnidadDeGestion
     }
 
     /**
-     * @return Collection|PartesInteresadas[]
+     * @return Collection|TipoPartesInteresadas[]
      */
-    public function getPartesInteresadas(): Collection
+    public function getTipoPartesInteresadas(): Collection
     {
-        return $this->partesInteresadas;
+        return $this->tipoPartesInteresadas;
     }
 
-    public function addPartesInteresada(PartesInteresadas $partesInteresada): self
+    public function addTipoPartesInteresada(TipoPartesInteresadas $tipoPartesInteresada): self
     {
-        if (!$this->partesInteresadas->contains($partesInteresada)) {
-            $this->partesInteresadas[] = $partesInteresada;
-            $partesInteresada->setUnidadDeGestion($this);
+        if (!$this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
+            $this->tipoPartesInteresadas[] = $tipoPartesInteresada;
+            $tipoPartesInteresada->setUnidadDeGestion($this);
         }
 
         return $this;
     }
 
-    public function removePartesInteresada(PartesInteresadas $partesInteresada): self
+    public function removeTipoPartesInteresada(TipoPartesInteresadas $tipoPartesInteresada): self
     {
-        if ($this->partesInteresadas->contains($partesInteresada)) {
-            $this->partesInteresadas->removeElement($partesInteresada);
+        if ($this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
+            $this->tipoPartesInteresadas->removeElement($tipoPartesInteresada);
             // set the owning side to null (unless already changed)
-            if ($partesInteresada->getUnidadDeGestion() === $this) {
-                $partesInteresada->setUnidadDeGestion(null);
+            if ($tipoPartesInteresada->getUnidadDeGestion() === $this) {
+                $tipoPartesInteresada->setUnidadDeGestion(null);
             }
         }
 

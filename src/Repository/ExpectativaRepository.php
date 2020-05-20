@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ExpectativaPartesInteresadas;
+use App\Entity\Expectativa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ExpectativaPartesInteresadas|null find($id, $lockMode = null, $lockVersion = null)
- * @method ExpectativaPartesInteresadas|null findOneBy(array $criteria, array $orderBy = null)
- * @method ExpectativaPartesInteresadas[]    findAll()
- * @method ExpectativaPartesInteresadas[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Expectativa|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Expectativa|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Expectativa[]    findAll()
+ * @method Expectativa[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ExpectativaPartesInteresadasRepository extends ServiceEntityRepository
+class ExpectativaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ExpectativaPartesInteresadas::class);
+        parent::__construct($registry, Expectativa::class);
     }
 
     // /**
-    //  * @return ExpectativaPartesInteresadas[] Returns an array of ExpectativaPartesInteresadas objects
+    //  * @return Expectativa[] Returns an array of Expectativa objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ExpectativaPartesInteresadasRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ExpectativaPartesInteresadas
+    public function findOneBySomeField($value): ?Expectativa
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

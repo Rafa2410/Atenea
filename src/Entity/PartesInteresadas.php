@@ -24,25 +24,18 @@ class PartesInteresadas
     private $nombre;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="partesInteresadas")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Expectativa", mappedBy="ParteInteresada")
      */
-    private $unidad_de_gestion;
+    private $expectativas;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TipoPartesInteresadas", mappedBy="parte_interesada")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TipoPartesInteresadas", inversedBy="partesInteresadas")
      */
-    private $tipoPartesInteresadas;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ExpectativaPartesInteresadas", mappedBy="parte_interesada")
-     */
-    private $expectativaPartesInteresadas;
+    private $TipoParteInteresada;
 
     public function __construct()
     {
-        $this->tipoPartesInteresadas = new ArrayCollection();
-        $this->expectativaPartesInteresadas = new ArrayCollection();
+        $this->expectativas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,76 +55,45 @@ class PartesInteresadas
         return $this;
     }
 
-    public function getUnidadDeGestion(): ?UnidadDeGestion
-    {
-        return $this->unidad_de_gestion;
-    }
-
-    public function setUnidadDeGestion(?UnidadDeGestion $unidad_de_gestion): self
-    {
-        $this->unidad_de_gestion = $unidad_de_gestion;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|TipoPartesInteresadas[]
+     * @return Collection|Expectativa[]
      */
-    public function getTipoPartesInteresadas(): Collection
+    public function getExpectativas(): Collection
     {
-        return $this->tipoPartesInteresadas;
+        return $this->expectativas;
     }
 
-    public function addTipoPartesInteresada(TipoPartesInteresadas $tipoPartesInteresada): self
+    public function addExpectativa(Expectativa $expectativa): self
     {
-        if (!$this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
-            $this->tipoPartesInteresadas[] = $tipoPartesInteresada;
-            $tipoPartesInteresada->setParteInteresada($this);
+        if (!$this->expectativas->contains($expectativa)) {
+            $this->expectativas[] = $expectativa;
+            $expectativa->setParteInteresada($this);
         }
 
         return $this;
     }
 
-    public function removeTipoPartesInteresada(TipoPartesInteresadas $tipoPartesInteresada): self
+    public function removeExpectativa(Expectativa $expectativa): self
     {
-        if ($this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
-            $this->tipoPartesInteresadas->removeElement($tipoPartesInteresada);
+        if ($this->expectativas->contains($expectativa)) {
+            $this->expectativas->removeElement($expectativa);
             // set the owning side to null (unless already changed)
-            if ($tipoPartesInteresada->getParteInteresada() === $this) {
-                $tipoPartesInteresada->setParteInteresada(null);
+            if ($expectativa->getParteInteresada() === $this) {
+                $expectativa->setParteInteresada(null);
             }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|ExpectativaPartesInteresadas[]
-     */
-    public function getExpectativaPartesInteresadas(): Collection
+    public function getTipoParteInteresada(): ?TipoPartesInteresadas
     {
-        return $this->expectativaPartesInteresadas;
+        return $this->TipoParteInteresada;
     }
 
-    public function addExpectativaPartesInteresada(ExpectativaPartesInteresadas $expectativaPartesInteresada): self
+    public function setTipoParteInteresada(?TipoPartesInteresadas $TipoParteInteresada): self
     {
-        if (!$this->expectativaPartesInteresadas->contains($expectativaPartesInteresada)) {
-            $this->expectativaPartesInteresadas[] = $expectativaPartesInteresada;
-            $expectativaPartesInteresada->setParteInteresada($this);
-        }
-
-        return $this;
-    }
-
-    public function removeExpectativaPartesInteresada(ExpectativaPartesInteresadas $expectativaPartesInteresada): self
-    {
-        if ($this->expectativaPartesInteresadas->contains($expectativaPartesInteresada)) {
-            $this->expectativaPartesInteresadas->removeElement($expectativaPartesInteresada);
-            // set the owning side to null (unless already changed)
-            if ($expectativaPartesInteresada->getParteInteresada() === $this) {
-                $expectativaPartesInteresada->setParteInteresada(null);
-            }
-        }
+        $this->TipoParteInteresada = $TipoParteInteresada;
 
         return $this;
     }

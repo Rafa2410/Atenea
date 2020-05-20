@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,9 +24,19 @@ class TipoPartesInteresadas
     private $nombre;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PartesInteresadas", inversedBy="tipoPartesInteresadas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="tipoPartesInteresadas")
      */
-    private $parte_interesada;
+    private $UnidadDeGestion;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PartesInteresadas", mappedBy="TipoParteInteresada")
+     */
+    private $partesInteresadas;
+
+    public function __construct()
+    {
+        $this->partesInteresadas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,14 +55,45 @@ class TipoPartesInteresadas
         return $this;
     }
 
-    public function getParteInteresada(): ?PartesInteresadas
+    public function getUnidadDeGestion(): ?UnidadDeGestion
     {
-        return $this->parte_interesada;
+        return $this->UnidadDeGestion;
     }
 
-    public function setParteInteresada(?PartesInteresadas $parte_interesada): self
+    public function setUnidadDeGestion(?UnidadDeGestion $UnidadDeGestion): self
     {
-        $this->parte_interesada = $parte_interesada;
+        $this->UnidadDeGestion = $UnidadDeGestion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PartesInteresadas[]
+     */
+    public function getPartesInteresadas(): Collection
+    {
+        return $this->partesInteresadas;
+    }
+
+    public function addPartesInteresada(PartesInteresadas $partesInteresada): self
+    {
+        if (!$this->partesInteresadas->contains($partesInteresada)) {
+            $this->partesInteresadas[] = $partesInteresada;
+            $partesInteresada->setTipoParteInteresada($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartesInteresada(PartesInteresadas $partesInteresada): self
+    {
+        if ($this->partesInteresadas->contains($partesInteresada)) {
+            $this->partesInteresadas->removeElement($partesInteresada);
+            // set the owning side to null (unless already changed)
+            if ($partesInteresada->getTipoParteInteresada() === $this) {
+                $partesInteresada->setTipoParteInteresada(null);
+            }
+        }
 
         return $this;
     }
