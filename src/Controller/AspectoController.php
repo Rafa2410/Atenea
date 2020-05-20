@@ -83,7 +83,7 @@ class AspectoController extends AbstractController
     }
 
     /**
-    * @Route("/aspecto/{interna}/{id}", name="aspecto_super")
+    * @Route("/aspecto/super/{interna}/{id}", name="aspecto_super")
     */
     public function indexSuper($interna, $id)
     {        

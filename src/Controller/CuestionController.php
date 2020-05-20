@@ -61,7 +61,7 @@ class CuestionController extends AbstractController
     }
 
     /**
-    * @Route("/cuestion/{interna}/{id}", name="cuestion_super")
+    * @Route("/cuestion/super/{interna}/{id}", name="cuestion_super")
     */
     public function indexSuper($interna, $id)
     {        

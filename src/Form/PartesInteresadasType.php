@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\PartesInteresadas;
+use App\Entity\TipoPartesInteresadas;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,8 +14,7 @@ class PartesInteresadasType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
-            ->add('TipoParteInteresada')
+            ->add('nombre')            
         ;
     }
 
