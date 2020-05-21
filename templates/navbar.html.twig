@@ -16,9 +16,12 @@
 <ul id="slide-out" class="sidenav">
     {% if is_granted('ROLE_USER') %}
         <li>
-            <div class="user-view" style="margin-top:-30px;">            
-            <a href="#compania"><span class="name truncate"><h4 style="color:#01579b;">{{ app.user.usuarioUnidadPermisos[0].unidad.nombre }}</h4></span></a>
-            <a href="#email"><span class="name">{{ app.user.username }}</span></a>
+            <div class="user-view" style="margin-top:-30px;">
+            <a href="#compania"><span class="name truncate"><h4 style="color:#01579b;margin-top:-5px;">{{ app.user.usuarioUnidadPermisos[0].unidad.nombre }}</h4></span></a>
+            <div class="divider"></div>
+            <a href="#user"><img class="circle" src="{{ asset('images/user.png') }}"></a>            
+            <a href="#user-info"><span class="name">{{ app.user.nombre }} {{ app.user.apellidos }}</span></a>
+            <a href="#email"><span class="email">{{ app.user.username }}</span></a>            
             </div>
         </li>
         <li><div class="divider"></div></li>
