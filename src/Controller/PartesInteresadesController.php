@@ -63,6 +63,46 @@ class PartesInteresadesController extends AbstractController
     }
 
     /**
+     * @Route("/partes_interesadas/super/{id}/{currentPage}", name="partes_interesadas_super")
+     */
+    public function indexSuper($id, $currentPage = 1)
+    {
+        $tipos = $this->getDoctrine()
+                               ->getRepository(TipoPartesInteresadas::class)
+                               ->findBy(array('UnidadDeGestion' => $id));
+        
+        if (count($tipos) > 0) {
+            $partesResult = [];
+            foreach ($tipos as $key => $tipo) {
+                $parte = $this->getDoctrine()
+                        ->getRepository(PartesInteresadas::Class)
+                        ->findBy(array('TipoParteInteresada' => $tipo->getId()));
+                array_push($partesResult, $parte);
+            }
+            
+        } else {
+            $partesResult = [];            
+        }
+
+        //Paginacion
+        $em = $this->getDoctrine()->getManager();
+
+        $limit = 3;
+        $parte = $em->getRepository(PartesInteresadas::Class)->getAllPers($currentPage, $limit, $partesResult);
+        $partesResultado = $parte['paginator'];
+        $partesQueryCompleta =  $parte['query'];        
+
+        $maxPages = ceil($parte['paginator']->count() / $limit);
+
+        return $this->render('partes_interesadas/index.html.twig', [
+            'partes'          => $partesResultado,
+            'maxPages'        => $maxPages,
+            'thisPage'        => $currentPage,
+            'all_items'       => $partesQueryCompleta
+        ]);
+    }
+
+    /**
      * @Route("/partes_interesadas/new/parte", name="partes_interesada_new")
      */
     public function new(Request $request)
