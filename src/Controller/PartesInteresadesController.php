@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 class PartesInteresadesController extends AbstractController
 {
     /**
-     * @Route("/partes_interesadas", name="partes_interesadas")
+     * @Route("/partes_interesadas/{currentPage}", name="partes_interesadas")
      */
-    public function index()
+    public function index($currentPage = 1)
     {
         $user = $this->getUser()->getId();
         //Tabla usuario_unidad_permiso
@@ -34,18 +34,31 @@ class PartesInteresadesController extends AbstractController
         if (count($tipos) > 0) {
             $partesResult = [];
             foreach ($tipos as $key => $tipo) {
-                $partes = $this->getDoctrine()
+                $parte = $this->getDoctrine()
                         ->getRepository(PartesInteresadas::Class)
                         ->findBy(array('TipoParteInteresada' => $tipo->getId()));
-                array_push($partesResult, $partes);
+                array_push($partesResult, $parte);
             }
             
         } else {
             $partesResult = [];            
         }
 
+        //Paginacion
+        $em = $this->getDoctrine()->getManager();
+
+        $limit = 3;
+        $parte = $em->getRepository(PartesInteresadas::Class)->getAllPers($currentPage, $limit, $partesResult);
+        $partesResultado = $parte['paginator'];
+        $partesQueryCompleta =  $parte['query'];        
+
+        $maxPages = ceil($parte['paginator']->count() / $limit);
+
         return $this->render('partes_interesadas/index.html.twig', [
-            'partes' => $partesResult
+            'partes'          => $partesResultado,
+            'maxPages'        => $maxPages,
+            'thisPage'        => $currentPage,
+            'all_items'       => $partesQueryCompleta
         ]);
     }
 
@@ -102,6 +115,59 @@ class PartesInteresadesController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+        /**
+     * @Route("/partes_interesadas/edit/{id}", name="partes_interesada_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $parte = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($id);        
+
+        $form = $this->createForm(PartesInteresadasType::class, $parte);
+
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+                    ->getRepository(UsuarioUnidadPermiso::class)
+                    ->findBy(array('usuario' => $user));
+        //Cuestiones del usuario activo
+        $tipos = $this->getDoctrine()
+                               ->getRepository(TipoPartesInteresadas::class)
+                               ->findBy(array('UnidadDeGestion' => $UUP[0]->getUnidad()->getId()));
+        
+        $form->add(
+            'TipoParteInteresada',
+            EntityType::class,
+            array(
+                'class'        => TipoPartesInteresadas::Class,
+                'choices'      => $tipos,
+                'choice_label' => 'nombre',                
+                'label' => false,
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $parte = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($parte);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('partes_interesadas');
+        }        
+
+        return $this->render(
+            'partes_interesadas/new.html.twig',
+            [
+                'form'  => $form->createView(),
+                'title' => 'Editar parte',
+            ]
+        );
+
     }
 
     /**

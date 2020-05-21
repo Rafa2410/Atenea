@@ -29,6 +29,9 @@
     .tabs .tab a.active {
     color:#26a69a;
     }
+    .pagination li.active {
+    background-color:#42a5f5;
+    }
 </style>
 
 {# MENSAJES #}
@@ -80,8 +83,8 @@
             </tr>
             </thead>
             <tbody>            
-                {% for parte in partes %}                
-                {% if parte|length > 1 %}
+            {% for parte in partes %}                
+                {#{% if parte|length > 1 %}
                     {% for p in parte %}
                     <tr id="{{ p.id }}" onClick="activeButtons('{{ p.id }}')">
                         <td>{{ p.TipoParteInteresada.nombre }}</td>
@@ -103,26 +106,26 @@
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
                             <td>
-                                <a href="#{#{{ path('partes_edit',{'id':parte.id}) }}#}"
+                                <a href="#"
                                 class="btn-floating"><i class="material-icons">edit</i></a>
                             </td>
                         {% endif %}
                     </tr>
-                    {% endfor %}
-                {% elseif parte|length > 0 %}
-                    <tr id="{{ parte[0].id }}" onClick="activeButtons('{{ parte[0].id }}')">
+                    {% endfor %}#}
+                {% if parte|length > 0 %}
+                    <tr id="{{ parte.id }}" onClick="activeButtons('{{ parte.id }}')">
                         <td>
-                        {{ parte[0].TipoParteInteresada.nombre }}
+                        {{ parte.TipoParteInteresada.nombre }}
                         </td>
-                        <td>{{ parte[0].nombre }}</td>
-                        {% if parte[0].expectativas|length > 0 %}
-                            {% if parte[0].expectativas|length == 1 %}
+                        <td>{{ parte.nombre }}</td>
+                        {% if parte.expectativas|length > 0 %}
+                            {% if parte.expectativas|length == 1 %}
                                 <td><ul id="expectativas">
-                                    <li>{{ parte[0].expectativas[0].nombre }}</li>
+                                    <li>{{ parte.expectativas[0].nombre }}</li>
                                 </ul></td>
                             {% else %}
                                 <td><ul id="expectativas">
-                                {% for expectativa in parte[0].expectativas %}
+                                {% for expectativa in parte.expectativas %}
                                     <li>{{ expectativa.nombre }}</li>
                                 {% endfor %}
                                 </ul></td>
@@ -134,15 +137,46 @@
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
                             <td>
-                                <a href="#"
-                                class="btn-floating"><i class="material-icons">edit</i></a>
+                                <a href="{{ path('partes_interesada_edit', {id: parte.id})}}"
+                                class="btn-floating orange lighten-2"><i class="material-icons">edit</i></a>
                             </td>
                         {% endif %}                        
                     </tr>
                 {% endif %}
-                {% endfor %}
+            {% endfor %}                
             </tbody>
         </table>
+        <div class="right">
+        {% if maxPages > 1 %}
+            <ul class="pagination">
+                {% if thisPage > 1 %}
+                    <li class="waves-effect">
+                        <a href="{{ path('partes_interesadas', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                    </li>
+                {% endif %}
+
+                {# Render each page number #}
+                {% for i in 1..maxPages %}
+                    {% if i == thisPage %}
+                    <li class="active">
+                        <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                    </li>
+                    {% else %}
+                    <li class="waves-effect">
+                        <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {# `»` arrow #}
+                {% if thisPage < maxPages %}
+                    <li class="waves-effect">
+                        <a href="{{ path('partes_interesadas', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        </div>            
         {% if is_granted('ROLE_USER') %}
         <br/>
             <div class="row">                
