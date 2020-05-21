@@ -1,26 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Crear una nueva aarte iteresada{% endblock %}
+{% block title %}Crear una nueva parte iteresada{% endblock %}
 
 {% block body %}
-    <h3>Crear una nueva parte interesada</h3>
+<style>
+.mt-20 {margin-top:20px;}
+</style>
+<div class="col s12">
+    <h3>Nueva parte interesada</h3>
 
     {{ form_start(form) }}
+    <div class="input-field col s12">
         {{ form_row(form.nombre) }}
-        {{ form_row(form.TipoParteInteresada) }}        
-    <button class="btn waves-effect waves-light right" type="submit">Añadir</button>
-    <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
-    <br/>
-    {{ form_end(form) }}
-
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            {{ form_label(form.TipoParteInteresada, 'Tipo') }}
+        </div>
+        <div class="input-field col s10">
+            {{ form_row(form.TipoParteInteresada, {'attr': {'id':'selectTipo'} }) }}            
+        </div>
+        <div class="col s2 mt-20">
+            <a href="#modalTipo" id="add-tipo" class="btn light-blue lighten-1 modal-trigger">Añadir tipo</a>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn waves-effect waves-light right" type="submit">Añadir</button>
+        <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>    
+        {{ form_end(form) }}
+    </div>
+</div>
+    
+<div id="modalTipo" class="modal">
+<div class="modal-content">
+    <h4 class="center">Añadir tipo</h4>
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="nombreTipo" type="text" class="validate">
+            <label for="nombreTipo">Tipo</label>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">                
+    <a href="#" class="modal-close waves-effect waves-red btn-flat left">Cancelar</a>
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addTipo($('#nombreTipo').val())">Añadir</a>
+</div>
 {% endblock %}
 
-{#{% block javascripts %}
+{% block javascripts %}
     <script type="text/javascript">
     $(document).ready(function(){
-        $('select').formSelect();
-        $('#factores_criticos_de_exito_aspectosFav').attr('style','display: none !important');
-        $('#factores_criticos_de_exito_aspectosDes').attr('style','display: none !important');
+        $('.modal').modal();
+        $('select').formSelect();        
+        $('#partes_interesadas_TipoParteInteresada').attr('style','display: none !important');        
     });
     </script>
-{% endblock %}#}
+    <script type="text/javascript" src="{{ asset('js/partes.js') }}"></script>
+{% endblock %}

@@ -1,22 +1,21 @@
-function activeButtons(parte) {
+function activeButtons(parte) {    
     $('tbody > tr').each(function(index, tr) {
         $(`#${tr.id}`).removeClass('active-table');
     });
-    $(`#${parte}`).addClass('active-table');        
-    $('#add-tipo').removeAttr('disabled');
+    $(`#${parte}`).addClass('active-table');
     $('#add-expectativa').removeAttr('disabled');
 }
 
 function addTipo(nombre) {    
-    var parte = $('.active-table').attr('id');
-    $('.active-table #tipos').append(nombre);    
     $.ajax({
-        url: `/Atenea/public/index.php/partes/tipo/new/${nombre}/${parte}`,        
+        url: `/Atenea/public/index.php/partes_interesadas/new/tipo/${nombre}`,        
         success (response) {
             M.toast({
                 html: 'Tipo '+response+' creado!',
                 classes: 'green lighten-1'
             });
+            $('select').append($(`<option>${nombre}</option>`))
+            $('select').trigger('contentChanged');
         },
         error (jqXHR,status,errorThrown){
             console.log("Error" + status);
@@ -24,9 +23,12 @@ function addTipo(nombre) {
     })
 }
 
+$('select').on('contentChanged', function() {
+    $(this).formSelect(); 
+});
+
 function addExpectativa(nombre) {
-    var parte = $('.active-table').attr('id');
-    $('.active-table #expectativas').append(nombre);
+    var parte = $('.active-table').attr('id');    
     $.ajax({
         url: `/Atenea/public/index.php/partes/expectativa/new/${nombre}/${parte}`,        
         success (response) {
@@ -34,9 +36,10 @@ function addExpectativa(nombre) {
                 html: 'Expectativa '+response+' creada!',
                 classes: 'green lighten-1'
             });
+            $('.active-table #expectativas').append(response);
         },
         error (jqXHR,status,errorThrown){
             console.log("Error" + status);
         }
-    })
+    })    
 }

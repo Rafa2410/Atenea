@@ -79,16 +79,18 @@
                 {% endif %}
             </tr>
             </thead>
-            <tbody>
+            <tbody>            
                 {% for parte in partes %}                
                 {% if parte|length > 1 %}
                     {% for p in parte %}
-                    <tr>                        
+                    <tr id="{{ p.id }}" onClick="activeButtons('{{ p.id }}')">
                         <td>{{ p.TipoParteInteresada.nombre }}</td>
                         <td>{{ p.nombre }}</td>
                         {% if p.expectativas|length > 0 %}
                             {% if p.expectativas|length == 1 %}
-                                <td>{{ p.expectativas[0].nombre }}</td>
+                                <td><ul id="expectativas">
+                                    <li>{{ p.expectativas[0].nombre }}</li>
+                                </ul></td>
                             {% else %}
                                 <td><ul id="expectativas">
                                 {% for expectativa in p.expectativas %}
@@ -107,56 +109,44 @@
                         {% endif %}
                     </tr>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td>                    
+                {% elseif parte|length > 0 %}
+                    <tr id="{{ parte[0].id }}" onClick="activeButtons('{{ parte[0].id }}')">
+                        <td>
                         {{ parte[0].TipoParteInteresada.nombre }}
                         </td>
                         <td>{{ parte[0].nombre }}</td>
                         {% if parte[0].expectativas|length > 0 %}
                             {% if parte[0].expectativas|length == 1 %}
-                                <td>{{ parte[0].expectativas[0].nombre }}</td>
+                                <td><ul id="expectativas">
+                                    <li>{{ parte[0].expectativas[0].nombre }}</li>
+                                </ul></td>
                             {% else %}
                                 <td><ul id="expectativas">
-                                {% for expectativa in parte.expectativas %}
+                                {% for expectativa in parte[0].expectativas %}
                                     <li>{{ expectativa.nombre }}</li>
                                 {% endfor %}
                                 </ul></td>
                             {% endif %}
                         {% else %}
-                            <td></td>
+                            <td><ul id="expectativas">
+                                <li></li>
+                            </ul></td>
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
                             <td>
-                                <a href="#{#{{ path('partes_edit',{'id':parte.id}) }}#}"
+                                <a href="#"
                                 class="btn-floating"><i class="material-icons">edit</i></a>
                             </td>
-                        {% endif %}
+                        {% endif %}                        
                     </tr>
                 {% endif %}
                 {% endfor %}
             </tbody>
         </table>
-        {#{% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_USER') %}
         <br/>
-            <div class="row">
-                <a href="#modalTipo" id="add-tipo" class="btn light-blue lighten-1 modal-trigger" disabled>Añadir tipo</a>
+            <div class="row">                
                 <a href="#modalExpectativa" id="add-expectativa" class="btn light-blue lighten-1 modal-trigger" disabled>Añadir expectativa</a>
-            </div>            
-            <div id="modalTipo" class="modal">
-                <div class="modal-content">
-                    <h4 class="center">Añadir tipo</h4>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="nombreTipo" type="text" class="validate">
-                            <label for="nombreTipo">Tipo</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">                
-                    <a href="#" class="modal-close waves-effect waves-red btn-flat left">Cancelar</a>
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addTipo($('#nombreTipo').val())">Añadir</a>
-                </div>
             </div>
             <div id="modalExpectativa" class="modal">
                 <div class="modal-content">
@@ -173,7 +163,7 @@
                     <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onClick="addExpectativa($('#nombreExpectativa').val())">Añadir</a>
                 </div>
             </div>
-        {% endif %}#}
+        {% endif %}
     {% else %}
         <span>No hay partes interesadas creadas.</span>
     {% endif %}

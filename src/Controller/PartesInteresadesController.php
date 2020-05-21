@@ -6,11 +6,13 @@ use App\Entity\Expectativa;
 use App\Entity\PartesInteresadas;
 use App\Entity\TipoPartesInteresadas;
 use App\Entity\UsuarioUnidadPermiso;
+use App\Entity\UnidadDeGestion;
 use App\Form\PartesInteresadasType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class PartesInteresadesController extends AbstractController
 {
@@ -100,5 +102,60 @@ class PartesInteresadesController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/partes_interesadas/new/tipo/{nombre}", name="partes_tipo_new")
+     */
+    public function addTipo($nombre) {
+        
+        $tipo = new TipoPartesInteresadas();
+
+        $user = $this->getUser()->getId();
+        //Tabla usuario_unidad_permiso
+        $UUP = $this->getDoctrine()
+                    ->getRepository(UsuarioUnidadPermiso::class)
+                    ->findBy(array('usuario' => $user));        
+
+        $unidadDeGestion = $this->getDoctrine()->getRepository(UnidadDeGestion::class)->find($UUP[0]->getUnidad()->getId());
+
+        $tipo->setNombre($nombre);
+        $tipo->setUnidadDeGestion($unidadDeGestion);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($tipo);
+        $entityManager->flush();
+        
+        $response = new Response(
+            $tipo->getNombre(),
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+
+        return $response;
+    }
+
+    /**
+     * @Route("/partes/expectativa/new/{nombre}/{parte}", name="partes_expectativa_new")
+     */
+    public function addExpectativa($nombre, $parte) {
+        $expectativa = new Expectativa();
+
+        $parteInteresada = $this->getDoctrine()->getRepository(PartesInteresadas::class)->find($parte);
+
+        $expectativa->setNombre($nombre);
+        $expectativa->setParteInteresada($parteInteresada);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($expectativa);
+        $entityManager->flush();
+
+        $response = new Response(
+            $expectativa->getNombre(),
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+
+        return $response;
     }
 }
