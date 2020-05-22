@@ -75,7 +75,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
 
         $fce = new FactoresPotencialesDeExito();
 
-        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce);
+        $form = $this->createForm(FactoresCriticosDeExitoType::class, $fce, array('allow_extra_fields' =>true));
 
         //Busco aspectos favorables y desfavorables        
         $aspectosFav = $this->getDoctrine()->getRepository(Aspecto::Class)->findBy(['favorable' => 1]);
@@ -110,47 +110,24 @@ class FactoresPotencialesDeExitoController extends AbstractController
             }
         }
         
-        //Aspectos sobreescribo el form con las aspectos adecuados a mostrar
-        $form->add(
-            'aspectosFav',
-            EntityType::class,
-            array(
-                'class'        => Aspecto::Class,
-                'choices'      => $aspectosFavResult,
-                'choice_label' => 'descripcion',
-                'multiple'     => true,
-                'label' => false,
-            )
-        );
-
-        $form->add(
-            'aspectosDes',
-            EntityType::class,
-            array(
-                'class'        => Aspecto::Class,
-                'choices'      => $aspectosDesResult,
-                'choice_label' => 'descripcion',
-                'multiple'     => true,
-                'label' => false,
-            )
-        );
-
         $form->handleRequest($request);
 
         //Comprueba si el form es valido
         if ($form->isSubmitted() && $form->isValid()) {
 
             $fce         = $form->getData();
-            $aspectosFav = $fce->getAspectosFav();
-            $aspectosDes = $fce->getAspectosDes();
+            $aspectosFav = $request->request->get('factores_criticos_de_exito')['aspectosFav'];
+            $aspectosDes = $request->request->get('factores_criticos_de_exito')['aspectosDes'];
 
             foreach ($aspectosFav as $aspectoFav) {
-                $fce->addAspecto($aspectoFav);
+                $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoFav);
+                $fce->addAspecto($aspecto);                
             }
-
+            
             foreach ($aspectosDes as $aspectoDes) {
-                $fce->addAspecto($aspectoDes);
-            }
+                $aspecto = $this->getDoctrine()->getRepository(Aspecto::class)->find((int)$aspectoDes);    
+                $fce->addAspecto($aspecto);                
+            }            
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fce);
@@ -166,6 +143,9 @@ class FactoresPotencialesDeExitoController extends AbstractController
             'factores_potenciales_de_exito/new.html.twig',
             [
                 'form' => $form->createView(),
+                'aspectosFav' => $aspectosFavResult,
+                'aspectosDes' => $aspectosDesResult,
+                'fce' => $fce
             ]
         );
 
@@ -284,15 +264,7 @@ class FactoresPotencialesDeExitoController extends AbstractController
         $em->remove($fce);
         $em->flush();
 
-        $this->addFlash('eliminado','Factor '.$fce->getDescripcion().' eliminado!');
-
-        /*return $this->render(
-            'factores_potenciales_de_exito/index.html.twig',
-            [
-                'controller_name' => 'FactoresPotencialesDeExitoController',
-                'fpe'             => $fce,
-            ]
-        );*/
+        $this->addFlash('eliminado','Factor '.$fce->getDescripcion().' eliminado!');        
         return $this->redirectToRoute('factores_potenciales_de_exito');
     }
 
@@ -339,7 +311,8 @@ class FactoresPotencialesDeExitoController extends AbstractController
                 'fpe'             => $factorResultado,                
                 'maxPages'        => $maxPages,
                 'thisPage'        => $currentPage,
-                'all_items'       => $factorQueryCompleta
+                'all_items'       => $factorQueryCompleta,
+                'unidad'          => $id
             ]
         );
     }

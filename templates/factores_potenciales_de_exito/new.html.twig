@@ -10,19 +10,65 @@
     {{ form_row(form.fecha_alta) }}
     {{ form_row(form.fecha_baja) }}
     <br>
-    <label>Aspectos Favorables</label>
     <div class="input-field col s12">
-        {{ form_row(form.aspectosFav) }}
+        <select id="factores_criticos_de_exito_aspectosFav" name="factores_criticos_de_exito[aspectosFav][]" required="required" multiple="multiple" tabindex="-1">
+        {% set cont = 0 %}
+        {% for aspectoFav in aspectosFav %}
+            {% if cont == 0 %}
+                <optgroup label="Oportunidades">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoFav.favorable == 1 and aspectoFav.interno == 0 %}
+                <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
+            {% endif %}
+        {% endfor %}
+            </optgroup>
+        {% set cont = 0 %}                
+        {% for aspectoFav in aspectosFav %}
+            {% if cont == 0 %}
+                <optgroup label="Fortalezas">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoFav.favorable == 1 and aspectoFav.interno == 1 %}
+                <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
+            {% endif %}
+        {% endfor %}
+            </optgroup>
+        </select>
+        <label>Aspectos Favorables</label>
     </div>
-    <br>
-    <label>Aspectos Desfavorables</label>
+    <br/>
     <div class="input-field col s12">
-        {{ form_row(form.aspectosDes) }}
+        <select multiple id="factores_criticos_de_exito_aspectosDes" name="factores_criticos_de_exito[aspectosDes][]" required="required" multiple="multiple" tabindex="-1">        
+        {% set cont = 0 %}                
+        {% for aspectoDes in aspectosDes %}
+            {% if cont == 0 %}
+                <optgroup label="Debilidades">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoDes.favorable == 0 and aspectoDes.interno == 1 %}
+                <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
+            {% endif %}
+        {% endfor %}
+            </optgroup>
+        {% set cont = 0 %}                
+        {% for aspectoDes in aspectosDes %}
+            {% if cont == 0 %}
+                <optgroup label="Amenazas">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoDes.favorable == 0 and aspectoDes.interno == 0 %}
+                <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
+            {% endif %}
+        {% endfor %}
+            </optgroup>
+        </select>
+        <label>Aspectos Desfavorables</label>
     </div>
     <button class="btn waves-effect waves-light right" type="submit">Añadir</button>
     <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
     <br/>
-    {{ form_end(form) }}
+    {{ form_end(form) }}    
 
 {% endblock %}
 
@@ -31,7 +77,7 @@
     $(document).ready(function(){
         $('select').formSelect();
         $('#factores_criticos_de_exito_aspectosFav').attr('style','display: none !important');
-        $('#factores_criticos_de_exito_aspectosDes').attr('style','display: none !important');
+        $('#factores_criticos_de_exito_aspectosDes').attr('style','display: none !important');        
     });
     </script>
 {% endblock %}

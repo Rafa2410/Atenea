@@ -3,6 +3,11 @@
 {% block title %}Menu de Gestión Técnica{% endblock %}
 
 {% block body %}
+<style>
+blockquote{    
+border-left: 5px solid #64b5f6;
+}
+</style>
     <div class="center">
     {% if is_granted('ROLE_USER') %}
         <div class="section">
@@ -14,15 +19,18 @@
         <div class="row center">
             <a href="#" data-target="slide-out" class="btn-large waves-effect waves-light red darken-1 sidenav-trigger">Comenzar</a>
         </div>
-    {% elseif is_granted('ROLE_SUPER') %}        
-        <div class="section">            
-            <h1 class="header center indigo-text text-accent-2">{{ unidad[0].nombre }}</h1>            
-        </div>
+    {% elseif is_granted('ROLE_SUPER') %}
+        <blockquote>
+            <h2>{{ unidad[0].nombre }}</h2>
+            <small>{{ unidad[0].descripcion }}</small>
+        </blockquote>
+        <div class="divider"></div>
         <div class="row">
             <div class="col s6 m6">
                 <div class="card">
-                    <div class="card-content">
-                    <span class="card-title">Cuestiones</span>
+                    <div class="card-content">                        
+                        <span class="card-title">Cuestiones</span>
+                        <i class="material-icons">question_answer</i>
                     <div class="card-action">
                         <a href="{{ path('cuestion_super',{'interna': 0, 'id' : unidad[0].id }) }}">Cuestiones externas</a>
                         <a href="{{ path('cuestion_super',{'interna': 1, 'id' : unidad[0].id }) }}">Cuestiones internas</a>
@@ -33,7 +41,8 @@
             <div class="col s6 m6">
                 <div class="card">
                     <div class="card-content">
-                    <span class="card-title">Aspectos</span>
+                        <span class="card-title">Aspectos</span>
+                        <i class="material-icons">label</i>
                     <div class="card-action">
                         <a href="{{ path('aspecto_super',{'interna': 0, 'id' : unidad[0].id }) }}">Aspectos externos</a>
                         <a href="{{ path('aspecto_super',{'interna': 1, 'id' : unidad[0].id}) }}">Aspectos internos</a>
@@ -46,7 +55,8 @@
             <div class="col s6 m6">
                 <div class="card">
                     <div class="card-content">
-                    <span class="card-title">Factores potenciales</span>
+                        <span class="card-title">Factores potenciales</span>
+                        <i class="material-icons">info_outline</i>
                     <div class="card-action">
                         <a href="{{ path('factores_potenciales_de_exito_super', {'id': unidad[0].id}) }}">Factores</a>                        
                     </div>
@@ -56,7 +66,8 @@
             <div class="col s6 m6">
                 <div class="card">
                     <div class="card-content">
-                    <span class="card-title">Partes interesadas</span>
+                        <span class="card-title">Partes interesadas</span>
+                        <i class="material-icons">people</i>
                     <div class="card-action">
                         <a href="{{ path('partes_interesadas_super', {'id':unidad[0].id}) }}">Partes interesadas</a>                        
                     </div>
@@ -68,7 +79,8 @@
             <div class="col s12 m12">
                 <div class="card">
                     <div class="card-content">
-                    <span class="card-title">DAFO</span>
+                        <span class="card-title">DAFO</span>
+                        <i class="material-icons">grid_on</i>
                     <div class="card-action">
                         <a href="{{ path('dafo_super', {'id': unidad[0].id}) }}">DAFO</a>                        
                     </div>

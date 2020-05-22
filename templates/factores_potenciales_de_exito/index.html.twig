@@ -87,7 +87,7 @@ background-color:#42a5f5;
                             {% for aspecto in factor.aspecto %}
                             {% if aspecto.favorable == 1 and aspecto.interno == 0 %}
                             {% if opor == 0 %}
-                            <b style="font-size:20px;">Oportunidad</b>
+                            <b style="font-size:20px;"><u>Oportunidad</u></b>                            
                             <ul>
                                 {% set opor = 1 %}
                                 {% endif %}
@@ -100,7 +100,7 @@ background-color:#42a5f5;
                             {% for aspecto in factor.aspecto %}
                             {% if aspecto.favorable == 1 and aspecto.interno == 1 %}
                             {% if fort == 0 %}
-                            <b style="font-size:20px;">Fortaleza</b>
+                            <b style="font-size:20px;"><u>Fortaleza</u></b>                            
                             <ul>
                                 {% set fort = 1 %}
                                 {% endif %}
@@ -114,7 +114,7 @@ background-color:#42a5f5;
                             {% for aspecto in factor.aspecto %}
                             {% if aspecto.favorable == 0 and aspecto.interno == 1 %}
                             {% if debi == 0 %}
-                            <b style="font-size:20px;">Debilidad</b>
+                            <b style="font-size:20px;"><u>Debilidad</u></b>                            
                             <ul>
                                 {% set debi = 1 %}
                                 {% endif %}
@@ -127,7 +127,7 @@ background-color:#42a5f5;
                             {% for aspecto in factor.aspecto %}
                             {% if aspecto.favorable == 0 and aspecto.interno == 0 %}
                             {% if amen == 0 %}
-                            <b style="font-size:20px;">Amenaza</b>
+                            <b style="font-size:20px;"><u>Amenaza</u></b>                            
                             <ul>
                                 {% set amen = 1 %}
                                 {% endif %}
@@ -152,7 +152,11 @@ background-color:#42a5f5;
                 <ul class="pagination">
                     {% if thisPage > 1 %}
                         <li class="waves-effect">
-                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                            {% elseif is_granted('ROLE_SUPER') %}
+                                <a href="{{ path('factores_potenciales_de_exito_super', {id: unidad, currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                            {% endif %}
                         </li>
                     {% endif %}
 
@@ -160,11 +164,19 @@ background-color:#42a5f5;
                     {% for i in 1..maxPages %}
                         {% if i == thisPage %}
                         <li class="active">
-                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                            {% elseif is_granted('ROLE_SUPER') %}
+                                <a href="{{ path('factores_potenciales_de_exito_super', {id: unidad, currentPage: i}) }}">{{ i }}</a>
+                            {% endif %}
                         </li>
                         {% else %}
                         <li class="waves-effect">
-                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('factores_potenciales_de_exito', {currentPage: i}) }}">{{ i }}</a>
+                            {% elseif is_granted('ROLE_SUPER') %}
+                                <a href="{{ path('factores_potenciales_de_exito_super', {id: unidad, currentPage: i}) }}">{{ i }}</a>
+                            {% endif %}
                         </li>
                         {% endif %}
                     {% endfor %}
@@ -172,7 +184,11 @@ background-color:#42a5f5;
                     {# `»` arrow #}
                     {% if thisPage < maxPages %}
                         <li class="waves-effect">
-                            <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('factores_potenciales_de_exito', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                            {% elseif is_granted('ROLE_SUPER') %}
+                                <a href="{{ path('factores_potenciales_de_exito_super', {id: unidad, currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                            {% endif %}
                         </li>
                     {% endif %}
                 </ul>
@@ -182,7 +198,7 @@ background-color:#42a5f5;
             <span>No hay factores potenciales de éxito creados.</span>
         {% endif %}
         </div>        
-        {% if is_granted('ROLE_SUPER') %}            
-            <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+        {% if is_granted('ROLE_SUPER') %}
+            <a href="{{ path('technical_super',{'id' : unidad }) }}" class="btn light-blue lighten-1">Volver</a>
         {% endif %}    
 {% endblock %}

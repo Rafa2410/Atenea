@@ -98,7 +98,8 @@ class PartesInteresadesController extends AbstractController
             'partes'          => $partesResultado,
             'maxPages'        => $maxPages,
             'thisPage'        => $currentPage,
-            'all_items'       => $partesQueryCompleta
+            'all_items'       => $partesQueryCompleta,
+            'unidad'          => $id
         ]);
     }
 

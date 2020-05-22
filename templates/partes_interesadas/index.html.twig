@@ -83,35 +83,7 @@
             </tr>
             </thead>
             <tbody>            
-            {% for parte in partes %}                
-                {#{% if parte|length > 1 %}
-                    {% for p in parte %}
-                    <tr id="{{ p.id }}" onClick="activeButtons('{{ p.id }}')">
-                        <td>{{ p.TipoParteInteresada.nombre }}</td>
-                        <td>{{ p.nombre }}</td>
-                        {% if p.expectativas|length > 0 %}
-                            {% if p.expectativas|length == 1 %}
-                                <td><ul id="expectativas">
-                                    <li>{{ p.expectativas[0].nombre }}</li>
-                                </ul></td>
-                            {% else %}
-                                <td><ul id="expectativas">
-                                {% for expectativa in p.expectativas %}
-                                    <li>{{ expectativa.nombre }}</li>
-                                {% endfor %}
-                                </ul></td>
-                            {% endif %}
-                        {% else %}
-                            <td></td>
-                        {% endif %}
-                        {% if is_granted('ROLE_USER') %}
-                            <td>
-                                <a href="#"
-                                class="btn-floating"><i class="material-icons">edit</i></a>
-                            </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}#}
+            {% for parte in partes %}
                 {% if parte|length > 0 %}
                     <tr id="{{ parte.id }}" onClick="activeButtons('{{ parte.id }}')">
                         <td>
@@ -151,7 +123,11 @@
             <ul class="pagination">
                 {% if thisPage > 1 %}
                     <li class="waves-effect">
-                        <a href="{{ path('partes_interesadas', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('partes_interesadas', {currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                        {% elseif is_granted('ROLE_SUPER') %}
+                            <a href="{{ path('partes_interesadas_super', {id : unidad,currentPage: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><i class="material-icons">chevron_left</i></a>
+                        {% endif %}
                     </li>
                 {% endif %}
 
@@ -159,11 +135,19 @@
                 {% for i in 1..maxPages %}
                     {% if i == thisPage %}
                     <li class="active">
-                        <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                        {% elseif is_granted('ROLE_SUPER') %}
+                            <a href="{{ path('partes_interesadas_super', {id: unidad,currentPage: i}) }}">{{ i }}</a>
+                        {% endif %}
                     </li>
                     {% else %}
                     <li class="waves-effect">
-                        <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('partes_interesadas', {currentPage: i}) }}">{{ i }}</a>
+                        {% elseif is_granted('ROLE_SUPER') %}
+                            <a href="{{ path('partes_interesadas_super', {id: unidad,currentPage: i}) }}">{{ i }}</a>
+                        {% endif %}
                     </li>
                     {% endif %}
                 {% endfor %}
@@ -171,7 +155,11 @@
                 {# `»` arrow #}
                 {% if thisPage < maxPages %}
                     <li class="waves-effect">
-                        <a href="{{ path('partes_interesadas', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('partes_interesadas', {currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                        {% elseif is_granted('ROLE_SUPER') %}
+                            <a href="{{ path('partes_interesadas_super', {id: unidad,currentPage: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}"><i class="material-icons">chevron_right</i></a>
+                        {% endif %}
                     </li>
                 {% endif %}
             </ul>
@@ -203,7 +191,7 @@
     {% endif %}
     </div>
     {% if is_granted('ROLE_SUPER') %}
-        <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+        <a href="{{ path('technical_super',{'id' : unidad }) }}" class="btn light-blue lighten-1">Volver</a>        
     {% endif %}    
 {% endblock %}
 {% block javascripts %}

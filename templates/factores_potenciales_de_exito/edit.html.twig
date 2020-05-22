@@ -10,25 +10,72 @@
     {{ form_row(form.fecha_baja) }}    
     <div class="input-field col s12">
         <select id="factores_criticos_de_exito_aspectosFav" name="factores_criticos_de_exito[aspectosFav][]" required="required" multiple="multiple" tabindex="-1">
+        {% set cont = 0 %}
         {% for aspectoFav in aspectosFav %}
-            {% if fce in aspectoFav.factoresPotencialesDeExitos %}
-                <option value="{{ aspectoFav.id }}" selected>{{ aspectoFav.descripcion }}</option>
-            {% else %}
-                <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
-            {% endif %}        
+            {% if cont == 0 %}
+                <optgroup label="Oportunidades">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoFav.favorable == 1 and aspectoFav.interno == 0 %}
+                {% if fce in aspectoFav.factoresPotencialesDeExitos %}
+                    <option value="{{ aspectoFav.id }}" selected>{{ aspectoFav.descripcion }}</option>
+                {% else %}
+                    <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
+                {% endif %}
+            {% endif %}
         {% endfor %}
+            </optgroup>
+        {% set cont = 0 %}                
+        {% for aspectoFav in aspectosFav %}
+            {% if cont == 0 %}
+                <optgroup label="Fortalezas">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoFav.favorable == 1 and aspectoFav.interno == 1 %}
+                {% if fce in aspectoFav.factoresPotencialesDeExitos %}
+                    <option value="{{ aspectoFav.id }}" selected>{{ aspectoFav.descripcion }}</option>
+                {% else %}
+                    <option value="{{ aspectoFav.id }}">{{ aspectoFav.descripcion }}</option>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+            </optgroup>
         </select>
         <label>Aspectos Favorables</label>
     </div>
+    <br/>
     <div class="input-field col s12">        
         <select multiple id="factores_criticos_de_exito_aspectosDes" name="factores_criticos_de_exito[aspectosDes][]" required="required" multiple="multiple" tabindex="-1">
+        {% set cont = 0 %}                
         {% for aspectoDes in aspectosDes %}
-            {% if fce in aspectoDes.factoresPotencialesDeExitos %}
-                <option value="{{ aspectoDes.id }}" selected>{{ aspectoDes.descripcion }}</option>
-            {% else %}
-                <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
-            {% endif %}        
+            {% if cont == 0 %}
+                <optgroup label="Debilidades">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoDes.favorable == 0 and aspectoDes.interno == 1 %}
+                {% if fce in aspectoDes.factoresPotencialesDeExitos %}
+                    <option value="{{ aspectoDes.id }}" selected>{{ aspectoDes.descripcion }}</option>
+                {% else %}
+                    <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
+                {% endif %}
+            {% endif %}
         {% endfor %}
+            </optgroup>
+        {% set cont = 0 %}                
+        {% for aspectoDes in aspectosDes %}
+            {% if cont == 0 %}
+                <optgroup label="Amenazas">
+                {% set cont = cont + 1 %}
+            {% endif %}
+            {% if aspectoDes.favorable == 0 and aspectoDes.interno == 0 %}
+                {% if fce in aspectoDes.factoresPotencialesDeExitos %}
+                    <option value="{{ aspectoDes.id }}" selected>{{ aspectoDes.descripcion }}</option>
+                {% else %}
+                    <option value="{{ aspectoDes.id }}">{{ aspectoDes.descripcion }}</option>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+            </optgroup>
         </select>
         <label>Aspectos Desfavorables</label>
     </div>
