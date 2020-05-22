@@ -133,7 +133,16 @@ class UnidadController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //Guardar en la bbdd
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();            
+
+            if ($unidad->getTipo() == 1) {
+                $unidad->setUnidadDeGestion(null);
+                $this->addFlash('editado','Corporación '.$unidad->getNombre().' editada!');
+            } else if ($unidad->getTipo() == 2) {
+                $this->addFlash('editado','Empresa '.$unidad->getNombre().' editada!');
+            } else {
+                $this->addFlash('editado','Emplazamiento '.$unidad->getNombre().' editado!');
+            }
 
             $em->persist($unidad);
             $em->flush();

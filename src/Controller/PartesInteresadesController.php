@@ -198,14 +198,15 @@ class PartesInteresadesController extends AbstractController
             $entityManager->persist($parte);
             $entityManager->flush();
 
+            $this->addFlash('editado','Parte '.$parte->getNombre().' editada!');
+
             return $this->redirectToRoute('partes_interesadas');
         }        
 
         return $this->render(
-            'partes_interesadas/new.html.twig',
+            'partes_interesadas/edit.html.twig',
             [
-                'form'  => $form->createView(),
-                'title' => 'Editar parte',
+                'form'  => $form->createView()
             ]
         );
 

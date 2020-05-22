@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nuevo contrato{% endblock %}
+{% block title %}Editar contrato{% endblock %}
 
 {% block body %}
 <style>
@@ -15,7 +15,7 @@
         {{ form_row(form.fecha_baja) }}
         {{ form_row(form.unidad_id) }}
         <br/>
-        <button class="btn waves-effect waves-light right" type="submit">Añadir</button>        
+        <button class="btn waves-effect waves-light right" type="submit">Guardar</button>        
       <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
     {{ form_end(form) }}    
 </div>

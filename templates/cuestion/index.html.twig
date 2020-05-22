@@ -9,36 +9,36 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        table {
-            table-layout: fixed;
-            width: 100%;
-        }
-        td {
-            width: 25%;
-        }
-        .tabs .tab a {
-        color: rgba(38, 166, 154, 0.7);
-        /*Custom Text Color*/
-        }
-        .tabs .tab a:hover {
-        color:#26a69a;
-        /*Custom Color On Hover*/
-        }
-        .tabs .tab a:focus.active {
-        color:#26a69a;
-        /*Custom Text Color While Active*/
-        background-color: rgba(38, 166, 154, 0.2);
-        /*Custom Background Color While Active*/
-        }
-        .tabs .indicator {
-        background-color:#26a69a;
-        /*Custom Color Of Indicator*/
-        }
-        .tabs .tab a.active {
-        color:#26a69a;
-        }
-    </style>
+<style>
+    table {
+    table-layout: fixed;
+    width: 100%;
+    }
+    td {
+    width: 25%;
+    }
+    .tabs .tab a {
+    color: rgba(179, 229, 252, 1);
+    /*Custom Text Color*/
+    }
+    .tabs .tab a:hover {
+    color:#81d4fa;
+    /*Custom Color On Hover*/
+    }
+    .tabs .tab a:focus.active {
+    color:#81d4fa;
+    /*Custom Text Color While Active*/
+    background-color: rgba(225, 245, 254, 1);
+    /*Custom Background Color While Active*/
+    }
+    .tabs .indicator {
+    background-color:#81d4fa;
+    /*Custom Color Of Indicator*/
+    }
+    .tabs .tab a.active {
+    color:#81d4fa;
+    }
+</style>
     <div class="card-panel center" style="margin-bottom:0;">
         <h3>
             {% if cue_interna == 0 %}
@@ -49,6 +49,16 @@
     </div>
     {# MENSAJES #}
     {% for message in app.flashes('creado') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green lighten-1'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('editado') %}
         <div class="alert alert-success" data-info="{{ message }}">
             <script>
                 M.toast({

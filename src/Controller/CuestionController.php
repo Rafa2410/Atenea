@@ -202,6 +202,8 @@ class CuestionController extends AbstractController
             $entityManager->persist($cuestion);
             $entityManager->flush();
 
+            $this->addFlash('editado','Cuestion '.$cuestion->getDescripcion().' editada!');
+
             if ($cuestion->getInterno() == 0) {
                 return $this->redirectToRoute('cuestion', ['interna' => 0]);
             } else {
@@ -330,6 +332,8 @@ class CuestionController extends AbstractController
             $entityManager->persist($subtipo_cuestion);
             $entityManager->flush();
 
+            $this->addFlash('editado','Subtipo '.$subtipo_cuestion->getDescripcion().' editado!');
+
             if ($subtipo_cuestion->getInterno() == 0) {
                 return $this->redirectToRoute('cuestion', ['interna' => 0]);
             } else {
@@ -434,6 +438,8 @@ class CuestionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tipo_cuestion);
             $entityManager->flush();
+
+            $this->addFlash('editado','Tipo '.$tipo_cuestion->getDescripcion().' editado!');
 
             if ($tipo_cuestion->getInterno() == 0) {
                 return $this->redirectToRoute('cuestion', ['interna' => 0]);

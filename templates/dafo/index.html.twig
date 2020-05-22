@@ -27,8 +27,8 @@
 <div class="row">
     {# DEBILIDADES #}
     <ul class="collapsible popout col s6">
-    <li>
-        <div class="collapsible-header">
+    <li class="active">
+        <div class="collapsible-header white-text" style="background-color:#384259;">        
         <table class="striped fixed">
             <thead>
             <tr>
@@ -36,6 +36,7 @@
             </tr>
             </thead>
         </table>
+        <a href="{{ path('aspecto',{'interna': 1}) }}#debilidades"><i class="material-icons white-text">visibility</i></a>
         </div>
         <div class="collapsible-body">
         <span>
@@ -56,8 +57,8 @@
     </ul>
     {# AMENAZAS #}
     <ul class="collapsible popout col s6">
-    <li>
-        <div class="collapsible-header">
+    <li class="active">
+        <div class="collapsible-header white-text" style="background-color:#f73859;">
         <table class="striped fixed">
             <thead>
             <tr>
@@ -65,6 +66,7 @@
             </tr>
             </thead>
         </table>
+        <a href="{{ path('aspecto',{'interna': 0}) }}#amenazas"><i class="material-icons white-text">visibility</i></a>
         </div>
         <div class="collapsible-body">
         <span>
@@ -87,8 +89,8 @@
 <div class="row">
     {# FORTALEZAS #}
     <ul class="collapsible popout col s6">
-    <li>
-        <div class="collapsible-header">
+    <li class="active">
+        <div class="collapsible-header" style="background-color:#7ac7c4;">
         <table class="striped fixed">
             <thead>
             <tr>
@@ -96,6 +98,7 @@
             </tr>
             </thead>
         </table>
+        <a href="{{ path('aspecto',{'interna': 1}) }}#fortalezas"><i class="material-icons black-text">visibility</i></a>
         </div>
         <div class="collapsible-body">
         <span>
@@ -116,8 +119,8 @@
     </ul>
     {# OPORTUNIDADES #}
     <ul class="collapsible popout col s6">
-    <li>
-        <div class="collapsible-header">
+    <li class="active">
+        <div class="collapsible-header" style="background-color:#c4edde;">
         <table class="striped fixed">
             <thead>
             <tr>
@@ -125,6 +128,7 @@
             </tr>
             </thead>
         </table>
+        <a href="{{ path('aspecto',{'interna': 0}) }}#oportunidades"><i class="material-icons black-text">visibility</i></a>
         </div>
         <div class="collapsible-body">
         <span>

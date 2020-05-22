@@ -203,6 +203,8 @@ class FactoresPotencialesDeExitoController extends AbstractController
             $entityManager->persist($fce);
             $entityManager->flush();
 
+            $this->addFlash('editado','Factor '.$fce->getDescripcion().' editado!');
+
             return $this->redirectToRoute('factores_potenciales_de_exito');
 
         }

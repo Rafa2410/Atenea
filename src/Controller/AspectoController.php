@@ -272,6 +272,8 @@ class AspectoController extends AbstractController
             $entityManager->persist($aspecto);
             $entityManager->flush();
 
+            $this->addFlash('editado','Aspecto '.$aspecto->getDescripcion().' editado!');
+
             return $this->redirectToRoute('aspecto', ['interna' => $interno]);
         }
 

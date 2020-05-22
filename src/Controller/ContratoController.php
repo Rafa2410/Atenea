@@ -40,7 +40,7 @@ class ContratoController extends AbstractController
 
             $this->addFlash('creado','Contrato creado!');
 
-            return $this->redirectToRoute('lista_unidad');
+            return $this->redirectToRoute('mostrar_unidad', ['id' => $contrato->getUnidadId()->getId()]);
         }
 
         return $this->render('contrato/create-index.html.twig', [
@@ -84,10 +84,12 @@ class ContratoController extends AbstractController
             $em->persist($contrato);
             $em->flush();
 
-            return $this->redirectToRoute('lista_unidad');
+            $this->addFlash('editado','Contrato editado!');
+
+            return $this->redirectToRoute('mostrar_unidad', ['id' => $contrato->getUnidadId()->getId()]);
         }
 
-        return $this->render('contrato/create-index.html.twig', [
+        return $this->render('contrato/edit.html.twig', [
             'form' => $form->createView(),
             'title' => 'Editar contrato',
         ]);
