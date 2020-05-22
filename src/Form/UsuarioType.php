@@ -24,7 +24,7 @@ class UsuarioType extends AbstractType
             ->add('apellidos', TextType::class)
             ->add('telefono', TextType::class)
             ->add('email', EmailType::class)
-            ->add('fecha_alta', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
+            ->add('fecha_alta', DateType::class, ['widget' => 'single_text'])
             //->add('password', PasswordType::class)
             ->add('password',RepeatedType::class,[
                 'type' => PasswordType::class,

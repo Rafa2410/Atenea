@@ -17,8 +17,8 @@ class ContratoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha_alta', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
-            ->add('fecha_baja', DateType::class, ['widget' => 'single_text', 'data' => new \DateTime()])
+            ->add('fecha_alta', DateType::class, ['widget' => 'single_text'])
+            ->add('fecha_baja', DateType::class, ['widget' => 'single_text'])
             ->add('descripcion', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Introduce una breve descripción',

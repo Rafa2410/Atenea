@@ -233,11 +233,18 @@ class PartesInteresadesController extends AbstractController
         $entityManager->persist($tipo);
         $entityManager->flush();
         
-        $response = new Response(
-            $tipo->getNombre(),
+        /*$response = new Response(
+            $tipo->getNombre(),            
             Response::HTTP_OK,
             ['content-type' => 'text/html']
-        );
+        );*/
+        $response = new Response();
+        $response->setContent(json_encode([
+            'nombre' => $tipo->getNombre(),
+            'id'     => $tipo->getId()
+        ]));
+
+        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }

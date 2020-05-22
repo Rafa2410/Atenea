@@ -9,12 +9,12 @@ function activeButtons(parte) {
 function addTipo(nombre) {    
     $.ajax({
         url: `/Atenea/public/index.php/partes_interesadas/new/tipo/${nombre}`,        
-        success (response) {
+        success (response) {            
             M.toast({
-                html: 'Tipo '+response+' creado!',
+                html: `Tipo ${response.nombre} creado!`,
                 classes: 'green lighten-1'
             });
-            $('select').append($(`<option>${nombre}</option>`))
+            $('select').append($(`<option value="${response.id}">${response.nombre}</option>`))
             $('select').trigger('contentChanged');
         },
         error (jqXHR,status,errorThrown){
