@@ -45,6 +45,15 @@
         <li><a class="waves-effect" href="{{ path('factores_potenciales_de_exito') }}"><i class="material-icons">info_outline</i>Factores
                 potenciales</a></li>
     {% endif %}
+    {% if is_granted('ROLE_SUPER') or is_granted('ROLE_ADMIN') %}
+        <li>
+            <div class="user-view" style="margin-top:-30px;">            
+                <a href="#user"><img class="circle" src="{{ asset('images/user.png') }}"></a>
+                <a href="#user-info"><span class="name">{{ app.user.nombre }} {{ app.user.apellidos }}</span></a>
+                <a href="#email"><span class="email">{{ app.user.username }}</span></a>
+            </div>
+        </li>
+    {% endif %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <li>
             <div class="divider"></div>
