@@ -18,3 +18,11 @@
     </div>
 {% endfor %}
 {% endblock %}
+{% block javascripts %}
+    <script>
+   $(document).ready(function(){
+        $('select').formSelect();
+        $('#cuestion_subtipo').attr('style','display: none !important');
+    });
+    </script>    
+{% endblock %}

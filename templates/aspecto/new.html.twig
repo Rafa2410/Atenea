@@ -15,6 +15,11 @@
     {{ form_end(form) }}
 
 {% endblock %}
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/cuestion.js') }}"></script>
+{% block javascripts %}    
+    <script>
+    $(document).ready(function(){
+        $('select').formSelect();
+        $('#aspecto_cuestiones').attr('style','display: none !important');
+    });
+    </script>
 {% endblock %}

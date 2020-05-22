@@ -19,3 +19,11 @@
     {% endfor %}
 
 {% endblock %}
+{% block javascripts %}
+    <script>
+   $(document).ready(function(){
+        $('select').formSelect();
+        $('#subtipo_cuestion_tipo').attr('style','display: none !important');
+    });
+    </script>    
+{% endblock %}
