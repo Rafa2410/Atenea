@@ -3,162 +3,180 @@
 {% block title %}DAFO{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    /*Creates table with scrollable tbody*/
-    tbody {
-    display:block;
-    height:150px;
-    overflow:auto;
-    }
-    thead, tbody tr {
-    display:table;
-    width:100%;
-    table-layout:fixed;
-    }
-    thead {
-    width: calc( 100% - 1em )
-    }
-    table {
-    width:100%;
-    }
-</style>
-<div class="row">
-    {# DEBILIDADES #}
-    <ul class="collapsible popout col s6">
-    <li class="active">
-        <div class="collapsible-header white-text" style="background-color:#384259;">        
-        <table class="striped fixed">
-            <thead>
-            <tr>
-                <th>Debilidades</th>                
-            </tr>
-            </thead>
-        </table>
-        <a href="{{ path('aspecto',{'interna': 1}) }}#debilidades"><i class="material-icons white-text">visibility</i></a>
-        </div>
-        <div class="collapsible-body">
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        /*Creates table with scrollable tbody*/
+        tbody {
+            display: block;
+            height: 150px;
+            overflow: auto;
+        }
+
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        thead {
+            width: calc(100% - 1em)
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+
+    <div class="card-panel center" style="margin-bottom:0;">
+        <h3>DAFO</h3>
+    </div>
+    <br>
+    <div class="row">
+        {# DEBILIDADES #}
+        <ul class="collapsible popout col s6">
+            <li class="active">
+                <div class="collapsible-header white-text" style="background-color: #b9b414;">
+                    <table class="striped fixed">
+                        <thead>
+                        <tr>
+                            <th>Debilidades</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <a href="{{ path('aspecto',{'interna': 1}) }}#debilidades"><i class="material-icons white-text">visibility</i></a>
+                </div>
+                <div class="collapsible-body">
         <span>
         <table>
             <tbody>
             {% for aspecto in aspectos %}
-            {% if aspecto.interno == true and aspecto.favorable == false %}
-            <tr>
+                {% if aspecto.interno == true and aspecto.favorable == false %}
+                    <tr>
                 <td>{{ aspecto.descripcion }}</td>
             </tr>
-            {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
         </span>
-        </div>
-    </li>
-    </ul>
-    {# AMENAZAS #}
-    <ul class="collapsible popout col s6">
-    <li class="active">
-        <div class="collapsible-header white-text" style="background-color:#f73859;">
-        <table class="striped fixed">
-            <thead>
-            <tr>
-                <th>Amenazas</th>
-            </tr>
-            </thead>
-        </table>
-        <a href="{{ path('aspecto',{'interna': 0}) }}#amenazas"><i class="material-icons white-text">visibility</i></a>
-        </div>
-        <div class="collapsible-body">
+                </div>
+            </li>
+        </ul>
+        {# AMENAZAS #}
+        <ul class="collapsible popout col s6">
+            <li class="active">
+                <div class="collapsible-header white-text" style="background-color: #b30202;">
+                    <table class="striped fixed">
+                        <thead>
+                        <tr>
+                            <th>Amenazas</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <a href="{{ path('aspecto',{'interna': 0}) }}#amenazas"><i class="material-icons white-text">visibility</i></a>
+                </div>
+                <div class="collapsible-body">
         <span>
         <table>
             <tbody>
             {% for aspecto in aspectos %}
-            {% if aspecto.interno == false and aspecto.favorable == false %}
-            <tr>
+                {% if aspecto.interno == false and aspecto.favorable == false %}
+                    <tr>
                 <td>{{ aspecto.descripcion }}</td>
             </tr>
-            {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
         </span>
-        </div>
-    </li>
-    </ul>
-</div>
-<div class="row">
-    {# FORTALEZAS #}
-    <ul class="collapsible popout col s6">
-    <li class="active">
-        <div class="collapsible-header" style="background-color:#7ac7c4;">
-        <table class="striped fixed">
-            <thead>
-            <tr>
-                <th>Fortalezas</th>
-            </tr>
-            </thead>
-        </table>
-        <a href="{{ path('aspecto',{'interna': 1}) }}#fortalezas"><i class="material-icons black-text">visibility</i></a>
-        </div>
-        <div class="collapsible-body">
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        {# FORTALEZAS #}
+        <ul class="collapsible popout col s6">
+            <li class="active">
+                <div class="collapsible-header" style="background-color: green;color: white;">
+                    <table class="striped fixed">
+                        <thead>
+                        <tr>
+                            <th>Fortalezas</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <a href="{{ path('aspecto',{'interna': 1}) }}#fortalezas"><i class="material-icons black-text">visibility</i></a>
+                </div>
+                <div class="collapsible-body">
         <span>
         <table>
             <tbody>
             {% for aspecto in aspectos %}
-            {% if aspecto.interno == true and aspecto.favorable == true %}
-            <tr>
+                {% if aspecto.interno == true and aspecto.favorable == true %}
+                    <tr>
                 <td>{{ aspecto.descripcion }}</td>
             </tr>
-            {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
         </span>
-        </div>
-    </li>
-    </ul>
-    {# OPORTUNIDADES #}
-    <ul class="collapsible popout col s6">
-    <li class="active">
-        <div class="collapsible-header" style="background-color:#c4edde;">
-        <table class="striped fixed">
-            <thead>
-            <tr>
-                <th>Oportunidades</th>
-            </tr>
-            </thead>
-        </table>
-        <a href="{{ path('aspecto',{'interna': 0}) }}#oportunidades"><i class="material-icons black-text">visibility</i></a>
-        </div>
-        <div class="collapsible-body">
+                </div>
+            </li>
+        </ul>
+        {# OPORTUNIDADES #}
+        <ul class="collapsible popout col s6">
+            <li class="active">
+                <div class="collapsible-header" style="background-color: #2acec6;color: white;">
+                    <table class="striped fixed">
+                        <thead>
+                        <tr>
+                            <th>Oportunidades</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <a href="{{ path('aspecto',{'interna': 0}) }}#oportunidades"><i class="material-icons black-text">visibility</i></a>
+                </div>
+                <div class="collapsible-body">
         <span>
         <table>
             <tbody>
             {% for aspecto in aspectos %}
-            {% if aspecto.interno == false and aspecto.favorable == true %}
-            <tr>
+                {% if aspecto.interno == false and aspecto.favorable == true %}
+                    <tr>
                 <td>{{ aspecto.descripcion }}</td>
             </tr>
-            {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
         </span>
-        </div>
-    </li>
-    </ul>    
-</div>
-<div class="row">
-    {% if is_granted('ROLE_SUPER') %}
-        <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
-    {% endif %}
-</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        {% if is_granted('ROLE_SUPER') %}
+            <a href="#" class="btn light-blue lighten-1" onClick="window.history.back();">Volver</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
 {% block javascripts %}
     <script>
-    $(document).ready(function(){
-        $('.collapsible').collapsible();
-    });
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+        });
     </script>
 {% endblock %}

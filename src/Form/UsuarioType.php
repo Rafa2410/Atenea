@@ -3,17 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Usuario;
-use phpDocumentor\Reflection\Type;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class UsuarioType extends AbstractType
 {
@@ -26,20 +23,27 @@ class UsuarioType extends AbstractType
             ->add('email', EmailType::class)
             ->add('fecha_alta', DateType::class, ['widget' => 'single_text'])
             //->add('password', PasswordType::class)
-            ->add('password',RepeatedType::class,[
-                'type' => PasswordType::class,
-                'required' => true,
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repite Password'],
-                'invalid_message' => 'Los passwords deben coincidir'
-            ]);
+            ->add(
+                'password',
+                RepeatedType::class,
+                [
+                    'type'            => PasswordType::class,
+                    'required'        => true,
+                    'first_options'   => ['label' => 'Password'],
+                    'second_options'  => ['label' => 'Repite Password'],
+                    'invalid_message' => 'Los passwords deben coincidir!',
+                    'row_attr'        => ['class' => 'red']
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Usuario::class,
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => Usuario::class,
+            )
+        );
     }
 }
 

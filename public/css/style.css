@@ -76,3 +76,14 @@ select{
 .background-menu{
     background-color: #01579b;
 }
+.red{
+    color: red;
+}
+.errors-form{
+    display: flex;
+    color: red;
+}
+.icon-error{
+    line-height: 50px !important;
+    padding: 0px 5px;
+}

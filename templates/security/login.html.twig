@@ -34,58 +34,83 @@
         </div>
     {% endfor %}
     {% for message in app.flashes('email_encontrado') %}
-    <div class="alert alert-success" data-info="{{ message }}">
-        <script>
-            M.toast({
-                html: '{{ message }}',
-                classes: 'green darken-2'
-            });
-        </script>
-    </div>
-{% endfor %}
-    {% for message in app.flashes('userError') %}
-    <div class="alert alert-success" data-info="{{ message }}">
-        <script>
-            M.toast({
-                html: '{{ message }}',
-                classes: 'red darken-2'
-            });
-        </script>
-    </div>
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'green darken-2'
+                });
+            </script>
+        </div>
     {% endfor %}
-    <div class="row" style="max-width:1000px;margin-top:80px;">        
+    {% for message in app.flashes('userError') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red darken-2'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    <div class="row" style="max-width:1000px;margin-top:80px;">
         <div class="card">
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
-            <div class="card-action indigo lighten-1 white-text center">
-                <h3>Atenea</h3>
-            </div>
-            <div class="card-content">
-                {% if app.user %}
-                    <br>
-                    <div class="mb-3">
-                        Has iniciado sesión como: {{ app.user.username }}, <a href="{{ path('app_logout') }}">Salir</a>
-                    </div>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
-                <div class="form-field">
-                    <label for="inputEmail">Correo electrónico</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required
-                        autofocus>
+
+                <div class="card-action indigo lighten-1 white-text center">
+                    <h3>Atenea</h3>
                 </div>
+                <div class="card-content">
+                    {% if app.user %}
+                        <br>
+                        <div class="mb-3">
+                            Has iniciado sesión como: {{ app.user.username }}, <a
+                                    href="{{ path('app_logout') }}">Salir</a>
+                        </div>
+                    {% endif %}
+                    <div class="form-field">
+                        <label for="inputEmail">Correo electrónico</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                               class="form-control" required
+                               autofocus>
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <label for="inputPassword">Contraseña</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    </div>
+                    <label style='float: right;'>
+                        <a class='pink-text modal-trigger' href='#recuperar'><b>Contraseña olvidada?</b></a>
+                    </label>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </div>
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
                 <br>
                 <div class="form-field">
-                    <label for="inputPassword">Contraseña</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    <button class="col s12 btn btn-large waves-effect indigo" type="submit">
+                        Inicia Sesión
+                    </button>
                 </div>
-                <label style='float: right;'>
+               {# <label style='float: right;'>
                     <a class='pink-text modal-trigger' href='#recuperar'><b>Contraseña olvidada?</b></a>
                 </label>
                 <input type="hidden" name="_csrf_token"
                     value="{{ csrf_token('authenticate') }}"
-                >
+                >#}
             </div>
             {#
                 Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -98,11 +123,11 @@
                 </div>
             #}
             <br>
-            <div class="form-field">       
+            {#<div class="form-field">
                 <button class="col s12 btn btn-large waves-effect indigo" type="submit">
                     Inicia Sesión
                 </button>
-            </div>                
+            </div>   #}
             {#<div class="form-field">
                 <button class="btn-large waves-effect waves-dark" style="width:100%;" href="#recuperar">
                     Recuperar contraseña
@@ -111,18 +136,31 @@
         </form>
         {{ include('register/change-password.html.twig') }}
         </div>
-    </div>    
+    </div>
 
 {% endblock %}
 {% block javascripts %}
     <script>
-        $(document).ready(function () {            
+        $(document).ready(function () {
+            console.log('prueba');
             $('.modal').modal();
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        /*document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.modal');
         });
+        */
+
+        /*document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.modal');
+            //var instances = M.Modal.init(elems, options);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });*/
     </script>
     {#<script type="text/javascript" src="{{ asset('js/recuperar.js') }}"></script>#}
 {% endblock %}

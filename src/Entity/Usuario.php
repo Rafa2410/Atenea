@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsuarioRepository")
@@ -46,7 +47,12 @@ class Usuario implements UserInterface
     private $apellidos;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
+     *
+     * @Assert\Length(
+     *     max=9,
+     *     maxMessage = "No puede tener mas de 9 caracteres!",
+     * )
      */
     private $telefono;
 
@@ -94,7 +100,7 @@ class Usuario implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -122,7 +128,7 @@ class Usuario implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -173,12 +179,12 @@ class Usuario implements UserInterface
         return $this;
     }
 
-    public function getTelefono(): ?int
+    public function getTelefono(): ?string
     {
         return $this->telefono;
     }
 
-    public function setTelefono(int $telefono): self
+    public function setTelefono(string $telefono): self
     {
         $this->telefono = $telefono;
 
@@ -219,7 +225,7 @@ class Usuario implements UserInterface
 
     public function addUsuarioUnidadPermiso(UsuarioUnidadPermiso $usuarioUnidadPermiso): self
     {
-        if (!$this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
+        if ( ! $this->usuarioUnidadPermisos->contains($usuarioUnidadPermiso)) {
             $this->usuarioUnidadPermisos[] = $usuarioUnidadPermiso;
             $usuarioUnidadPermiso->setUsuario($this);
         }

@@ -2,19 +2,51 @@
 
 {% block title %}Registrar Usuario{% endblock %}
 
-{% block body %}        
-        <h3 class="h3 mb-3 font-weight-normal center">Añadir usuario</h3>
+{% block body %}
+    {% for message in app.flashes('correoRepetido') %}
+        <div class="alert alert-success" data-info="{{ message }}">
+            <script>
+                M.toast({
+                    html: '{{ message }}',
+                    classes: 'red lighten-1'
+                });
+            </script>
+        </div>
+    {% endfor %}
+    <h3 class="h3 mb-3 font-weight-normal center">Añadir usuario</h3>
     {{ form_start(form) }}
-        {{ form_row(form.nombre) }}
-        {{ form_row(form.apellidos) }}
-        {{ form_row(form.telefono) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.fecha_alta) }}
-        {{ form_row(form.password) }}
-        <br/>
-        <button class="btn waves-effect waves-light right" type="submit">Registrar</button>        
-        <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>        
-    {{ form_end(form) }}    
+
+    <label>Nombre</label>
+    {{ form_widget(form.nombre) }}
+    <label>Apellidos</label>
+    {{ form_widget(form.apellidos) }}
+    <label>Telefono</label>
+
+    {{ form_widget(form.telefono) }}
+    {% if(form_errors(form.telefono)) %}
+        <div>
+            <span class="errors-form"><i
+                        class="material-icons icon-error">error</i><span>{{ form_errors(form.telefono) }}</span></span>
+        </div>
+    {% endif %}
+    <label>Email</label>
+    {{ form_widget(form.email) }}
+    <label>Fecha de alta</label>
+    {{ form_widget(form.fecha_alta) }}
+    <label>Password</label>
+    {{ form_widget(form.password.first) }}
+    <label>Repite el password</label>
+    {{ form_widget(form.password.second) }}
+    {% if(form_errors(form.password.first)) %}
+        <div>
+            <span class="errors-form"><i
+                        class="material-icons icon-error">error</i><span>{{ form_errors(form.password.first) }}</span></span>
+        </div>
+    {% endif %}
+    <br/>
+    <button class="btn waves-effect waves-light right" type="submit">Registrar</button>
+    <a href="#" onClick="window.history.back();" class="btn red darken-1">Volver</a>
+    {{ form_end(form) }}
 {% endblock %}
 {#{% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/usuario.js') }}"></script>

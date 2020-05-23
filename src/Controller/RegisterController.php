@@ -37,6 +37,16 @@ class RegisterController extends AbstractController
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $userEncontrado = $this->getDoctrine()
+                 ->getRepository(Usuario::class)
+                 ->findBy(array('email' => $data->getEmail()));
+
+            if($data->getEmail() == $userEncontrado[0]->getEmail()){
+                $this->addFlash('correoRepetido', 'El correo '.$data->getEmail().' ya existe!');
+
+                return $this->redirectToRoute('register', array('id' => $id));
+            }
 
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
@@ -76,7 +86,9 @@ class RegisterController extends AbstractController
             //Encriptamos el correo para poder enviar por la url el email para cambiar la contraseña
             $email = $datos->getEmail();
 
-            $hashed_user = crypt($email, 'CRYPT_MD5');
+            $hashed_user = crypt($email, '90985f2a86c2664dd1a2558843483d6f');
+            $email_md5 = md5($hashed_user);
+
 
             $message = (new \Swift_Message('Bienvenido a Atenea'))
                 ->setFrom('noreplyatenea@gmail.com')
@@ -89,7 +101,7 @@ class RegisterController extends AbstractController
                         [
                             'name'       => $datos->getNombre(),
                             'surname'    => $datos->getApellidos(),
-                            'encriptado' => $hashed_user,
+                            'encriptado' => $email_md5,
                             'email'      => $email,
                         ]
                     ),
@@ -194,9 +206,11 @@ class RegisterController extends AbstractController
                      ->getRepository(Usuario::class)
                      ->findBy(array('email' => $email));
 
-        $hashed_user = crypt($email, 'CRYPT_MD5');
+        $hashed_user = crypt($email, '90985f2a86c2664dd1a2558843483d6f');
+        $email_md5 = md5($hashed_user);
 
-        if (hash_equals($hashed_user, $encriptado) && $user[0] != null) {
+
+        if (hash_equals($email_md5, $encriptado) && $user[0] != null) {
             $form = $this->createForm(UsuarioType::class, $user[0]);
         } else {
             $this->addFlash('passwordError', 'Ha ocurrido un error!');
@@ -247,7 +261,8 @@ class RegisterController extends AbstractController
     public function changePassword(Request $request,\Swift_Mailer $mailer)
     {
         //comprueba si recibe el email
-        var_dump($_POST['email']);
+
+        //var_dump($_POST['email']);
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
             $user = $this->getDoctrine()
@@ -256,7 +271,8 @@ class RegisterController extends AbstractController
 
             //comprueba si existe el usuario con ese email
             if (isset($user[0])) {
-                $hashed_user = crypt($email, 'CRYPT_MD5');
+                $hashed_user = crypt($email, '90985f2a86c2664dd1a2558843483d6f');
+                $email_md5 = md5($hashed_user);
 
                 $message = (new \Swift_Message('Bienvenido a Atenea'))
                     ->setFrom('noreplyatenea@gmail.com')
@@ -266,7 +282,7 @@ class RegisterController extends AbstractController
                         $this->renderView(
                             'emails/change_password.html.twig',
                             [
-                                'encriptado' => $hashed_user,
+                                'encriptado' => $email_md5,
                                 'email'      => $email,
                             ]
                         ),
