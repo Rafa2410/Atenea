@@ -41,12 +41,14 @@ class RegisterController extends AbstractController
             $userEncontrado = $this->getDoctrine()
                  ->getRepository(Usuario::class)
                  ->findBy(array('email' => $data->getEmail()));
+            if(isset($userEncontrado[0])){
+                if ($data->getEmail() == $userEncontrado[0]->getEmail()) {
+                    $this->addFlash('correoRepetido', 'El correo '.$data->getEmail().' ya existe!');
 
-            if($data->getEmail() == $userEncontrado[0]->getEmail()){
-                $this->addFlash('correoRepetido', 'El correo '.$data->getEmail().' ya existe!');
-
-                return $this->redirectToRoute('register', array('id' => $id));
+                    return $this->redirectToRoute('register', array('id' => $id));
+                }
             }
+
 
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
