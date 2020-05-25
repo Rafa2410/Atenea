@@ -15,6 +15,8 @@ $('#unidad_tipo').change(function() {
 function confirmacion(item) {
   var ruta = item.dataset.href;
   var nombre = item.dataset.nombre;
-  $('#delete-corporacion').text(nombre);
+  if (nombre) {
+    $('#delete-corporacion').text(nombre);
+  }  
   $('#confirmacion').attr('href',ruta);
 }

@@ -33,7 +33,7 @@ class Contrato
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\UnidadDeGestion", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $unidad_id;
 

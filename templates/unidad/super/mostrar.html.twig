@@ -44,7 +44,7 @@
             <script>
                 M.toast({
                     html: '{{ message }}',
-                    classes: 'green lighten-1'
+                    classes: 'green lighten-1 white-text'
                 });
             </script>        
         </div>
@@ -54,7 +54,7 @@
             <script>
                 M.toast({
                     html: '{{ message }}',
-                    classes: 'red darken-2'
+                    classes: 'red darken-2 white-text'
                 });
             </script>        
         </div>
@@ -108,8 +108,10 @@
                 <td>{{ usuario.usuario.telefono }}</td>
                 <td>{{ usuario.usuario.email }}</td>
                 <td>                      
-                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
-                    <a href="{{ path('register_delete', {'id': usuario.usuario.id}) }}" class="btn-floating red darken-1"><i class="material-icons">delete</i></a>
+                    <a href="{{ path('register_edit', {'id': usuario.usuario.id}) }}" 
+                       class="btn-floating"><i class="material-icons" style="background-color:#ffb74d;">edit</i></a>
+                    <a href="#modal" data-href="{{ path('register_delete', {'id': usuario.usuario.id}) }}"
+                       class="btn-floating red darken-1 modal-trigger" onClick="confirmacion(this);"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
           {% endif %}
@@ -125,12 +127,27 @@
         <a href="{{ path('register', {'id': unidad.id}) }}" class="btn">Añadir usuario</a>
       </div>
       {% endif %}
-    </div>     
+    </div>
+    <div id="modal" class="modal center">
+    <div class="modal-content">
+        <h4 class="red-text">Advertencia!</h4>
+        <p><b style="font-size:20px;">Está seguro de continuar?</b></p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" id="confirmacion" class=" modal-action modal-close btn-flat">Sí</a>
+        <a href="#!" class="modal-action modal-close btn-flat">No</a>
+    </div>
+    </div>
   <div class="divider mt-15 mb-15"></div>
   <a href="/Atenea/public/index.php/unidad" class="btn light-blue lighten-1">Volver</a>
 {% endblock %}
 
-{% block javascripts %}          
+{% block javascripts %}
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('.modal').modal();            
+      });
+    </script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/unidad.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/datatable.js') }}"></script>
