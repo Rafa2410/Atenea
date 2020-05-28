@@ -24,12 +24,12 @@ class TipoPartesInteresadas
     private $nombre;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="tipoPartesInteresadas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="tipoPartesInteresadas", cascade={"persist", "remove"})
      */
     private $UnidadDeGestion;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PartesInteresadas", mappedBy="TipoParteInteresada")
+     * @ORM\OneToMany(targetEntity="App\Entity\PartesInteresadas", mappedBy="TipoParteInteresada", cascade={"persist", "remove"})
      */
     private $partesInteresadas;
 
@@ -77,7 +77,7 @@ class TipoPartesInteresadas
 
     public function addPartesInteresada(PartesInteresadas $partesInteresada): self
     {
-        if (!$this->partesInteresadas->contains($partesInteresada)) {
+        if ( ! $this->partesInteresadas->contains($partesInteresada)) {
             $this->partesInteresadas[] = $partesInteresada;
             $partesInteresada->setTipoParteInteresada($this);
         }

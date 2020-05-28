@@ -18,11 +18,13 @@ class CuestionUnidad
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cuestion", inversedBy="cuestionUnidads")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $cuestion;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="cuestionUnidads")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $unidad;
 

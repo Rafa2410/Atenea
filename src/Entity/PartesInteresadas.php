@@ -24,12 +24,12 @@ class PartesInteresadas
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Expectativa", mappedBy="ParteInteresada")
+     * @ORM\OneToMany(targetEntity="App\Entity\Expectativa", mappedBy="ParteInteresada", cascade={"persist", "remove"})
      */
     private $expectativas;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TipoPartesInteresadas", inversedBy="partesInteresadas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TipoPartesInteresadas", inversedBy="partesInteresadas", cascade={"persist", "remove"})
      */
     private $TipoParteInteresada;
 

@@ -34,17 +34,18 @@ class UnidadDeGestion
     private $tipo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="corporacion_id", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadDeGestion", inversedBy="corporacion_id")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $unidadDeGestion;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UnidadDeGestion", mappedBy="unidadDeGestion", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\UnidadDeGestion", mappedBy="unidadDeGestion")
      */
     private $corporacion_id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="unidad", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioUnidadPermiso", mappedBy="unidad")
      */
     private $usuarioUnidadPermisos;
 
@@ -223,7 +224,7 @@ class UnidadDeGestion
 
     public function addTipoPartesInteresada(TipoPartesInteresadas $tipoPartesInteresada): self
     {
-        if (!$this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
+        if ( ! $this->tipoPartesInteresadas->contains($tipoPartesInteresada)) {
             $this->tipoPartesInteresadas[] = $tipoPartesInteresada;
             $tipoPartesInteresada->setUnidadDeGestion($this);
         }
